@@ -165,7 +165,6 @@ const App = () => {
                 },
               }}>
               <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
-              <RightDrawer.Screen name="GodMode" component={GodMode} />
             </LeftDrawer.Navigator>
           </NavigationContainer>
 
