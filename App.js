@@ -22,9 +22,6 @@ import LoginModal from './src/modals/LoginModal';
 import PopupLoginModal from './src/modals/PopupLoginModal';
 
 import {storage} from './src/components/Storage';
-import GodMode from './src/screens/GodMode';
-
-
 
 if (storage.getBoolean('isLogined') === undefined) {
   storage.set('isLogined', false);
