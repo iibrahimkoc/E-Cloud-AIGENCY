@@ -1,0 +1,202 @@
+import React, {useEffect, useState} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Dimensions } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import BootSplash from 'react-native-bootsplash';
+
+import { ThemeProvider } from './src/context/ThemeContext';
+import { StateProvider } from './src/context/StateContext';
+
+import TalkScreen from './src/screens/TalkScreen';
+import CustomRightDrawer from './src/components/CustomRightDrawer';
+import CustomDrawer from './src/components/CustomDrawer';
+
+import { getAiList } from './src/genel_api_fetch/GetAiList';
+import { getLastMessage } from './src/genel_api_fetch/GetLastMessage';
+import { getMessageData } from './src/genel_api_fetch/GetMessageData';
+
+import SettingModal from './src/modals/SettingModal';
+import CreditModal from './src/modals/CreditModal';
+import LoginModal from './src/modals/LoginModal';
+import PopupLoginModal from './src/modals/PopupLoginModal';
+
+import {storage} from './src/components/Storage';
+import GodMode from './src/screens/GodMode';
+
+
+
+if (storage.getBoolean('isLogined') === undefined) {
+  storage.set('isLogined', false);
+}
+
+const RightDrawer = createDrawerNavigator();
+const LeftDrawer = createDrawerNavigator();
+
+
+const App = () => {
+
+  const [screen, setScreen] = useState(Dimensions.get('window'));
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      try {
+        await getAiList();
+        await getLastMessage();
+        await getMessageData();
+      }
+      catch (error) {
+        console.log(error);
+      }
+    };
+    fetchApi();
+
+    const subscription = Dimensions.addEventListener('change', ({ window }) => {
+      setScreen(window);
+    });
+    return () => {
+      subscription?.remove();
+    };
+  }, []);
+
+
+
+
+  const [settingModalVisible, setSettingModalVisible] = useState(false);
+  const [isCreditModalVisible, setIsCreditModalVisible] = useState(false);
+  const [loginModalVisible, setLoginModalVisible] = useState(false);
+  const [popupLoginModalVisible, setPopupLoginModalVisible] = useState(false);
+  const [settingModalOpacity, setSettingModalOpacity] = useState(1);
+
+  const toggleModal = (value) => {
+    switch (value) {
+      case 'settingModalOpen': {
+        setSettingModalVisible(true);
+        break;
+      }
+      case 'settingModalClose': {
+        setSettingModalVisible(false);
+        break;
+      }
+      case 'creditModalOpen': {
+        setIsCreditModalVisible(true);
+        break;
+      }
+      case 'creditModalClose': {
+        setIsCreditModalVisible(false);
+        break;
+      }
+      case 'loginModalOpen': {
+        setLoginModalVisible(true);
+        break;
+      }
+      case 'loginModalClose': {
+        setLoginModalVisible(false);
+        break;
+      }
+      case 'popupLoginModalOpen': {
+        setPopupLoginModalVisible(true);
+        break;
+      }
+      case 'popupLoginModalClose': {
+        setPopupLoginModalVisible(false);
+        break;
+      }
+    }
+  };
+  const toggleModalOpacity = (value) => {
+    switch (value) {
+      case 'settingModalOpacityOpen':{
+        setSettingModalOpacity(1);
+        break;
+      }
+      case 'settingModalOpacityClose': {
+        setSettingModalOpacity(0);
+        break;
+      }
+    }
+  };
+
+  const RightDrawerScreen = () => {
+    return (
+      <RightDrawer.Navigator
+        id="rightDrawer"
+        drawerContent={(props) => <CustomRightDrawer {...props} />}
+        screenOptions={{
+          drawerType: 'slide',
+          drawerPosition: 'right',
+          headerShown: false,
+          drawerStyle: {
+            width: screen.width > 500 ? 300 : '70%',
+            borderLeftWidth: 2,
+            borderColor: '#201F27',
+          },
+        }}
+      >
+        <RightDrawer.Screen
+          name="TalkScreen"
+          options={{ headerShown: false }}
+          children={(props) => (
+            <TalkScreen {...props} toggleModal={toggleModal} />
+          )}
+        />
+      </RightDrawer.Navigator>
+    );
+  };
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StateProvider>
+        <ThemeProvider>
+          <NavigationContainer
+            onReady={() => {
+              BootSplash.hide();
+            }}
+          >
+            <LeftDrawer.Navigator
+              id="LeftDrawer"
+              drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
+              screenOptions={{
+                drawerType: 'slide',
+                drawerPosition: 'left',
+                headerShown: false,
+                swipeEdgeWidth: screen.width,
+                drawerStyle: {
+                  width: screen.width > 500 ? 300 : '70%',
+                  borderRightWidth: 2,
+                  borderColor: '#201F27',
+                },
+              }}>
+              <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
+              <RightDrawer.Screen name="GodMode" component={GodMode} />
+            </LeftDrawer.Navigator>
+          </NavigationContainer>
+
+          <CreditModal
+            toggleModal={toggleModal}
+            isCreditModalVisible={isCreditModalVisible}
+          />
+
+          <SettingModal
+            toggleModal={toggleModal}
+            toggleModalOpacity={toggleModalOpacity}
+            settingModalOpacity={settingModalOpacity}
+            settingModalVisible={settingModalVisible}
+          />
+
+          <LoginModal
+            toggleModal={toggleModal}
+            loginModalVisible={loginModalVisible}
+          />
+
+          <PopupLoginModal
+            toggleModal={toggleModal}
+            popupLoginModalVisible={popupLoginModalVisible}
+          />
+        </ThemeProvider>
+      </StateProvider>
+    </GestureHandlerRootView>
+  );
+};
+
+export default App;
