@@ -1,16 +1,14 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import {
   Modal,
-  View,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-  Animated,
   Text,
-  TouchableOpacity,
+  StyleSheet,
+  Dimensions, View, SafeAreaView,
+
 } from 'react-native';
 
 import { StateContext } from '../context/StateContext';
+import Swiper from "react-native-web-swiper";
 const { width } = Dimensions.get('window');
 
 const CreditModal = ({ toggleModal, isCreditModalVisible }) => {
@@ -24,25 +22,26 @@ const CreditModal = ({ toggleModal, isCreditModalVisible }) => {
       visible={isCreditModalVisible}
       onRequestClose={() => toggleModal('creditModalClose')}
     >
-      <View style={styles.creditModalOverlay}>
-        <Text
-          onPress={() => toggleModal('creditModalClose')}
-          style={{
-            color: 'white',
-            fontWeight: '600',
-            position: 'absolute',
-            top: 100,
-            zIndex: 100,
-          }}
-        >
-          KAPAT
-        </Text>
+      <SafeAreaView style={styles.creditModalOverlay}>
         <View style={styles.container}>
+          <Text>s</Text>
+          <Swiper
 
-
+              loop={false}
+              style={styles.wrapper} showsButtons={true}>
+            <View style={styles.slide}>
+              <Text style={styles.text}>Slide 1</Text>
+            </View>
+            <View style={styles.slide}>
+              <Text style={styles.text}>Slide 2</Text>
+            </View>
+            <View style={styles.slide}>
+              <Text style={styles.text}>Slide 3</Text>
+            </View>
+          </Swiper>
         </View>
+      </SafeAreaView>
 
-      </View>
     </Modal>
   );
 };
@@ -52,58 +51,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#070710',
+    backgroundColor: '#afafd8',
   },
   container: {
-    flex: 1,
-  },
-  page: {
-    width: width,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  indicatorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 20,
+    backgroundColor:'#333',
     width: '100%',
+    height: '100%',
   },
-  indicator: {
-    height: 7,
-    width: 20,
-    borderRadius: 5,
+  wrapper: {
+    height: 200, // Swiper'ın yüksekliği
     backgroundColor: '#fff',
-    margin: 5,
   },
-  fixedButton1: {
-    position: 'absolute',
-    bottom: 50,
-    width: '80%',
-    backgroundColor: '#ff6347',
-    paddingVertical: 15,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 100,
+  slide: {
+    flex: 1,
+
+
   },
-  fixedButton2: {
-    position: 'absolute',
-    bottom: 120,
-    width: '80%',
-    backgroundColor: '#ff6347',
-    paddingVertical: 15,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 100,
+  text: {
+    fontSize: 30,
+    color: 'white',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
+
+
 });
 
 export default CreditModal;

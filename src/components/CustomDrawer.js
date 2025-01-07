@@ -10,6 +10,7 @@ import {
   Pressable,
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient';
 import { getAiTeamList } from '../mobil_api_fetch/GetAiTeamList';
 import { getViewChat } from '../mobil_api_fetch/GetViewChat';
 
@@ -48,9 +49,9 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
             console.log(e);
           }
         }}
-        style={[styles.bodyBox, isDarkTheme === true ? styles.bodyBoxDarkTheme : styles.bodyBoxLightTheme]}
+        style={[styles.bodyBox,{borderColor: isDarkTheme ? '#272838' : 'rgb(202,202,202)'} ]}
       >
-        <Image style={{height: 40,width: 40}} source={{uri: item.image}}/>
+        <Image style={{height: 30,width: 30, marginHorizontal: 15,}} source={{uri: item.image}}/>
         <Text style={styles.bodyContainerText}>{item.name.name_tr}</Text>
       </TouchableOpacity>
     );
@@ -68,23 +69,91 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
                 appTheme.set('darkTheme', true);
                 storage.set('isDarkTheme', true);
               }}
-              style={[styles.themeBox, {backgroundColor: isDarkTheme === true ? '#7064E9' : 'rgba(112,100,233,0)'}]}>
-              <Image
-                style={styles.appThemeContainerIcon}
-                source={isDarkTheme === false ? require('../assets/images/moonDark.png') : require('../assets/images/moonLight.png')}/>
-              <Text style={[styles.themeBoxText, isDarkTheme === true ? styles.themeBoxTextDarkTheme : styles.themeBoxTextLightTheme]}>Koyu</Text>
-            </TouchableOpacity>
+              style={[styles.themeBox]}>
+              {
+                isDarkTheme ? (
+                    <LinearGradient
+                        colors={["#dd00ac", "#7130c3", "#410093"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                          borderRadius: 10,
+                          height: '100%',
+
+                          flexDirection: "row",
+                          justifyContent: 'center',
+                          alignItems: "center",
+                          width: '100%',
+                          gap: 7,
+                        }}
+                    >
+                      <Image
+                          style={styles.appThemeContainerIcon}
+                          source={require('../assets/images/moonLight.png')}/>
+                      <Text style={[styles.themeBoxText, styles.themeBoxTextDarkTheme]}>Koyu</Text>
+                    </LinearGradient>
+                ) : (
+                    <View style={{
+                        height: '100%',
+                        flexDirection: "row",
+                        justifyContent: 'center',
+                        alignItems: "center",
+                        width: '100%',
+                        gap: 10,
+                    }}>
+                      <Image
+                          style={styles.appThemeContainerIcon}
+                          source={require('../assets/images/moonDark.png')}/>
+                      <Text style={[styles.themeBoxText, styles.themeBoxTextLightTheme]}>Koyu</Text>
+                    </View>
+                )
+              }
+             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => {
-                toggleTheme(false); // light mod aktif
-                appTheme.set('darkTheme', false);
-                storage.set('isDarkTheme', false);
-              }}
-              style={[styles.themeBox,{backgroundColor: isDarkTheme === false ? '#7064E9' : 'rgba(112,100,233,0)'}]}>
-              <Image
-                style={styles.appThemeContainerIcon}
-                source={isDarkTheme === false ? require('../assets/images/sun.png') : require('../assets/images/sun.png')}/>
-              <Text style={[styles.themeBoxText, styles.themeBoxTextDarkTheme]}>Açık</Text>
+                onPress={() => {
+                  toggleTheme(false); // light mod aktif
+                  appTheme.set('darkTheme', false);
+                  storage.set('isDarkTheme', false);
+                }}
+                style={[styles.themeBox]}>
+              {
+                !isDarkTheme ? (
+                    <LinearGradient
+                        colors={["#dd00ac", "#7130c3", "#410093"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={{
+                          borderRadius: 10,
+                          height: '100%',
+
+                          flexDirection: "row",
+                          justifyContent: 'center',
+                          alignItems: "center",
+                          width: '100%',
+                          gap: 7,
+                        }}
+                    >
+                      <Image
+                          style={styles.appThemeContainerIcon}
+                          source={require('../assets/images/sun.png')}/>
+                      <Text style={[styles.themeBoxText, styles.themeBoxTextDarkTheme]}>Açık</Text>
+                    </LinearGradient>
+                ) : (
+                    <View style={{
+                      height: '100%',
+                      flexDirection: "row",
+                      justifyContent: 'center',
+                      alignItems: "center",
+                      width: '100%',
+                      gap: 10,
+                    }}>
+                      <Image
+                          style={styles.appThemeContainerIcon}
+                          source={require('../assets/images/sun.png')}/>
+                      <Text style={[styles.themeBoxText, styles.themeBoxTextDarkTheme]}>Açık</Text>
+                    </View>
+                )
+              }
             </TouchableOpacity>
           </View>
 
@@ -110,61 +179,45 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
           )
         }
 
-        <View>
+        <View style={{marginBottom: 10,}}>
           <View style={[styles.stick, isDarkTheme === true ? styles.stickDarkTheme : styles.stickLightTheme]}/>
           {
             storage.getBoolean('isLogined') ? (
               <View style={styles.footer}>
-                {
-                  /*<TouchableOpacity
-                  onPress={() => {
-                    toggleModal('creditModalOpen');
-                  }}
-                  style={[styles.footerCreditBox, isDarkTheme ? styles.footerCreditBoxDarkTheme : styles.footerCreditBoxLightTheme]}>
-                  <Text style={styles.footerCreditBoxText}>Kredilerim: 372.376 </Text>
-                </TouchableOpacity>*/
-                }
-                <Pressable
-                  onPress={() => {
-                    toggleModal('creditModalOpen');
-                  }}
-                  style={({pressed}) => [{
-                    height: 60,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 6,
-                    backgroundColor: pressed ? '#7064E9' : 'transparent',
-                    borderWidth: 2,
-                    borderColor: pressed ? '#7064E9' : isDarkTheme ? 'rgb(39,40,55)' : 'rgb(201,198,245)',
-                  }]}
-                >
-                  {({pressed}) => (
-                    <Text
-                      style={{color: pressed ? 'white' :  isDarkTheme ? 'white' : 'rgb(24,24,24)',fontSize: 16,fontWeight: 600}}
-                    >
-                      Hesabınızı Yükseltin
-                    </Text>
-                  )}
-                </Pressable>
                 <TouchableOpacity
                   onPress={() => {
-                    toggleModal('settingModalOpen');
-                    toggleModalOpacity('settingModalOpacityOpen');
+                    navigation.navigate('AccountUpgradeScreen');
                   }}
-                  style={[styles.footerProfileBox, isDarkTheme ? styles.footerProfileBoxDarkTheme : styles.footerProfileBoxLightTheme]}>
-                  <View style={{width: 50, height: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 100,backgroundColor: 'rgba(0,0,0,0.2)'}}>
-                    <Text style={{fontSize: 30,color: 'white'}}>{String(state.myAccount.name)[0]}</Text>
-                  </View>
-                  {/*<Image style={{width: 50, height: 50, borderRadius: 100,}} source={require('../assets/images/profil.jpg')} />*/}
-                  <View style={styles.footerProfileTextBox}>
-                    <Text
-                      style={[styles.footerProfileTextBoxUsername, isDarkTheme ? styles.footerProfileTextBoxUsernameDarkTheme : styles.footerProfileTextBoxUsernameLightTheme]}
-                      numberOfLines={1}
-                    >{state.myAccount.name}</Text>
-                    <Text
-                      style={styles.footerProfileTextBoxEmail}
-                      numberOfLines={1}
-                    >{state.myAccount.email}</Text>
+                >
+                  <LinearGradient
+                      colors={["#dd00ac", "#7130c3", "#410093"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={styles.upgradeButton}
+                  >
+                    <Text style={styles.upgradeText}>Hesabınızı Yükseltin</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={() => {
+                  toggleModal('settingModalOpen');
+                  toggleModalOpacity('settingModalOpacityOpen');
+                }}
+                >
+                  <View style={styles.userInfo}>
+                    <View style={styles.iconContainer}>
+                      <Text style={{fontSize: 25,color: 'white'}}>{String(state.myAccount.name)[0]}</Text>
+                    </View>
+                    <View style={styles.userTextContainer}>
+                      <Text
+                          style={styles.userName}
+                          numberOfLines={1}
+                      >{state.myAccount.name}</Text>
+                      <Text
+                          style={styles.userEmail}
+                          numberOfLines={1}
+                      >{state.myAccount.email}</Text>
+                    </View>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -174,8 +227,25 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
                   onPress={() => {
                     toggleModal('loginModalOpen');
                   }}
-                  style={[styles.footerLoginBox, isDarkTheme ? styles.footerLoginBoxDarkTheme : styles.footerLoginBoxLightTheme]}>
-                  <Text style={[styles.footerLoginBoxText, isDarkTheme ? styles.footerLoginBoxTextDarkTheme : styles.footerLoginBoxTextLightTheme]}>Kaydol veya Giriş yap</Text>
+                  style={[styles.footerLoginBox]}>
+                  <LinearGradient
+                      colors={["#dd00ac", "#7130c3", "#410093"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 0 }}
+                      style={{
+                        width: '100%',
+                        borderRadius: 10,
+                        paddingTop: 18,
+                        paddingBottom: 18,
+                        paddingRight: 20,
+                        paddingLeft: 20,
+                        alignItems: "center",
+                      }}
+                  >
+                    <Text style={styles.sidebarButtonText}>
+                      Kaydol veya Giriş yap
+                    </Text>
+                  </LinearGradient>
                 </TouchableOpacity>
               </View>
             )
@@ -203,7 +273,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     marginTop: 10,
-    marginBottom: 20,
     width: '100%',
   },
   appThemeContainer: {
@@ -228,12 +297,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   appThemeContainerIcon :{
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
   },
   themeBoxText: {
-    fontSize: 19,
-    marginLeft: 5,
+    fontSize: 15,
   },
   themeBoxTextDarkTheme: {
     color: 'white',
@@ -243,11 +311,11 @@ const styles = StyleSheet.create({
   },
   stick:{
     width: '100%',
-    height: 2,
+    height: 1,
     marginVertical: 12,
   },
   stickDarkTheme:{
-    backgroundColor: '#201F27',
+    backgroundColor: "#272838",
   },
   stickLightTheme:{
     backgroundColor: 'rgb(237,237,237)',
@@ -260,23 +328,16 @@ const styles = StyleSheet.create({
   bodyBox: {
     width: '100%',
     height: 60,
-    borderRadius: 6,
+    borderRadius: 10,
+    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 10,
     marginBottom: 12,
   },
-  bodyBoxDarkTheme: {
-    backgroundColor: '#0F1021',
-  },
-  bodyBoxLightTheme: {
-    backgroundColor: 'rgb(239,239,254)',
-  },
   bodyContainerText: {
-    marginLeft: 10,
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#7476AA',
+    fontSize: 16,
+    color: "#7376aa",
+    fontWeight: "bold",
   },
   footer: {
     gap:10,
@@ -288,13 +349,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 6,
-
-  },
-  footerLoginBoxDarkTheme: {
-    backgroundColor: '#7064E9',
-  },
-  footerLoginBoxLightTheme: {
-    backgroundColor: '#7064E9',
   },
 
   footerLoginBoxText: {
@@ -307,6 +361,11 @@ const styles = StyleSheet.create({
   footerLoginBoxTextLightTheme: {
     color: 'white',
     fontWeight: '600',
+  },
+  sidebarButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   footerCreditBox: {
@@ -328,6 +387,46 @@ const styles = StyleSheet.create({
     color: '#7476AA',
     fontWeight: '600',
   },
+  upgradeButton: {
+    borderRadius: 10,
+    backgroundColor: "#dd00ac",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  upgradeText: {
+    fontSize: 16,
+    color: "#FFF",
+    fontWeight: "bold",
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#0F1021",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  userInfo: {
+    borderWidth: 1,
+    borderColor: "#272838",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 10,
+    padding: 15,
+  },
+  userTextContainer: {
+    marginLeft: 15,
+  },
+  userName: {
+    fontSize: 16,
+    color: "#7376aa",
+    fontWeight: "bold",
+  },
+  userEmail: {
+    fontSize: 14,
+    color: "#7376aa",
+  },
+
   footerProfileBox: {
     width: '100%',
     height: 80,
@@ -363,3 +462,4 @@ const styles = StyleSheet.create({
   },
 });
 export default CustomDrawer;
+

@@ -1,12 +1,14 @@
-import React, {useCallback, useContext, useState, useRef} from 'react';
+import React, {useCallback, useContext, useState, useRef, useEffect} from 'react';
 import {
   Alert,
   Image,
   KeyboardAvoidingView,
   Modal,
   StyleSheet,
+  Keyboard,
   Text,
-  TextInput,
+  ImageBackground,
+  TextInput, TouchableNativeFeedback,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -20,7 +22,7 @@ import { postRegister } from '../mobil_api_fetch/PostRegister';
 import {StateContext} from '../context/StateContext';
 import {ThemeContext} from '../context/ThemeContext';
 import {storage} from '../components/Storage';
-
+import LinearGradient from "react-native-linear-gradient";
 
 const LoginModal = ({toggleModal, loginModalVisible}) => {
 
@@ -28,6 +30,7 @@ const LoginModal = ({toggleModal, loginModalVisible}) => {
   const { isDarkTheme } = useContext(ThemeContext);
   const nameInputRef = useRef(null);
   const surnameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -104,217 +107,287 @@ const LoginModal = ({toggleModal, loginModalVisible}) => {
 
   };
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+        "keyboardDidShow",
+        () => setKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+        "keyboardDidHide",
+        () => setKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+
   return (
     <Modal
       animationType="fade"
       transparent={true}
       visible={loginModalVisible}
     >
-      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={passwordView ? -50 : -90} style={{flex: 1,}}>
-        <View style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]}>
-          <View style={styles.inputContainer}>
-            {!loginOrSignIn && (
-              <View style={{width:'100%',alignItems:'center'}}>
-                <View style={styles.inputBox}>
-                  <TextInput
-                    ref={nameInputRef}
-                    placeholder={'İsim'}
-                    keyboardType='ascii-capable'
-                    placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
-                    style={[styles.input,{display: passwordView ? 'flex' : 'none', color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
-                    onChangeText={handleChangeName}
-                    autoCapitalize="none"
-                    textContentType="none"
-                    autoCorrect={false}
-                    returnKeyType="next"
-                    onSubmitEditing={() => surnameInputRef.current.focus()}
-                    autoComplete="off"
-                  />
+      <TouchableNativeFeedback onPress={() => toggleModal('loginModalClose')}>
+        <View style={styles.container1}>
+          <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+            >
+              <View style={styles.container}>
+                <ImageBackground
+                    source={require("../assets/images/Registration.jpg")}
+                    style={styles.topSection}
+                    imageStyle={styles.imageStyle}
+                >
+                  <View style={styles.overlay}></View>
+                </ImageBackground>
+
+                <View
+                    style={[
+                      styles.bottomSection,
+                    ]}
+                >
+                  <Text style={styles.subtitle}>{
+                    loginOrSignIn
+                        ? 'Giriş Yap'
+                        : 'Kayıt ol'
+                  }</Text>
+                  <View style={styles.lineContainer}>
+                    <LinearGradient
+                        colors={["#0d0e22", "#443a87", "#0d0e22"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.line}
+                    />
+                  </View>
+
+                  {
+                    !loginOrSignIn &&
+                      <>
+                        <View style={styles.inputContainer}>
+                        <TextInput
+                            ref={nameInputRef}
+                            placeholder={'İsim'}
+                            keyboardType='ascii-capable'
+                            placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
+                            style={[styles.input,{color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
+                            onChangeText={handleChangeName}
+                            autoCapitalize="none"
+                            textContentType="none"
+                            autoCorrect={false}
+                            returnKeyType="next"
+                            onSubmitEditing={() => surnameInputRef.current.focus()}
+                            autoComplete="off"
+                        />
+                        </View>
+                        <View style={styles.inputContainer}>
+                          <TextInput
+                              ref={surnameInputRef}
+                              placeholder={'Soyisim'}
+                              keyboardType='ascii-capable'
+                              placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
+                              style={[styles.input,{color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
+                              onChangeText={handleChangeSurname}
+                              autoCapitalize="none"
+                              textContentType="none"
+                              autoCorrect={false}
+                              returnKeyType="next"
+                              onSubmitEditing={()=> emailInputRef.current.focus()}
+                              autoComplete="off"
+                          />
+                        </View>
+                      </>
+                  }
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                        ref={emailInputRef}
+                        placeholder={'Email'}
+                        keyboardType='email-address'
+                        placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
+                        style={[styles.input,{color: isDarkTheme ? '#fff' : '#000'}, isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
+                        onChangeText={handleChangeMail}
+                        autoFocus={true}
+                        autoCapitalize="none"
+                        textContentType="none"
+                        autoCorrect={false}
+                        returnKeyType="next"
+                        onSubmitEditing={() => controlMail(email)}
+                        autoComplete="off"
+                    />
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                        ref={passwordInputRef}
+                        keyboardType='default'
+                        placeholder={'Şifre'}
+                        placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
+                        style={[styles.input,{ color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
+                        onChangeText={handleChangePassword}
+                        autoCapitalize="none"
+                        textContentType="none"
+                        autoCorrect={false}
+                        returnKeyType="go"
+                        onSubmitEditing={()=>loginFunction(email,password)}
+                        autoComplete="off"
+                        secureTextEntry={true}
+                    />
+                  </View>
+
+                  <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => {
+                        loginOrSignIn
+                            ? loginFunction(email,password)
+                            : registerFunction(name,surname,email,password);
+                      }}
+                  >
+                    <LinearGradient
+                        colors={["#dd00ac", "#7130c3", "#410093"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.gradientButton}
+                    >
+                      <Text style={styles.buttonText}>{
+                        loginOrSignIn
+                          ? 'Giriş Yap'
+                          : 'Kayıt Ol'
+                      }</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => setLoginOrSignIn(!loginOrSignIn)}>
+                    <Text style={styles.linkText}>
+
+                      {
+                        loginOrSignIn
+                          ? 'Hesabınız yok mu? '
+                          : 'Zaten kayıtlı mısınız? '
+                      }
+                      <Text style={styles.loginLink}>{
+                        loginOrSignIn
+                          ? 'Kayıt Ol'
+                          : 'Giriş Yap'
+                      }</Text>
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-
-                <View style={styles.inputBox}>
-                  <TextInput
-                    ref={surnameInputRef}
-                    placeholder={'Soyisim'}
-                    keyboardType='ascii-capable'
-                    placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
-                    style={[styles.input,{display: passwordView ? 'flex' : 'none', color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
-                    onChangeText={handleChangeSurname}
-                    autoCapitalize="none"
-                    textContentType="none"
-                    autoCorrect={false}
-                    returnKeyType="next"
-                    onSubmitEditing={()=>loginFunction(email,password)}
-                    autoComplete="off"
-                  />
-                </View>
               </View>
-            )}
-            <View style={styles.inputBox}>
-              <TextInput
-                placeholder={'Email'}
-                keyboardType='email-address'
-                placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
-                style={[styles.input,{color: isDarkTheme ? '#fff' : '#000'}, isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
-                onChangeText={handleChangeMail}
-                autoFocus={true}
-                autoCapitalize="none"
-                textContentType="none"
-                autoCorrect={false}
-                returnKeyType="next"
-                onSubmitEditing={() => controlMail(email)}
-                autoComplete="off"
-              />
-              <TouchableOpacity
-                style={[styles.inputBoxButton,{display: emailButtonView ? 'flex' : 'none'}, isDarkTheme ? styles.inputBoxButtonDarkTheme : styles.inputBoxButtonLightTheme ]}
-                onPress={()=> {
-                  controlMail(email);
-                }}>
-                <Image style={styles.inputBoxButtonIcon} source={isDarkTheme ? require('../assets/images/arrowRightDark.png') : require('../assets/images/arrowRightLight.png')}/>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.inputBox}>
-              <TextInput
-                ref={passwordInputRef}
-                keyboardType='default'
-                placeholder={'Şifre'}
-                placeholderTextColor={isDarkTheme ? 'rgba(255,255,255,0.5)' : '#000'}
-                style={[styles.input,{display: passwordView ? 'flex' : 'none', color: isDarkTheme ? '#fff' : '#000'} , isDarkTheme ? styles.inputDarkTheme : styles.inputLightTheme]}
-                onChangeText={handleChangePassword}
-                autoCapitalize="none"
-                textContentType="none"
-                autoCorrect={false}
-                returnKeyType="go"
-                onSubmitEditing={()=>loginFunction(email,password)}
-                autoComplete="off"
-              />
-            </View>
-
-            {loginOrSignIn ? (
-              <View style={styles.inputBox}>
-                <TouchableOpacity style={[styles.button, {display: passwordView ? 'flex' : 'none'}, isDarkTheme ? styles.buttonDarkTheme : styles.buttonLightTheme]} onPress={() => loginFunction(email, password)}>
-                  <Text style={[styles.buttonText, isDarkTheme ? styles.buttonTextDarkTheme : styles.buttonTextLightTheme]}>Giriş yap</Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={styles.inputBox}>
-                <TouchableOpacity style={[styles.button, {display: passwordView ? 'flex' : 'none'}, isDarkTheme ? styles.buttonDarkTheme : styles.buttonLightTheme]} onPress={() => registerFunction(name, surname,email, password)}>
-                  <Text style={[styles.buttonText, isDarkTheme ? styles.buttonTextDarkTheme : styles.buttonTextLightTheme]}>Kayıt ol</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
-            {passwordView ? (loginOrSignIn ? (
-              <View>
-                <Text
-                  onPress={() => {
-                    setLoginOrSignIn(false);
-
-                  }}
-                  style={{color: isDarkTheme ? 'white' : 'black' }}>Yeni hesap oluştur</Text>
-              </View>
-            ) : (
-              <View>
-                <Text
-                  onPress={() => {
-                    setLoginOrSignIn(true);
-                  }}
-                  style={{color: isDarkTheme ? 'white' : 'black' }}>Zaten hesabım var</Text>
-              </View>
-            )): ''}
-
-
-          </View>
-
+            </KeyboardAvoidingView>
+          </TouchableNativeFeedback>
         </View>
-      </KeyboardAvoidingView>
+      </TouchableNativeFeedback>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    backgroundColor: "#0f1021",
   },
-  containerDarkTheme: {
-    backgroundColor: '#070710',
+  topSection: {
+    height: "68%",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
-  containerLightTheme: {
-    backgroundColor: '#ffffff',
+  imageStyle: {
+    resizeMode: "cover",
   },
-  inputContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 70,
+  overlay: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  inputBox: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
+  bottomSection: {
+    flex: 1,
+    backgroundColor: "#0f1021",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: "68%",
+    shadowColor: "#0f1021",
+    shadowOffset: { width: 0, height: -5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+  },
+  subtitle: {
+    marginBottom: 10,
+    fontSize: 25,
+    color: "#fff",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 0.7)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 10,
+  },
+  lineContainer: {
+    height: 2,
+    width: "90%",
     marginBottom: 20,
   },
-  input: {
-    backgroundColor: '#78adc1',
-    width: '100%',
-    height: 50,
-    borderRadius: 5,
-    paddingHorizontal: 10,
+  line: {
+    height: "100%",
+    borderRadius: 1,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    width: "95%",
     borderWidth: 1,
+    borderColor: "#272838",
+    padding: 5,
   },
-  inputDarkTheme: {
-    backgroundColor: '#070710',
-    borderColor: '#fff',
-  },
-  inputLightTheme: {
-    backgroundColor: '#fff',
-    borderColor: '#070710',
-  },
-  inputBoxButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 5,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  inputBoxButtonDarkTheme: {
-    backgroundColor: '#fff',
-  },
-  inputBoxButtonLightTheme: {
-    backgroundColor: '#000',
-  },
-  inputBoxButtonIcon: {
-    width: 30,
-    height: 30,
+  input: {
+    flex: 1,
+    color: "#fff",
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
   },
   button: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "90%",
+    marginTop: 20,
   },
-  buttonDarkTheme: {
-    backgroundColor: '#fff',
-  },
-  buttonLightTheme: {
-    backgroundColor: '#000',
+  gradientButton: {
+    borderRadius: 8,
+    paddingVertical: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  buttonTextDarkTheme: {
-    color: '#000',
+  linkText: {
+    color: "#7376aa",
+    fontSize: 14,
+    marginTop: 15,
   },
-  buttonTextLightTheme: {
-    color: '#fff',
+  loginLink: {
+    color: "#ccceef",
+    textDecorationLine: "underline",
   },
 });
 

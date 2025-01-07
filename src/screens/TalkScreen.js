@@ -18,7 +18,7 @@ import {StateContext} from '../context/StateContext';
 import {storage} from '../components/Storage';
 
 import DocumentPicker from 'react-native-document-picker';
-import MathView, { MathText } from 'react-native-math-view';
+import MathView from 'react-native-math-view';
 
 import { postNewChat } from '../mobil_api_fetch/PostNewChat';
 import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
@@ -389,6 +389,11 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     onChangeText={handleChange}
                                     multiline={true}
                                     autoFocus={storage.getBoolean('isLogined') ? true : false}
+                                    keyboardType='ascii-capable'
+                                    autoCapitalize="none"
+                                    textContentType="none"
+                                    autoCorrect={false}
+                                    autoComplete="off"
                                   />
                                   <TouchableOpacity style={styles.inputBoxMicrofonIconBox}>
                                       <Image
@@ -590,9 +595,6 @@ const styles = StyleSheet.create({
     textInputLightTheme: {
         color: 'black',
     },
-
-
-
 
 });
 

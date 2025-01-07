@@ -12,6 +12,9 @@ import TalkScreen from './src/screens/TalkScreen';
 import CustomRightDrawer from './src/components/CustomRightDrawer';
 import CustomDrawer from './src/components/CustomDrawer';
 
+import Onboarding from "./src/screens/Onboarding";
+import AccountUpgradeScreen from "./src/screens/AccountUpgradeScreen";
+
 import { getAiList } from './src/genel_api_fetch/GetAiList';
 import { getLastMessage } from './src/genel_api_fetch/GetLastMessage';
 import { getMessageData } from './src/genel_api_fetch/GetMessageData';
@@ -23,7 +26,9 @@ import PopupLoginModal from './src/modals/PopupLoginModal';
 
 import {storage} from './src/components/Storage';
 
+
 if (storage.getBoolean('isLogined') === undefined) {
+  storage.set('!firstOpen', false);
   storage.set('isLogined', false);
 }
 
@@ -152,8 +157,9 @@ const App = () => {
           >
             <LeftDrawer.Navigator
               id="LeftDrawer"
+              initialRouteName={storage.getBoolean('!firstOpen') ? 'MainApp' : 'Onboarding'}
               drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
-              screenOptions={{
+              screenOptions={({route}) => ({
                 drawerType: 'slide',
                 drawerPosition: 'left',
                 headerShown: false,
@@ -163,8 +169,11 @@ const App = () => {
                   borderRightWidth: 2,
                   borderColor: '#201F27',
                 },
-              }}>
+                swipeEnabled: route.name !== 'Onboarding' && route.name !== 'AccountUpgradeScreen',
+              })}>
               <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
+              <RightDrawer.Screen name="Onboarding" component={Onboarding} />
+              <RightDrawer.Screen name="AccountUpgradeScreen" component={AccountUpgradeScreen} />
             </LeftDrawer.Navigator>
           </NavigationContainer>
 

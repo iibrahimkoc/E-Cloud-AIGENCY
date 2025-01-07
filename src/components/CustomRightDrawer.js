@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext, useState} from 'react';
 import {View, Text, StyleSheet,SectionList, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -6,12 +6,13 @@ import { ThemeContext } from '../context/ThemeContext';
 import { StateContext } from '../context/StateContext';
 import { storage } from './Storage';
 
-import MathView from 'react-native-math-view';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { postResumeChat } from '../mobil_api_fetch/PostResumeChat';
 
 const CustomRightDrawer = ({navigation}) => {
 
+  const [searchText, setSearchText] = useState('');
   const { state, toggleState } = useContext(StateContext);
   const { isDarkTheme } = useContext(ThemeContext);
 
@@ -34,19 +35,23 @@ const CustomRightDrawer = ({navigation}) => {
     );
   };
 
+  const handleChangeSearchText = useCallback((item) => {
+    setSearchText(item);
+  },[])
+
 
   const data = [
     {
       title: 'Bugün',
-      data: state.viewChat?.today,
+      data: state.viewChat?.today?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
     },
     {
       title: 'Dün',
-      data: state.viewChat?.yesterday,
+      data: state.viewChat?.yesterday?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
     },
     {
       title: 'Son 7 Gün',
-      data: state.viewChat?.last7day,
+      data: state.viewChat?.last7day?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
     },
   ];
   return (
@@ -54,18 +59,32 @@ const CustomRightDrawer = ({navigation}) => {
       edges={['top']}
       style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]}>
       <View style={styles.containerBox}>
-        <View style={[styles.searchBox, isDarkTheme ? styles.searchBoxDarkTheme : styles.searchBoxLightTheme]}>
-          <View style={styles.searchIconBox}>
-            <Image
-              style={styles.searchIcon}
-              source={require('../assets/images/search.png')}></Image>
+        <LinearGradient
+            colors={["#dd00ac", "#7130c3", "#410093"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradientSearchContainer}
+
+        >
+          <View style={{flex:1, backgroundColor: isDarkTheme ? "#070710" : "#fff",borderRadius:8,flexDirection: "row"}}>
+            <View style={styles.searchIconBox}>
+              <Image
+                  style={styles.searchIcon}
+                  source={require('../assets/images/search.png')}></Image>
+            </View>
+            <TextInput
+                style={styles.input}
+                placeholder={'Burada arayın...'}
+                placeholderTextColor={'#7476AA'}
+                value={searchText}
+                onChangeText={handleChangeSearchText}
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="off"
+                textContentType="none"
+            />
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder={'Burada arayın...'}
-            placeholderTextColor={'#7476AA'}
-          />
-        </View>
+        </LinearGradient>
 
         <SafeAreaView style={{flex:1}} edges={['bottom']}>
           {storage.getBoolean('isLogined') && (
@@ -106,6 +125,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  gradientSearchContainer: {
+    height: 50,
+    flexDirection: "row",
+    borderRadius: 10,
+    padding: 2,
+    width: "100%",
+    alignSelf: "center",
+  },
   searchBox: {
     marginVertical: 10,
     width: '100%',
@@ -123,11 +150,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(211,213,215)',
   },
   searchIconBox:{
-    width: 30,
+    width: 25,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
+    marginHorizontal: 8,
   },
   searchIcon: {
     width: 25,
