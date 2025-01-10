@@ -10,6 +10,6 @@ export const postNewChat = async (value) => {
     return getNewChatResponseData;
   }
   catch (error) {
-    console.log(error);
+    console.log("new_chat",error);
   }
 }

@@ -18,6 +18,6 @@ export const getAiTeamList = async () => {
     return aiTeamListResponseData;
   }
   catch(error) {
-    console.log(error);
+    console.log('ai_list: ',error);
   }
 };

@@ -3,25 +3,30 @@ import {View, Text, StyleSheet,SafeAreaView, TouchableOpacity, Image} from "reac
 import Swiper from "react-native-web-swiper";
 import LinearGradient from "react-native-linear-gradient";
 import {StateContext} from "../context/StateContext";
+import {ThemeContext} from "../context/ThemeContext";
 
 
 export default function AccountUpgradeScreen({navigation}) {
     const { state } = useContext(StateContext);
+    const { isDarkTheme } = useContext(ThemeContext);
     const [activeIndex, setActiveIndex] = useState(0);
 
     const [isMonthly, setIsMonthly] = useState(true);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: isDarkTheme ? '#0F1021' : "rgba(115,118,170,0.7)",}]}>
             <View style={{marginTop: 10,width: '100%',justifyContent:'center',alignItems: 'center',}}>
-                <View style={{width:'60%',height:70,padding: 7,borderColor: 'rgba(48,48,58,0.7)',borderWidth:2,borderRadius:50,justifyContent:'center', alignItems: 'center',flexDirection: 'row'}}>
+                <View style={{width:'60%',height:70,padding: 7,borderColor: isDarkTheme ? 'rgba(48,48,58,0.7)' : 'transparent',borderWidth: isDarkTheme ? 2 : 0,borderRadius:50,justifyContent:'center', alignItems: 'center',flexDirection: 'row',backgroundColor: isDarkTheme ? '#000' : '#fff'}}>
                     <TouchableOpacity
                         onPress={() => {
                             setIsMonthly(true)
                             setActiveIndex(0)
                         }}
                         style={{width:'50%',height: '100%',borderRadius: 100,alignItems: 'center', justifyContent: 'center',backgroundColor: isMonthly ? 'rgb(107,97,208)' : 'transparent'}}>
-                        <Text style={{color: 'white'}}>Aylık</Text>
+                        <Text
+                            style={{fontWeight: '600', fontSize: 16,
+                                color: isDarkTheme ? (!isMonthly ? 'white' : 'white' ) : (!isMonthly ? '#7376aa' : 'white' )}}
+                        >Aylık</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
@@ -29,13 +34,16 @@ export default function AccountUpgradeScreen({navigation}) {
                             setActiveIndex(0)
                         }}
                         style={{width:'50%',height: '100%',borderRadius: 100,alignItems: 'center', justifyContent: 'center',backgroundColor: !isMonthly ? 'rgb(107,97,208)' : 'transparent'}}>
-                        <Text style={{color: 'white'}}>Yıllık</Text>
+                        <Text
+                            style={{fontWeight: '600', fontSize: 16,
+                                color: isDarkTheme ? (!isMonthly ? 'white' : 'white' ) : (!isMonthly ? 'white' : '#7376aa' )}}
+                        >Yıllık</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <Swiper
                 containerStyle={{height: 580}}
-                key={isMonthly}
+                key={[isMonthly, isDarkTheme]}
                 controlsEnabled={false}
                 loop={false}
                 onIndexChanged={(index) => setActiveIndex(index)}
@@ -43,7 +51,7 @@ export default function AccountUpgradeScreen({navigation}) {
                 {state.pricingList.map((item) => (
                     <View key={item.id} style={styles.card}>
                         <LinearGradient
-                            colors={["#070710", "#070710"]}
+                            colors={isDarkTheme ? ["#070710", "#070710"] : ["#fff", "#fff"]}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 1 }}
                             style={styles.cardBackground}
@@ -54,11 +62,11 @@ export default function AccountUpgradeScreen({navigation}) {
                                 <Text style={styles.currency}>₺</Text>
                             </View>
 
-                            <Text style={styles.planCredits}>{item.credit}</Text>
+                            <Text style={styles.planCredits}>{item.credit} Kredi</Text>
 
                             <View style={styles.lineContainer}>
                                 <LinearGradient
-                                    colors={["#0d0e22", "#443a87", "#0d0e22"]}
+                                    colors={isDarkTheme ? ["#0d0e22", "#410093", "#0d0e22"] : ["#fff", "#410093", "#fff"]}
                                     start={{ x: 0, y: 0 }}
                                     end={{ x: 1, y: 0 }}
                                     style={styles.line}
@@ -111,6 +119,7 @@ export default function AccountUpgradeScreen({navigation}) {
                         key={index}
                         style={[
                             styles.dot,
+                            { backgroundColor: isDarkTheme ?  "#070710" : "#ffffff" },
                             activeIndex === index && styles.activeDot,
                         ]}
                     />
@@ -121,8 +130,8 @@ export default function AccountUpgradeScreen({navigation}) {
                 onPress={() => navigation.goBack()}
                 style={{width:'100%',justifyContent:'center', alignItems: 'center',marginTop:20}}>
                 <Image
-                    style={{width:40, height:40}}
-                    source={require('../assets/images/close.png')}/>
+                    style={{width:35, height:35}}
+                    source={isDarkTheme ? require('../assets/images/closeLight.png') : require('../assets/images/close.png')}/>
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -131,7 +140,6 @@ export default function AccountUpgradeScreen({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0F1021",
     },
     card: {
         width: '100%',
@@ -230,7 +238,6 @@ const styles = StyleSheet.create({
         width: 10,
         height: 10,
         borderRadius: 5,
-        backgroundColor: "#070710",
         marginHorizontal: 5,
     },
     activeDot: {

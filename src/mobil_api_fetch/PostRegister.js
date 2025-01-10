@@ -1,3 +1,4 @@
+
 export const postRegister = async (name,surname,email,password) => {
   try {
     const postRegisterResponse = await fetch('https://aigency.dev/api/mobile/register',{
@@ -12,10 +13,9 @@ export const postRegister = async (name,surname,email,password) => {
         password: password,
       }),
     });
-    const postRegisterResponseData = await postRegisterResponse.json();
-    return postRegisterResponseData;
+    return await postRegisterResponse.json();
   }
   catch (error) {
-    console.log(error);
+    console.log("register",error);
   }
 }

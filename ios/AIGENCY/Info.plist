@@ -46,10 +46,15 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Mikrofonu kullanmak için izin verin</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Sesinizi metne dönüştürmek için izin verin</string>
+
+
 </dict>
 </plist>

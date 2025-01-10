@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  Pressable,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -188,6 +187,7 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
                   onPress={() => {
                     navigation.navigate('AccountUpgradeScreen');
                   }}
+                  style={{borderRadius: 10}}
                 >
                   <LinearGradient
                       colors={["#dd00ac", "#7130c3", "#410093"]}
@@ -204,8 +204,8 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
                   toggleModalOpacity('settingModalOpacityOpen');
                 }}
                 >
-                  <View style={styles.userInfo}>
-                    <View style={styles.iconContainer}>
+                  <View style={[styles.userInfo, {borderColor: isDarkTheme ? '#272838' : 'rgb(237,237,237)'}]}>
+                    <View style={[styles.iconContainer, {backgroundColor: isDarkTheme ? '#0F1021' : '#7376aa'}]}>
                       <Text style={{fontSize: 25,color: 'white'}}>{String(state.myAccount.name)[0]}</Text>
                     </View>
                     <View style={styles.userTextContainer}>
@@ -226,6 +226,9 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
                 <TouchableOpacity
                   onPress={() => {
                     toggleModal('loginModalOpen');
+                    setTimeout(() => {
+                      navigation.getParent('LeftDrawer').closeDrawer();
+                    },2000)
                   }}
                   style={[styles.footerLoginBox]}>
                   <LinearGradient
@@ -402,13 +405,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#0F1021",
     alignItems: "center",
     justifyContent: "center",
   },
   userInfo: {
     borderWidth: 1,
-    borderColor: "#272838",
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 10,
@@ -416,6 +417,7 @@ const styles = StyleSheet.create({
   },
   userTextContainer: {
     marginLeft: 15,
+    flex: 1,
   },
   userName: {
     fontSize: 16,

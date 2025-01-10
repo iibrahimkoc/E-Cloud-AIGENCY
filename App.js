@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Dimensions } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BootSplash from 'react-native-bootsplash';
+import {PaperProvider} from "react-native-paper";
 
 import { ThemeProvider } from './src/context/ThemeContext';
 import { StateProvider } from './src/context/StateContext';
@@ -130,8 +131,6 @@ const App = () => {
           headerShown: false,
           drawerStyle: {
             width: screen.width > 500 ? 300 : '70%',
-            borderLeftWidth: 2,
-            borderColor: '#201F27',
           },
         }}
       >
@@ -147,60 +146,60 @@ const App = () => {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StateProvider>
-        <ThemeProvider>
-          <NavigationContainer
-            onReady={() => {
-              BootSplash.hide();
-            }}
-          >
-            <LeftDrawer.Navigator
-              id="LeftDrawer"
-              initialRouteName={storage.getBoolean('!firstOpen') ? 'MainApp' : 'Onboarding'}
-              drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
-              screenOptions={({route}) => ({
-                drawerType: 'slide',
-                drawerPosition: 'left',
-                headerShown: false,
-                swipeEdgeWidth: screen.width,
-                drawerStyle: {
-                  width: screen.width > 500 ? 300 : '70%',
-                  borderRightWidth: 2,
-                  borderColor: '#201F27',
-                },
-                swipeEnabled: route.name !== 'Onboarding' && route.name !== 'AccountUpgradeScreen',
-              })}>
-              <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
-              <RightDrawer.Screen name="Onboarding" component={Onboarding} />
-              <RightDrawer.Screen name="AccountUpgradeScreen" component={AccountUpgradeScreen} />
-            </LeftDrawer.Navigator>
-          </NavigationContainer>
+      <PaperProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StateProvider>
+            <ThemeProvider>
+              <NavigationContainer
+                  onReady={() => {
+                    BootSplash.hide();
+                  }}
+              >
+                <LeftDrawer.Navigator
+                    id="LeftDrawer"
+                    initialRouteName={storage.getBoolean('!firstOpen') ? 'MainApp' : 'Onboarding'}
+                    drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
+                    screenOptions={({route}) => ({
+                      drawerType: 'slide',
+                      drawerPosition: 'left',
+                      headerShown: false,
+                      swipeEdgeWidth: screen.width,
+                      drawerStyle: {
+                        width: screen.width > 500 ? 300 : '70%',
+                      },
+                      swipeEnabled: route.name !== 'Onboarding' && route.name !== 'AccountUpgradeScreen',
+                    })}>
+                  <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
+                  <RightDrawer.Screen name="Onboarding" component={Onboarding} />
+                  <RightDrawer.Screen name="AccountUpgradeScreen" component={AccountUpgradeScreen} />
+                </LeftDrawer.Navigator>
+              </NavigationContainer>
 
-          <CreditModal
-            toggleModal={toggleModal}
-            isCreditModalVisible={isCreditModalVisible}
-          />
+              <CreditModal
+                  toggleModal={toggleModal}
+                  isCreditModalVisible={isCreditModalVisible}
+              />
 
-          <SettingModal
-            toggleModal={toggleModal}
-            toggleModalOpacity={toggleModalOpacity}
-            settingModalOpacity={settingModalOpacity}
-            settingModalVisible={settingModalVisible}
-          />
+              <SettingModal
+                  toggleModal={toggleModal}
+                  toggleModalOpacity={toggleModalOpacity}
+                  settingModalOpacity={settingModalOpacity}
+                  settingModalVisible={settingModalVisible}
+              />
 
-          <LoginModal
-            toggleModal={toggleModal}
-            loginModalVisible={loginModalVisible}
-          />
+              <LoginModal
+                  toggleModal={toggleModal}
+                  loginModalVisible={loginModalVisible}
+              />
 
-          <PopupLoginModal
-            toggleModal={toggleModal}
-            popupLoginModalVisible={popupLoginModalVisible}
-          />
-        </ThemeProvider>
-      </StateProvider>
-    </GestureHandlerRootView>
+              <PopupLoginModal
+                  toggleModal={toggleModal}
+                  popupLoginModalVisible={popupLoginModalVisible}
+              />
+            </ThemeProvider>
+          </StateProvider>
+        </GestureHandlerRootView>
+      </PaperProvider>
   );
 };
 

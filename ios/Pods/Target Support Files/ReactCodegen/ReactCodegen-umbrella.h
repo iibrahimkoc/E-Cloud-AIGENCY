@@ -47,6 +47,8 @@
 #import "reactnativemmkvJSI.h"
 #import "RNBootSplashSpec/RNBootSplashSpec.h"
 #import "RNBootSplashSpecJSI.h"
+#import "rncameraroll/rncameraroll.h"
+#import "rncamerarollJSI.h"
 #import "rnclipboard/rnclipboard.h"
 #import "rnclipboardJSI.h"
 #import "RNCWebViewSpec/RNCWebViewSpec.h"
@@ -65,8 +67,6 @@
 #import "rnscreensJSI.h"
 #import "rnsvg/rnsvg.h"
 #import "rnsvgJSI.h"
-#import "RNVectorIconsSpec/RNVectorIconsSpec.h"
-#import "RNVectorIconsSpecJSI.h"
 #import "safeareacontext/safeareacontext.h"
 #import "safeareacontextJSI.h"
 

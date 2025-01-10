@@ -12,6 +12,6 @@ export const getMyAccount = async () => {
     return getMyAccountResponseData;
   }
   catch (error) {
-    console.log(error);
+    console.log("my_account",error);
   }
 };

@@ -1,15 +1,15 @@
 import {storage} from '../components/Storage';
 
-export const getViewChat = async  (selectedAi) => {
+export const getViewChat = async (selectedAi) => {
   try {
     const getViewChatResponse = await fetch(`https://aigency.dev/api/mobile/view-chats/${selectedAi}/${storage.getString('access_token')}`, {
       method: 'GET',
     });
 
     const getViewChatResponseData = await getViewChatResponse.json();
+    console.log(getViewChatResponseData);
     if (Array.isArray(getViewChatResponseData)) {
       const shortedData = getViewChatResponseData.sort((a, b) => new Date(b.last_message_date) - new Date(a.last_message_date));
-
 
       const viewChatDate = {
         today: [],
@@ -30,11 +30,12 @@ export const getViewChat = async  (selectedAi) => {
           viewChatDate.last7day.push(item);
         }
       });
-      //console.log("ahaaa",Array(viewChatDate));
+      //console.log(,Array(viewChatDate));
       storage.set('viewChat', JSON.stringify(viewChatDate));
-      console.log("verim bu daha \n\n",viewChatDate);
+      console.log(viewChatDate);
       return viewChatDate;
-    } else {
+    }
+    else {
       throw new Error("API'den beklenmeyen bir veri yapısı döndü.");
     }
   }

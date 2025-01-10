@@ -1,5 +1,15 @@
 import React, {useCallback, useContext, useState} from 'react';
-import {View, Text, StyleSheet,SectionList, TextInput, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SectionList,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView, Keyboard, Platform,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import { ThemeContext } from '../context/ThemeContext';
@@ -28,7 +38,9 @@ const CustomRightDrawer = ({navigation}) => {
           styles.lastChat,
           {backgroundColor: isDarkTheme ? '#0F1021' : 'rgb(239,239,254)'},
         ]}>
-        <Text numberOfLines={1} style={styles.lastChatText}>
+        <Text
+            numberOfLines={1}
+            style={[styles.lastChatText, isDarkTheme ? styles.lastChatTextDarkTheme : styles.lastChatTextLightTheme]}>
           {item.chat_name}
         </Text>
       </TouchableOpacity>
@@ -55,56 +67,62 @@ const CustomRightDrawer = ({navigation}) => {
     },
   ];
   return (
-    <SafeAreaView
-      edges={['top']}
-      style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]}>
-      <View style={styles.containerBox}>
-        <LinearGradient
-            colors={["#dd00ac", "#7130c3", "#410093"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.gradientSearchContainer}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <SafeAreaView
+            edges={['top']}
+            style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]}>
+          <View style={styles.containerBox}>
+            <LinearGradient
+                colors={["#dd00ac", "#7130c3", "#410093"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.gradientSearchContainer}
 
-        >
-          <View style={{flex:1, backgroundColor: isDarkTheme ? "#070710" : "#fff",borderRadius:8,flexDirection: "row"}}>
-            <View style={styles.searchIconBox}>
-              <Image
-                  style={styles.searchIcon}
-                  source={require('../assets/images/search.png')}></Image>
-            </View>
-            <TextInput
-                style={styles.input}
-                placeholder={'Burada arayın...'}
-                placeholderTextColor={'#7476AA'}
-                value={searchText}
-                onChangeText={handleChangeSearchText}
-                autoCapitalize="none"
-                autoCorrect={false}
-                autoComplete="off"
-                textContentType="none"
-            />
-          </View>
-        </LinearGradient>
-
-        <SafeAreaView style={{flex:1}} edges={['bottom']}>
-          {storage.getBoolean('isLogined') && (
-            <SectionList
-              sections={data.filter(section => section.data.length !== 0)}  // Boş verileri filtrele
-              keyExtractor={(item, index) => index.toString()}
-              stickySectionHeadersEnabled={false}
-              renderItem={renderMessageItem}
-              renderSectionHeader={({ section: { title } }) => (
-                <View>
-                  <View style={[styles.stick, isDarkTheme ? styles.stickDarkTheme : styles.stickLightTheme]} />
-                  <Text style={[styles.renderItemHeader, isDarkTheme ? styles.renderItemHeaderDarkTheme : styles.renderItemHeaderLightTheme]}>{title}</Text>
+            >
+              <View style={{flex:1, backgroundColor: isDarkTheme ? "#070710" : "#fff",borderRadius:8,flexDirection: "row"}}>
+                <View style={styles.searchIconBox}>
+                  <Image
+                      style={styles.searchIcon}
+                      source={require('../assets/images/search.png')}></Image>
                 </View>
+                <TextInput
+                    style={[styles.input, {color: isDarkTheme ?  '#fff' : '#000' }]}
+                    placeholder={'Burada arayın...'}
+                    placeholderTextColor={'#7476AA'}
+                    value={searchText}
+                    onChangeText={handleChangeSearchText}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    autoComplete="off"
+                    textContentType="none"
+                />
+              </View>
+            </LinearGradient>
+
+            <SafeAreaView style={{flex:1}} edges={['bottom']}>
+              {storage.getBoolean('isLogined') && (
+                  <SectionList
+                      sections={data.filter(section => section.data.length !== 0)}  // Boş verileri filtrele
+                      keyExtractor={(item, index) => index.toString()}
+                      stickySectionHeadersEnabled={false}
+                      renderItem={renderMessageItem}
+                      renderSectionHeader={({ section: { title } }) => (
+                          <TouchableWithoutFeedback>
+                            <View>
+                              <View style={[styles.stick, isDarkTheme ? styles.stickDarkTheme : styles.stickLightTheme]} />
+                              <Text style={[styles.renderItemHeader, isDarkTheme ? styles.renderItemHeaderDarkTheme : styles.renderItemHeaderLightTheme]}>{title}</Text>
+                            </View>
+                          </TouchableWithoutFeedback>
+                      )}
+                      ListFooterComponent={<View style={{height: 20}}></View>}
+                  />
               )}
-              ListFooterComponent={<View style={{height: 20}}></View>}
-            />
-          )}
+            </SafeAreaView>
+          </View>
         </SafeAreaView>
-      </View>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -113,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 10,
   },
   containerDarkTheme: {
     backgroundColor: '#070710',
@@ -163,7 +182,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: '100%',
-    color: 'white',
     fontSize: 16,
   },
   stick: {
@@ -184,12 +202,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   renderItemHeaderDarkTheme: {
-    color: '#CCCEEF',
+    color: '#fff',
   },
   renderItemHeaderLightTheme: {
     color: '#000000',
   },
-
 
   dateHeaderBox: {
     paddingLeft: 10,
@@ -208,15 +225,22 @@ const styles = StyleSheet.create({
   lastChat: {
     width: '100%',
     height: 45,
-    borderRadius: 6,
+    borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    marginVertical: 3
+    marginVertical: 5
   },
   lastChatText: {
-    fontSize: 17,
-    color: '#7476AA',
+    width: '100%',
+    fontSize: 15,
+  },
+  lastChatTextDarkTheme: {
+    color: '#ede3e3',
+  },
+  lastChatTextLightTheme: {
+    color: '#000000',
+
   }
 });
 export default CustomRightDrawer;

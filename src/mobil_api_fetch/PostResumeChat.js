@@ -10,6 +10,6 @@ export const postResumeChat = async (value) => {
     return getResumeChartResponseData;
   }
   catch (error) {
-    console.log(error);
+    console.log("resume_chat",error);
   }
 };

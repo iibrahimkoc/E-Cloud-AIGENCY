@@ -12,7 +12,7 @@
 +(NSArray<NSString *> *)imageURLLoaderClassNames
 {
   return @[
-    
+    @"RNCPHAssetLoader"
   ];
 }
 
@@ -26,7 +26,7 @@
 +(NSArray<NSString *> *)URLRequestHandlerClassNames
 {
   return @[
-    
+    @"RNCPHAssetUploader"
   ];
 }
 
