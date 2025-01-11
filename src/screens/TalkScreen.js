@@ -184,7 +184,9 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                         <SyntaxHighlighter
                                             language={String(codeLanguage).toLowerCase()}
                                             style={isDarkTheme ? codeBlogDarkTheme : codeBlogLightTheme}
-                                            customStyle={{ overflow: 'scroll' }}
+                                            customStyle={{padding: 0, margin: 0 }}
+                                            highlighter="hljs"
+                    
                                         >
                                             {newCode}
                                         </SyntaxHighlighter>
@@ -227,12 +229,8 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                         typing={1}
                                                         onTypingEnd={() => {
                                                             setTypeWriterActive(false)
-                                                            toggleState('talkScreenData', {
-                                                                ...state.talkScreenData,
-                                                                messages: state.talkScreenData.messages.map((msg) =>
-                                                                    msg.id === item.id ? { ...msg, isTyping: false } : msg
-                                                                ),
-                                                            });
+                                                            console.log('incele', state.talkScreenData)
+                                                            
                                                         }}
                                                         minDelay={10}
                                                         maxDelay={10}
