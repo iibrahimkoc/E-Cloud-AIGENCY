@@ -151,6 +151,30 @@
         }
       }
     },
+    "react-native-fast-image": {
+      "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-fast-image",
+      "name": "react-native-fast-image",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-fast-image/RNFastImage.podspec",
+          "version": "8.6.3",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-fast-image/android",
+          "packageImportPath": "import com.dylanvann.fastimage.FastImageViewPackage;",
+          "packageInstance": "new FastImageViewPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-fast-image/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "react-native-fs": {
       "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-fs",
       "name": "react-native-fs",

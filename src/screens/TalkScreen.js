@@ -12,6 +12,11 @@ import {
     PermissionsAndroid,
     KeyboardAvoidingView, ScrollView,
 } from 'react-native';
+
+import { Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+
 import LinearGradient from 'react-native-linear-gradient';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
@@ -20,24 +25,27 @@ import Voice from '@react-native-voice/voice';
 
 import {ThemeContext} from '../context/ThemeContext';
 import {StateContext} from '../context/StateContext';
+
 import {storage} from '../components/Storage';
+import {TextCustomization} from "../components/TextCustomization";
+import {TypewriterEffect} from "../components/TypeWriterEffect";
 
 import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
-import MathView from 'react-native-math-view';
 import { launchImageLibrary } from 'react-native-image-picker';
 import TypeWriter from 'react-native-typewriter';
-import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import FastImage from 'react-native-fast-image';
 
 import { postNewChat } from '../mobil_api_fetch/PostNewChat';
 import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
 import { postPublicNewChat } from '../genel_api_fetch/PostPublicNewChat';
 import { postPublicSendMessage } from '../genel_api_fetch/PostPublicSendMessage';
 
+
+
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
-const codeBlogDarkTheme = atomOneDark;
-const codeBlogLightTheme = atomOneLight;
+
 
 import { Menu, Divider } from 'react-native-paper';
 
@@ -70,6 +78,20 @@ const TalkScreen = ({navigation, toggleModal}) => {
         }, 2000);
     };
 
+    const [talkScreenData, setTalkScreenData] = useState({});
+
+    const dataRef = useRef(talkScreenData);
+
+    useEffect(() => {
+        dataRef.current = talkScreenData;
+    }, [talkScreenData]);
+
+
+    useEffect(() => {
+        setTalkScreenData(state.talkScreenData);
+    },[state.talkScreenData])
+
+
 
     function toUpperCaseTurkish(text) {
         return text.replace(/[ıiğüşöç]/g, (match) => {
@@ -86,42 +108,16 @@ const TalkScreen = ({navigation, toggleModal}) => {
         }).toUpperCase();
     }
 
-
-    const textCustomization = (text) => {
-        const regex = /(\*\*.*?\*\*|\\\[.*?\\\]|\\\(.*?\\\)|`.*?`)/g;
-        const parts = text.split(regex);
-        return parts.map((part, index) => {
-            if (/\*\*.*?\*\*/.test(part)) {
-                const boldText = part.replace(/\*\*/g, '');
-                return (
-                  <Text key={index} style={{ fontWeight: 'bold' }}>
-                      {boldText}
-                  </Text>
-                );
-            }
-            else if(/`.*?`/.test(part)) {
-                const boldText = part.replace(/`/g, '');
-                return (
-                    <Text key={index} style={{ fontWeight: 'bold' }}>
-                        {boldText}
-                    </Text>
-                );
-            }
-            else if (/\\\[.*?\\\]|\\\(.*?\\\)/.test(part)) {
-                const mathContent = part.replace(/\\[\[\]()]/g, '');
-                return (
-                  <MathView key={index} math={mathContent} />
-                );
-            }
-            else {
-                return (
-                  <Text key={index}>
-                      {part}
-                  </Text>
-                );
-            }
+    const complatedText = (item) => {
+        setTypeWriterActive(false)
+        setTalkScreenData( {
+            ...dataRef.current,
+            messages: dataRef.current.messages.map((msg) =>
+                msg.id === item.id ? { ...msg, isTyping: false } : msg
+            ),
         });
-    };
+    }
+
 
     const saveImageFromUrl = async (imageUrl) => {
         try {
@@ -141,76 +137,146 @@ const TalkScreen = ({navigation, toggleModal}) => {
     };
 
 
-
     const renderTalkData = useCallback(({item, index: flatListIndex}) => {
         if(item.content.includes('```')){
-            setTypeWriterActive(false)
             const parts = item.content.split(/```/);
             return (
-              <LinearGradient
-                key={item.id}
-                colors={isDarkTheme ? ['#272350','#0F1021'] : ['rgb(215,214,244)','rgb(246,248,250)']}
-                start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
-                style={styles.talkBoxContainerBoxAiChat}
-              >
-                  <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
-                      {
-                          parts.map((part, partIndex) => {
-                              const isCode = partIndex % 2 === 1;
+                <LinearGradient
+                    key={item.id}
+                    colors={isDarkTheme ? ['#272350','#0F1021'] : ['rgb(215,214,244)','rgb(246,248,250)']}
+                    start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
+                    style={styles.talkBoxContainerBoxAiChat}
+                >
+                    <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
+                        { // yazma efekti
+                            item.isTyping ? (
+                                <TypeWriter
+                                    key={item.id}
+                                    typing={1}
+                                    onTypingEnd={() => {
+                                        setTypeWriterActive(false)
+                                        setTalkScreenData( {
+                                            ...dataRef.current,
+                                            messages: dataRef.current.messages.map((msg) =>
+                                                msg.id === item.id ? { ...msg, isTyping: false } : msg
+                                            ),
+                                        });
+                                    }}
+                                    speed={1000}
+                                    minDelay={10}
+                                    maxDelay={10}
+                                    style={{width:'100%'}}
+                                    wrapLines={true}
+                                    wrapLongLines={true}
+                                >
+                                    {
+                                        parts.map((part, partIndex) => {
+                                            const isCode = partIndex % 2 === 1;
 
-                              if (isCode) {
-                                  const kelimeler = part.split('\n');
-                                  const codeLanguage = part.split('\n',1);
-                                  kelimeler.shift();
-                                  const newCode = kelimeler.join("\n")
+                                            if (isCode) {
+                                                const kelimeler = part.split('\n');
+                                                const codeLanguage = kelimeler.shift();
+                                                const newCode = kelimeler.join("\n");
 
-                                  const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                  return (
-                                    <View key={uniqueIndex} style={[styles.codeContainer, isDarkTheme ? {backgroundColor: '#282c34',borderColor: 'darkgray'}: {backgroundColor: '#fff',borderColor: 'lightgray'}]}>
-                                        <TouchableOpacity
-                                            onPress={() => copyToClipboard(newCode, uniqueIndex)}
-                                            style={{
-                                                padding: 5,
-                                                paddingHorizontal: 10,
-                                                borderRadius: 100,
-                                                backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
-                                                position: 'absolute',
-                                                top: 5,
-                                                right: 5,
-                                                zIndex: 100
-                                            }}
-                                        >
-                                            <Text style={{color: isDarkTheme ? 'black' : 'white'}}>
-                                                {copiedIndex === uniqueIndex ? 'Kopyalandı' : 'Kopyala'}
+                                                const uniqueIndex = `${flatListIndex}-${partIndex}`;
+                                                console.log("i : ",newCode);
+                                                return (
+                                                    <View style={{width: "100%", backgroundColor: isDarkTheme ? '#282c34':  '#fff'}}>
+                                                        <Text style={{color: isDarkTheme ? 'rgb(117,121,131)' : 'black'}} key={uniqueIndex}>{newCode}</Text>
+                                                    </View>
+                                                );
+                                            } else {
+                                                return (
+                                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                        {TextCustomization(part)}
+                                                    </Text>
+                                                );
+                                            }
+                                        })
+                                    }
+                                </TypeWriter>
+                            ) : ( // yazma efekti olmadan
+                                parts.map((part, partIndex) => {
+                                    const isCode = partIndex % 2 === 1;
+                                    if (isCode) {
+                                        const kelimeler = part.split('\n');
+                                        const codeLanguage = kelimeler.shift();
+                                        const newCode = kelimeler.join("\n");
+
+                                        const uniqueIndex = `${flatListIndex}-${partIndex}`;
+                                        return (
+                                            <View style={[styles.codeContainer, isDarkTheme ? {backgroundColor: '#282c34',borderColor: 'darkgray'}: {backgroundColor: '#fff',borderColor: 'lightgray'}]}>
+                                                <View style={{position: "absolute", top: 5, right: 5,zIndex: 1000, flexDirection: "row-reverse"}}>
+                                                    <TouchableOpacity
+                                                        onPress={() => copyToClipboard(newCode, uniqueIndex)}
+                                                        style={{
+                                                            padding: 5,
+                                                            paddingHorizontal: 10,
+                                                            borderRadius: 100,
+                                                            backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center'
+                                                        }}
+                                                    >
+                                                        <Text style={{color: isDarkTheme ? 'black' : 'white'}}>
+                                                            {copiedIndex === uniqueIndex ? 'Kopyalandı' : 'Kopyala'}
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                    {
+                                                        String(codeLanguage).includes('html') && (
+                                                            <TouchableOpacity
+                                                                onPress={() => {
+                                                                    toggleState("talkScreenData", dataRef.current);
+                                                                    toggleState('htmlContent', newCode)
+                                                                    toggleModal('htmlLiveModalOpen');
+                                                                }}
+                                                                style={{
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                    backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
+                                                                    borderRadius: 100,
+                                                                    marginRight: 5,
+                                                                }}
+                                                            >
+                                                                <Image style={{width: 20, height: 20}} source={isDarkTheme ? require('../assets/images/playHtmlDark.png') : require('../assets/images/playHtmlLight.png')}/>
+                                                            </TouchableOpacity>
+                                                        )
+
+                                                    }
+                                                </View>
+                                                <SyntaxHighlighter
+                                                    //wrapLines={true}
+                                                    //wrapLongLines={true}
+                                                    language={String(codeLanguage).toLowerCase()}
+                                                    style={isDarkTheme ? atomOneDark : atomOneLight}
+                                                    customStyle={{minWidth: 0, width: (windowWidth * 0.9)-24}}
+                                                    highlighter="hljs"
+                                                >
+                                                    {newCode}
+                                                </SyntaxHighlighter>
+                                            </View>
+                                        );
+                                    } else {
+                                        return (
+                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                {TextCustomization(part)}
                                             </Text>
-                                        </TouchableOpacity>
-                                        <SyntaxHighlighter
-                                            language={String(codeLanguage).toLowerCase()}
-                                            style={isDarkTheme ? codeBlogDarkTheme : codeBlogLightTheme}
-                                            customStyle={{padding: 0, margin: 0 }}
-                                            highlighter="hljs"
-
-                                        >
-                                            {newCode}
-                                        </SyntaxHighlighter>
-                                    </View>
-                                  );
-                              }
-                              else {
-                                  return (
-                                    <Text key={partIndex} style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>{textCustomization(part)}</Text>
-                                  );
-                              }
-                          })
-                      }
-                  </View>
-              </LinearGradient>
+                                        );
+                                    }
+                                })
+                            )
+                        }
+                    </View>
+                </LinearGradient>
             );
         }
+
         else{
             if(item.role === 'assistant'){
                 return (
-                    !(item.type === 'image_url' || item.content.includes('.png'))
+                    !(item.type === 'image_url' && item.content.includes('.png'))
                         ? (
                             <LinearGradient
                                 key={item.id}
@@ -218,33 +284,17 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                 start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
                                 style={[styles.talkBoxContainerBoxAiChat]}
                             >
-                                <View style={[styles.talkBoxContainerBoxAiChatMessageBox, {paddingTop: item.type === 'image_url' ? 0 : 0}]}>
-                                    {
-                                        (item.type === 'image_url' || item.content.includes('.png')) ? (
-                                            <Image
-                                                style={{flex:1, aspectRatio:1, borderRadius: 6, backgroundColor :'transparent', borderWidth: 1}}
-                                                source={{ uri: `https://aigency.dev/api/image?fileName=${item.content}`}}
+                                <View style={[styles.talkBoxContainerBoxAiChatMessageBox, {paddingTop: 0}]}>
+                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                        {item.isTyping ? (
+                                            <TypewriterEffect
+                                                text={item.content}
+                                                onComplete={() => complatedText(item)}
                                             />
                                         ) : (
-                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {item.isTyping ? (
-                                                    <TypeWriter
-                                                        typing={1}
-                                                        onTypingEnd={() => {
-                                                            setTypeWriterActive(false)
-                                                            console.log('incele', state.talkScreenData)
-                                                        }}
-                                                        minDelay={10}
-                                                        maxDelay={10}
-                                                    >
-                                                        {textCustomization(item.content)}
-                                                    </TypeWriter>
-                                                ) : (
-                                                    textCustomization(item.content)
-                                                )}
-                                            </Text>
-                                        )
-                                    }
+                                            TextCustomization(item.content)
+                                        )}
+                                    </Text>
                                 </View>
                             </LinearGradient>
                         )
@@ -275,7 +325,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
 
                 );
             }
-            else {
+            else if(item.role === 'user') {
                 return (
                   <View
                     key={item.id}
@@ -287,56 +337,73 @@ const TalkScreen = ({navigation, toggleModal}) => {
                   </View>
                 );
             }
+            else if(item.role === 'aigencyMobile') {
+                return (
+                    <View
+                        key={item.id}
+                        style={styles.talkBoxContainerBoxAiChat}
+                    >
+                        <FastImage
+                            source={require('../assets/images/loader-one.gif')}
+                            style={{width: 40, height: 40}}
+                            resizeMode={FastImage.resizeMode.contain}
+                        />
+                    </View>
+                )
+            }
         }
     }, [copiedIndex, isDarkTheme]);
 
     const isNewChat = async () => {
-        return state.talkScreenData.length === 0 ? true : false;
+        return Object.keys(dataRef.current).length === 0;
     };
 
+
     const myMessageAdd = async (myMessage) => {
-        let talkScreenData = state.talkScreenData;
-        let talkScreenMessages = talkScreenData.messages || [];
+        let talkScreenMessages = dataRef.current?.messages === undefined ? console.log("gğlüm: ",dataRef.current) : dataRef.current.messages;
         let myMessageData =  {content : myMessage, role: 'user'};
         talkScreenMessages.push(myMessageData);
-        talkScreenData.messages = talkScreenMessages;
-        toggleState('talkScreenData', talkScreenData);
+        talkScreenMessages.push({content : "mesajGif", role: 'aigencyMobile'});
+        setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
         setTimeout(() => {
             flatListRef.current?.scrollToEnd({ animated: true });
         }, 100);
     };
 
-    const assistantAnswerAdd = async (answer) => {
-        let talkScreenData = state.talkScreenData;
-        let talkScreenMessages = talkScreenData.messages;
 
-        let newMessage = {
+    const assistantAnswerAdd = async (answer) => {
+        let talkScreenMessages = dataRef.current.messages;
+        let assistantMessage = {
             id: Date.now().toString(),
             content: answer,
             role: 'assistant',
-            isTyping: true,
+            isTyping: !answer.includes(".png"),
         };
-
-        talkScreenMessages.push(newMessage);
-        talkScreenData.messages = talkScreenMessages;
-        toggleState('talkScreenData', talkScreenData);
-
+        if(answer.includes(".png")){
+            setTypeWriterActive(false)
+        }
+        talkScreenMessages.pop()
+        talkScreenMessages.push(assistantMessage);
+        setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
     };
 
-    const assistantFirstAnswerAdd = async (myMessage, assistantFirstAnswer, chat_id) => {
-        let talkScreenData =  {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: chat_id, messages: [{content: myMessage, role: 'user'}]};
-        let talkScreenMessages = talkScreenData.messages;
-
+    const assistantFirstAnswerAdd = async (myMessage, assistantFirstAnswer, chatId) => {
+        let talkScreenMessages = [{content: myMessage, role: 'user'}];
         let newMessage = {
             id: Date.now().toString(),
             content: assistantFirstAnswer,
             role: 'assistant',
             isTyping: true,
         };
+        if(assistantFirstAnswer.includes(".png")){
+            setTypeWriterActive(false)
+        }
         talkScreenMessages.push(newMessage);
-        talkScreenData.messages = talkScreenMessages;
-        toggleState('talkScreenData', talkScreenData);
+        setTalkScreenData({ ...dataRef.current, chat_id: chatId, messages: talkScreenMessages })
     }
+
+
+
     const sendMessage = async (myMessage) => {
         if(!myMessage || myMessage.trim() === ''){
             return;
@@ -346,13 +413,12 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 setMessage('');
                 setSelectedFiles([]);
                 setTypeWriterActive(true)
-                let myMessageData  =  {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]};
-                toggleState('talkScreenData', myMessageData);
+                setTalkScreenData({ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'},{content: 'mesajGif',role: 'aigencyMobile'}]});
+
                 const newChatData =  await postNewChat(state.selectedAi.id, myMessage);
                 if(newChatData.message.message === "Yetersiz kredi. Lütfen daha fazla kredi yükleyin."){
                     setUserNeedCredit(true);
-                    let assistantAnswerData= {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: newChatData.chat_id, messages: [{content: myMessage, role: 'user'}, {content: newChatData.message.message, role: 'assistant'}]};
-                    toggleState('talkScreenData', assistantAnswerData);
+                    await assistantAnswerAdd(newChatData.message.message)
                     setTypeWriterActive(false)
                     setSelectedFilesSend([])
                 }
@@ -363,25 +429,21 @@ const TalkScreen = ({navigation, toggleModal}) => {
                         flatListRef.current?.scrollToEnd({ animated: true });
                     }, 100);
                 }
-
             }
             else {
                 await myMessageAdd(myMessage.trim());
                 setMessage('');
                 setSelectedFiles([]);
                 setTypeWriterActive(true)
-                const assistantAnswer = selectedFiles.length > 0 ? await postSendMessage(myMessage.trim(), state.talkScreenData.chat_id, selectedFilesSend) :  await postSendMessage(myMessage.trim(),  state.talkScreenData.chat_id,[]);
+                const assistantAnswer = selectedFiles.length > 0 ? await postSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) :  await postSendMessage(myMessage.trim(),  dataRef.current.chat_id,[]);
                 if(userNeedCredit){
                     setSelectedFilesSend([]);
                     await assistantAnswerAdd("Yetersiz kredi. Lütfen daha fazla kredi yükleyin.");
                 }
                 else {
-                    console.log(1,assistantAnswer);
                     setSelectedFilesSend([]);
                     await assistantAnswerAdd(assistantAnswer.message);
                 }
-
-
             }
         }
         else{
@@ -392,15 +454,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     setMessage('');
                     setSelectedFiles([]);
                     setTypeWriterActive(true)
-                    let myMessageData  =  {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]};
-                    toggleState('talkScreenData', myMessageData);
-                    const newChatData = await postPublicNewChat();
-                    const assistantAnswer = selectedFiles.length > 0 ? await postPublicSendMessage(myMessage.trim(), newChatData.chat_id, selectedFilesSend) :  await postPublicSendMessage(myMessage.trim(), newChatData.chat_id);
-                    let assistantAnswerData = assistantAnswer.message.includes('.png') ? {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: newChatData.chat_id, messages: [{content: myMessage, role: 'user'}, {content: assistantAnswer.message, role: 'assistant', type: 'image_url'}]} : {ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: newChatData.chat_id, messages: [{content: myMessage, role: 'user'}, {content: assistantAnswer.message, role: 'assistant'}]};
-                    setSelectedFilesSend([]);
-                    toggleState('talkScreenData', assistantAnswerData);
+                    setTalkScreenData({ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]});
+
+                    const newChatData = await postPublicNewChat(myMessage.trim());
+                    console.log("bu yeni",newChatData);
+
+                    await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                    setSelectedFilesSend([])
                     setTimeout(() => {
-                        setTypeWriterActive(false)
                         flatListRef.current?.scrollToEnd({ animated: true });
                     }, 100);
                 }
@@ -411,10 +472,10 @@ const TalkScreen = ({navigation, toggleModal}) => {
             }
             else {
                 await myMessageAdd(myMessage.trim());
-                setTypeWriterActive(true)
                 setMessage('');
                 setSelectedFiles([]);
-                const assistantAnswer = selectedFiles.length > 0 ?  await postPublicSendMessage(myMessage.trim(), state.talkScreenData.chat_id, selectedFilesSend) : await postPublicSendMessage(myMessage.trim(), state.talkScreenData.chat_id);
+                setTypeWriterActive(true)
+                const assistantAnswer = selectedFiles.length > 0 ?  await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) : await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, []);
                 setSelectedFilesSend([]);
                 await assistantAnswerAdd(assistantAnswer.message);
             }
@@ -422,7 +483,9 @@ const TalkScreen = ({navigation, toggleModal}) => {
     };
 
     const resetTalkChatContent = () => {
-        toggleState('talkScreenData',[]);
+        setTypeWriterActive(false)
+        setTalkScreenData({});
+        toggleState("talkScreenData", {});
     };
 
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -558,265 +621,300 @@ const TalkScreen = ({navigation, toggleModal}) => {
         }
     };
 
-    const pauseListening = async () => {
-        try {
-            await Voice.stop();
-            setIsListening(false);
-            setIsPaused(true);
-        } catch (error) {
-            console.error('Voice duraklatılamadı:', error);
-        }
+    // ASİSTANT İSİM UZUNLUĞU
+    const [textWidth, setTextWidth] = useState(0);
+    const handleTextLayout = (event) => {
+        const { width } = event.nativeEvent.layout;
+        setTextWidth(width);
     };
 
-    const resumeListening = async () => {
-        try {
-            if (isPaused) {
-                await Voice.start('tr-TR');
-                setIsListening(true);
-                setIsPaused(false);
-            }
-        } catch (error) {
-            console.error('Voice devam ettirilemedi:', error);
-        }
-    };
-
+    const menuRef = useRef(false);
 
 
     const [chatSettingBoxVisible, setChatSettingBoxVisible] = useState(false);
     return (
-            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={-20} style={{flex:1}}>
-                <SafeAreaView style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]} edges={['top']}>
-                    <View style={[styles.header, {top: inset.top , backgroundColor: isDarkTheme ?  'rgba(7,7,16,0.9)' :  'rgba(255,255,255,0.9)'}]}>
+        <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={-20} style={{flex:1}}>
+            <SafeAreaView style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]} edges={['top']}>
+                <View style={[styles.header, {top: inset.top , backgroundColor: isDarkTheme ?  'rgba(7,7,16,0.9)' :  'rgba(255,255,255,0.9)'}]}>
+                    <TouchableOpacity
+                        style={styles.headerButtonBox}
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            navigation.getParent('LeftDrawer').openDrawer()
+                        }}
+                    >
+                        <Image source={require('../assets/images/menu.png')} style={styles.headerButton}></Image>
+                    </TouchableOpacity>
+                    <View>
                         <TouchableOpacity
-                            style={styles.headerButtonBox}
                             onPress={() => {
                                 Keyboard.dismiss();
-                                navigation.getParent('LeftDrawer').openDrawer()
-                            }}
-                        >
-                            <Image source={require('../assets/images/menu.png')} style={styles.headerButton}></Image>
-                        </TouchableOpacity>
-                        <View style={{position: 'relative'}}>
-                            <TouchableOpacity onPress={() => {
-                                Keyboard.dismiss();
-                                if(storage.getBoolean('isLogined')) {
-                                    //setChatSettingBoxVisible(!chatSettingBoxVisible);
-                                }
-                            }}>
-                                <Text style={[styles.title, isDarkTheme ? styles.titleDarkTheme : styles.titleLightTheme]}>{storage.getBoolean('isLogined') ? toUpperCaseTurkish(String(state.selectedAi?.name?.name_tr)): 'ALPARSLAN'}</Text>
-                            </TouchableOpacity>
-                            {
-                                chatSettingBoxVisible && (
-                                    <TouchableOpacity
-                                        activeOpacity={1}
-                                        style={{display: chatSettingBoxVisible ? 'flex' : 'none' ,width: 200, height: 200,borderRadius: 10,backgroundColor:'white', position: 'absolute',top: 50,borderWidth: 1,borderColor: 'grey'}}>
-                                        <View style={{flex:1}}>
-                                            <TouchableOpacity style={{flex: 1,flexDirection: 'row',alignItems: 'center',paddingHorizontal: 7, gap: 7,backgroundColor:'lightgrey',borderTopLeftRadius: 10, borderTopRightRadius: 10,}}>
-                                                <Image style={{width: 23, height: 23}} source={require('../assets/images/info.png')} />
-                                                <Text>Karakter detayı</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={{flex: 1,flexDirection: 'row',alignItems: 'center',paddingHorizontal: 7, gap: 7,backgroundColor:'lightgrey',}}>
-                                                <Image style={{width: 23, height: 23}} source={require('../assets/images/downloadButton.png')} />
-                                                <Text>Karakter detayı</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={{flex: 1,flexDirection: 'row',alignItems: 'center',paddingHorizontal: 7, gap: 7,backgroundColor:'lightgrey',}}>
-                                                <Image style={{width: 23, height: 23}} source={require('../assets/images/info.png')} />
-                                                <Text>Karakter detayı</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={{flex: 1,flexDirection: 'row',alignItems: 'center',paddingHorizontal: 7, gap: 7,backgroundColor:'lightgrey',borderBottomLeftRadius: 10, borderBottomRightRadius: 10,}}>
-                                                <Image style={{width: 23, height: 23}} source={require('../assets/images/info.png')} />
-                                                <Text>Karakter detayı</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </TouchableOpacity>
-                                )
+                            if(storage.getBoolean('isLogined')) {
+                                //setChatSettingBoxVisible(!chatSettingBoxVisible);
+                                //showMenu();
                             }
-                        </View>
-                        <TouchableOpacity
-                            style={styles.headerButtonBox}
-                            onPress={() => resetTalkChatContent()}
-                        >
-                            <Image source={require('../assets/images/add.png')} style={styles.headerButton}></Image>
+                        }}>
+                            <Menu
+                                visible={menuRef.current ? true : false}
+                                onDismiss={() => setChatSettingBoxVisible(false)}
+                                contentStyle={{
+                                    width: 230,
+                                    borderRadius: 10,
+                                    paddingVertical: 0,
+                                    padding: 0,
+                                    marginTop: 40,
+                                    marginLeft: -((230-textWidth)/2),
+                                    shadowColor: '#3e3e3e',
+                                    backgroundColor: isDarkTheme ? "#0F1021" : "#fff",
+
+                                }}
+                                anchor={
+                                    <Text
+                                        onLayout={handleTextLayout}
+                                        style={[styles.title, isDarkTheme ? styles.titleDarkTheme : styles.titleLightTheme]}
+                                    >
+                                        {storage.getBoolean('isLogined') ? toUpperCaseTurkish(String(state.selectedAi?.name?.name_tr)): 'ALPARSLAN'}
+                                    </Text>
+                                }
+                            >
+                                <Menu.Item
+                                    onPress={() => {
+                                        closeMenu();
+                                    }}
+                                    title="Ayrıntıları Görüntüle"
+                                    leadingIcon={({ size }) => (
+                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                    )}
+                                    titleStyle={{
+                                        color: isDarkTheme ? "#7376aa" : "#7376aa",
+                                    }}
+
+                                />
+                                <View
+                                    style={{
+                                        height: 1,
+                                        backgroundColor: isDarkTheme ? "#070710" : "#E0E0E0",
+                                        marginVertical: 5,
+                                    }}
+                                />
+                                <Menu.Item
+                                    onPress={() => {
+                                        closeMenu();
+                                    }}
+                                    title="Paylaşma"
+                                    leadingIcon={({ size }) => (
+                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                    )}
+                                    titleStyle={{
+                                        color: isDarkTheme ? "#7376aa" : "#7376aa",
+                                    }}
+                                />
+                                <View
+                                    style={{
+                                        height: 1,
+                                        backgroundColor: isDarkTheme ? "#070710" : "#E0E0E0",
+                                        marginVertical: 5,
+                                    }}
+                                />
+                                <Menu.Item
+                                    onPress={() => {
+                                        closeMenu();
+                                    }}
+                                    title="Sil"
+                                    leadingIcon={({ size }) => (
+                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                    )}
+                                    titleStyle={{
+                                        color: isDarkTheme ? "#7376aa" : "#7376aa",
+                                    }}
+                                />
+
+                            </Menu>
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity
+                        style={styles.headerButtonBox}
+                        onPress={() => resetTalkChatContent()}
+                    >
+                        <Image source={require('../assets/images/add.png')} style={styles.headerButton}></Image>
+                    </TouchableOpacity>
+                </View>
 
-                    <View style={styles.talkBoxContainer}>
-                        <View style={[styles.talkBoxContainerBox]}>
+                <View style={styles.talkBoxContainer}>
+                    <View style={[styles.talkBoxContainerBox]}>
+                        <FlatList
+                            contentContainerStyle={{width:'100%',paddingHorizontal:'5%'}}
+                            data={talkScreenData?.messages?.filter((item) => item.role === 'user' || item.role === 'assistant' || item.role === 'aigencyMobile')}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={renderTalkData}
+                            ref={flatListRef}
+                            onContentSizeChange={() => {
+                                flatListRef.current?.scrollToEnd({ animated: false });
+                            }}
+                            onPress={() => Keyboard.dismiss()}
+                            ListHeaderComponent={<View style={{ height: 60 + 15 }} />} // --> FlatList üst boşluğu
+                            ListFooterComponent={<View style={{ height: selectedFiles.length > 0 ? inset.bottom + 52 + 14 + 100 : inset.bottom + 52 + 14 }} />} // --> FlatList alt boşluğu
+                        />
 
-                            <FlatList
-                                contentContainerStyle={{width:'100%',paddingHorizontal:'5%'}}
-                                data={state.talkScreenData?.messages?.filter((item) => item.role === 'user' || item.role === 'assistant')}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={renderTalkData}
-                                ref={flatListRef}
-                                onContentSizeChange={() => {
-                                    flatListRef.current?.scrollToEnd({ animated: false });
-                                }}
-                                onPress={() => Keyboard.dismiss()}
-                                ListHeaderComponent={<View style={{ height: 60 + 15 }} />} // --> FlatList üst boşluğu
-                                ListFooterComponent={<View style={{ height: selectedFiles.length > 0 ? inset.bottom + 52 + 14 + 100 : inset.bottom + 52 + 14 }} />} // --> FlatList alt boşluğu
-                            />
-
-                        </View>
-                        <SafeAreaView style={styles.inputBox}>
-                            <LinearGradient
-                                colors={['#C137BB', '#6C30B3']}
-                                start={{x: 0, y: 0}} end={{x: 1, y: 0}}
-                                style={{width: '100%', padding: 2, borderRadius: 10,marginBottom: 10}}>
-                                <View style={{backgroundColor:isDarkTheme ? '#0F1021' : 'white',borderRadius: 8, minHeight: selectedFiles.length > 0 ? 121 : 46}}>
-                                    {
-                                        (selectedFiles.length > 0) &&
-                                            <View style={{flexDirection: 'row', alignItems: 'center', padding: 5,}}>
-                                                <NativeViewGestureHandler>
-                                                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                                        <View style={{flexDirection: 'row', gap: 5}}>
-                                                            {
-                                                                selectedFiles.map((item, index) => (
-                                                                    <View key={index}>
-                                                                        <TouchableOpacity
-                                                                            onPress={() => selectedFilesPopFunc(index)}
-                                                                            style={{position: 'absolute',zIndex: 1,right: 3, top: 3, backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: 30,padding: 3}}>
-                                                                            <Image style={{width: 15, height: 15}} source={require('../assets/images/close.png')}/>
-                                                                        </TouchableOpacity>
-                                                                        <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
-                                                                    </View>
-                                                                ))
-                                                            }
-                                                        </View>
-                                                    </ScrollView>
-                                                </NativeViewGestureHandler>
-
-                                            </View>
-                                    }
-                                    <View style={[styles.textInputBox, isDarkTheme ? styles.textInputBoxDarkTheme : styles.textInputBoxLightTheme, {minHeight: selectedFiles.length > 0 ? 46 : 46}]}>
-                                        {
-                                            !isListening
-                                                ? (
-                                                    <>
-                                                        <TouchableOpacity
-                                                            onPress={() => openMenu()}
-                                                            style={styles.inputBoxAddIconBox}
-                                                        >
-                                                            <Menu
-                                                                visible={menuVisible}
-                                                                onDismiss={closeMenu}
-                                                                contentStyle={{
-                                                                    width: 200,
-                                                                    borderRadius: 10,
-                                                                    paddingVertical: 0,
-                                                                    padding: 0,
-                                                                    marginBottom: 35,
-                                                                    marginLeft: -15,
-                                                                    shadowColor: '#3e3e3e',
-                                                                    backgroundColor: isDarkTheme ? "#0F1021" : "#fff",
-                                                                    shadowOffset: {
-                                                                        width: 0,
-                                                                        height: 0,
-                                                                    },
-                                                                    shadowOpacity: 0.5,
-                                                                    shadowRadius: 10.84,
-                                                                    elevation: 25,
-                                                                }}
-                                                                anchor={
-                                                                    <Image source={require('../assets/images/add.png')} style={styles.inputBoxAddIcon} />
-                                                                }
-                                                            >
-                                                                <Menu.Item
-                                                                    style={{paddingHorizontal:10, height: 45}}
-                                                                    contentStyle={{paddingHorizontal: 0}}
-                                                                    leadingIcon={() => (
-                                                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
-                                                                    )}
-                                                                    titleStyle={{color: isDarkTheme ?  'white' : 'black'}}
-                                                                    title="Fotoğraflar"
-                                                                    onPress={() => openPhotoFunction()}
-                                                                />
-                                                                <Divider/>
-                                                                <Menu.Item
-                                                                    style={{paddingHorizontal: 10, height: 45,justifyContent:'center',}}
-                                                                    contentStyle={{paddingHorizontal: 0,}}
-                                                                    leadingIcon={() => (
-                                                                        <Image source={isDarkTheme ? require('../assets/images/folder.png') : require('../assets/images/openFolderDark.png')} style={{width: 20, height: 20}} />
-                                                                    )}
-                                                                    titleStyle={{color: isDarkTheme ?  'white' : 'black'}}
-                                                                    title='Dosyalar'
-                                                                    onPress={() => openFolderFunction()}
-                                                                />
-
-                                                            </Menu>
-                                                            {/*<Image source={require('../assets/images/add.png')} style={styles.inputBoxAddIcon} />*/}
-                                                        </TouchableOpacity>
-                                                        <TextInput
-                                                            editable={!typeWriterActive}
-                                                            placeholder="Mesajınızı buraya giriniz..."
-                                                            placeholderTextColor={'rgba(116, 118, 170, 0.7)'}
-                                                            style={[styles.textInput, isDarkTheme ? styles.textInputDarkTheme : styles.textInputLightTheme,  {minHeight: selectedFiles.length > 0 ? 46 : 46}]}
-                                                            value={message}
-                                                            onChangeText={handleChange}
-                                                            multiline={true}
-                                                            //autoFocus={storage.getBoolean('isLogined') ? true : false}
-                                                            keyboardType='ascii-capable'
-                                                            autoCapitalize="none"
-                                                            textContentType="none"
-                                                            autoCorrect={false}
-                                                            autoComplete="off"
-                                                        />
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                isListening ? stopListening() : startListening();
-                                                            }}
-                                                            style={styles.inputBoxMicrofonIconBox}>
-                                                            <Image
-                                                                source={require('../assets/images/mic.png')}
-                                                                style={styles.inputBoxMicrofonIcon}/>
-                                                        </TouchableOpacity>
-                                                        <TouchableOpacity
-                                                            style={styles.inputBoxSendIconBox}
-                                                            onPress={() => {
-                                                                sendMessage(message)
-                                                            }}
-                                                        >
-                                                            <Image source={require('../assets/images/send.png')} style={styles.inputBoxSendIcon}/>
-                                                        </TouchableOpacity>
-                                                    </>
-                                                )
-                                                : (
-                                                    <View style={{paddingHorizontal: 8, width: "100%",height: '100%',flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                stopListening(false);
-                                                            }}
-                                                            style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100, borderWidth: 1.8, borderStyle: "dashed", borderColor: '#7376AA'}}>
-                                                            <Image
-                                                                source={require('../assets/images/microfonCloseDark.png')}
-                                                                style={styles.inputBoxMicrofonIcon}/>
-                                                        </TouchableOpacity>
-                                                        <View
-                                                            style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100}}>
-                                                            <Image
-                                                                source={require('../assets/images/microfonActive.png')}
-                                                                style={styles.inputBoxMicrofonIcon}/>
-                                                        </View>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                stopListening(true);
-
-                                                            }}
-                                                            style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100,backgroundColor: '#7376AA'}}>
-                                                            <Image
-                                                                source={require('../assets/images/checkLight.png')}
-                                                                style={styles.inputBoxMicrofonIcon}/>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                )
-                                        }
-                                    </View>
-                                </View>
-                            </LinearGradient>
-                        </SafeAreaView>
                     </View>
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+                    <SafeAreaView style={styles.inputBox}>
+                        <LinearGradient
+                            colors={['#C137BB', '#6C30B3']}
+                            start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+                            style={{width: '100%', padding: 2, borderRadius: 10,marginBottom: 10}}>
+                            <View style={{backgroundColor:isDarkTheme ? '#0F1021' : 'white',borderRadius: 8, minHeight: selectedFiles.length > 0 ? 121 : 46}}>
+                                {
+                                    (selectedFiles.length > 0) &&
+                                    <View style={{flexDirection: 'row', alignItems: 'center', padding: 5,}}>
+                                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                            <View style={{flexDirection: 'row', gap: 5}}>
+                                                {
+                                                    selectedFiles.map((item, index) => (
+                                                        <View key={index}>
+                                                            <TouchableOpacity
+                                                                onPress={() => selectedFilesPopFunc(index)}
+                                                                style={{position: 'absolute',zIndex: 1,right: 3, top: 3, backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: 30,padding: 3}}>
+                                                                <Image style={{width: 15, height: 15}} source={require('../assets/images/close.png')}/>
+                                                            </TouchableOpacity>
+                                                            <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
+                                                        </View>
+                                                    ))
+                                                }
+                                            </View>
+                                        </ScrollView>
+                                    </View>
+                                }
+                                <View style={[styles.textInputBox, isDarkTheme ? styles.textInputBoxDarkTheme : styles.textInputBoxLightTheme, {minHeight: selectedFiles.length > 0 ? 46 : 46}]}>
+                                    {
+                                        !isListening
+                                            ? (
+                                                <>
+                                                    <TouchableOpacity
+                                                        disabled={typeWriterActive}
+                                                        onPress={() => openMenu()}
+                                                        style={styles.inputBoxAddIconBox}
+                                                    >
+                                                        <Menu
+                                                            visible={menuVisible}
+                                                            onDismiss={closeMenu}
+                                                            contentStyle={{
+                                                                width: 200,
+                                                                borderRadius: 10,
+                                                                paddingVertical: 0,
+                                                                padding: 0,
+                                                                marginBottom: 35,
+                                                                marginLeft: -15,
+                                                                shadowColor: '#3e3e3e',
+                                                                backgroundColor: isDarkTheme ? "#0F1021" : "#fff",
+                                                                shadowOffset: {
+                                                                    width: 0,
+                                                                    height: 0,
+                                                                },
+                                                                shadowOpacity: 0.5,
+                                                                shadowRadius: 10.84,
+                                                                elevation: 25,
+                                                            }}
+                                                            anchor={
+                                                                <Image source={require('../assets/images/add.png')} style={styles.inputBoxAddIcon} />
+                                                            }
+                                                        >
+                                                            <Menu.Item
+                                                                style={{paddingHorizontal:10, height: 45}}
+                                                                contentStyle={{paddingHorizontal: 0}}
+                                                                leadingIcon={() => (
+                                                                    <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                                                )}
+                                                                titleStyle={{color: isDarkTheme ?  'white' : 'black'}}
+                                                                title="Fotoğraflar"
+                                                                onPress={() => openPhotoFunction()}
+                                                            />
+                                                            <Divider/>
+                                                            <Menu.Item
+                                                                style={{paddingHorizontal: 10, height: 45,justifyContent:'center',}}
+                                                                contentStyle={{paddingHorizontal: 0,}}
+                                                                leadingIcon={() => (
+                                                                    <Image source={isDarkTheme ? require('../assets/images/folder.png') : require('../assets/images/openFolderDark.png')} style={{width: 20, height: 20}} />
+                                                                )}
+                                                                titleStyle={{color: isDarkTheme ?  'white' : 'black'}}
+                                                                title='Dosyalar'
+                                                                onPress={() => openFolderFunction()}
+                                                            />
+
+                                                        </Menu>
+                                                        {/*<Image source={require('../assets/images/add.png')} style={styles.inputBoxAddIcon} />*/}
+                                                    </TouchableOpacity>
+                                                    <TextInput
+                                                        editable={!typeWriterActive}
+                                                        placeholder="Mesajınızı buraya giriniz..."
+                                                        placeholderTextColor={'rgba(116, 118, 170, 0.7)'}
+                                                        style={[styles.textInput, isDarkTheme ? styles.textInputDarkTheme : styles.textInputLightTheme,  {minHeight: selectedFiles.length > 0 ? 46 : 46}]}
+                                                        value={message}
+                                                        onChangeText={handleChange}
+                                                        multiline={true}
+                                                        //autoFocus={storage.getBoolean('isLogined') ? true : false}
+                                                        keyboardType='ascii-capable'
+                                                        autoCapitalize="none"
+                                                        textContentType="none"
+                                                        autoCorrect={false}
+                                                        autoComplete="off"
+                                                    />
+                                                    <TouchableOpacity
+                                                        disabled={typeWriterActive}
+                                                        onPress={() => {
+                                                            isListening ? stopListening() : startListening();
+                                                        }}
+                                                        style={styles.inputBoxMicrofonIconBox}>
+                                                        <Image
+                                                            source={require('../assets/images/mic.png')}
+                                                            style={styles.inputBoxMicrofonIcon}/>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        style={styles.inputBoxSendIconBox}
+                                                        onPress={() => {
+                                                            sendMessage(message)
+                                                        }}
+                                                    >
+                                                        <Image source={require('../assets/images/send.png')} style={styles.inputBoxSendIcon}/>
+                                                    </TouchableOpacity>
+                                                </>
+                                            )
+                                            : (
+                                                <View style={{paddingHorizontal: 8, width: "100%",height: '100%',flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            stopListening(false);
+                                                        }}
+                                                        style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100, borderWidth: 1.8, borderStyle: "dashed", borderColor: '#7376AA'}}>
+                                                        <Image
+                                                            source={require('../assets/images/microfonCloseDark.png')}
+                                                            style={styles.inputBoxMicrofonIcon}/>
+                                                    </TouchableOpacity>
+                                                    <View
+                                                        style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100}}>
+                                                        <Image
+                                                            source={require('../assets/images/microfonActive.png')}
+                                                            style={styles.inputBoxMicrofonIcon}/>
+                                                    </View>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            stopListening(true);
+
+                                                        }}
+                                                        style={{width: 30, height: 30,justifyContent: 'center', alignItems:'center', borderRadius: 100,backgroundColor: '#7376AA'}}>
+                                                        <Image
+                                                            source={require('../assets/images/checkLight.png')}
+                                                            style={styles.inputBoxMicrofonIcon}/>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            )
+                                    }
+                                </View>
+                            </View>
+                        </LinearGradient>
+                    </SafeAreaView>
+                </View>
+            </SafeAreaView>
+        </KeyboardAvoidingView>
     );
 };
 
@@ -895,6 +993,7 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     codeContainer: {
+        width: '100%',
         borderRadius: 2,
         borderWidth: 2,
         zIndex: 1,

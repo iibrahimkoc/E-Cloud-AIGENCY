@@ -24,6 +24,7 @@ import SettingModal from './src/modals/SettingModal';
 import CreditModal from './src/modals/CreditModal';
 import LoginModal from './src/modals/LoginModal';
 import PopupLoginModal from './src/modals/PopupLoginModal';
+import HtmlLiveModal from "./src/modals/HtmlLiveModal";
 
 import {storage} from './src/components/Storage';
 
@@ -69,7 +70,9 @@ const App = () => {
   const [isCreditModalVisible, setIsCreditModalVisible] = useState(false);
   const [loginModalVisible, setLoginModalVisible] = useState(false);
   const [popupLoginModalVisible, setPopupLoginModalVisible] = useState(false);
+  const [htmlLiveModalVisible, setHtmlLiveModalVisible] = useState(false);
   const [settingModalOpacity, setSettingModalOpacity] = useState(1);
+
 
   const toggleModal = (value) => {
     switch (value) {
@@ -103,6 +106,14 @@ const App = () => {
       }
       case 'popupLoginModalClose': {
         setPopupLoginModalVisible(false);
+        break;
+      }
+      case 'htmlLiveModalOpen': {
+        setHtmlLiveModalVisible(true);
+        break;
+      }
+      case 'htmlLiveModalClose': {
+        setHtmlLiveModalVisible(false);
         break;
       }
     }
@@ -163,7 +174,7 @@ const App = () => {
                       drawerType: 'slide',
                       drawerPosition: 'left',
                       headerShown: false,
-                      swipeEdgeWidth: screen.width,
+                      swipeEdgeWidth: screen.width*0.05,
                       drawerStyle: {
                         width: screen.width > 500 ? 300 : '70%',
                       },
@@ -195,6 +206,11 @@ const App = () => {
               <PopupLoginModal
                   toggleModal={toggleModal}
                   popupLoginModalVisible={popupLoginModalVisible}
+              />
+
+              <HtmlLiveModal
+                  toggleModal={toggleModal}
+                  htmlLiveModalVisible={htmlLiveModalVisible}
               />
             </ThemeProvider>
           </StateProvider>

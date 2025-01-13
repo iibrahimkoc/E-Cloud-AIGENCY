@@ -9,6 +9,18 @@ PODS:
   - hermes-engine (0.75.4):
     - hermes-engine/Pre-built (= 0.75.4)
   - hermes-engine/Pre-built (0.75.4)
+  - libwebp (1.3.2):
+    - libwebp/demux (= 1.3.2)
+    - libwebp/mux (= 1.3.2)
+    - libwebp/sharpyuv (= 1.3.2)
+    - libwebp/webp (= 1.3.2)
+  - libwebp/demux (1.3.2):
+    - libwebp/webp
+  - libwebp/mux (1.3.2):
+    - libwebp/demux
+  - libwebp/sharpyuv (1.3.2)
+  - libwebp/webp (1.3.2):
+    - libwebp/sharpyuv
   - MMKV (2.0.2):
     - MMKVCore (~> 2.0.2)
   - MMKVCore (2.0.2)
@@ -1620,6 +1632,10 @@ PODS:
     - React-Core
   - RNCMaskedView (0.2.8):
     - React-Core
+  - RNFastImage (8.6.3):
+    - React-Core
+    - SDWebImage (~> 5.11.1)
+    - SDWebImageWebPCoder (~> 0.8.4)
   - RNFS (2.20.0):
     - React-Core
   - RNGestureHandler (2.21.2):
@@ -1756,6 +1772,12 @@ PODS:
     - Yoga
   - RNSVG (15.10.1):
     - React-Core
+  - SDWebImage (5.11.1):
+    - SDWebImage/Core (= 5.11.1)
+  - SDWebImage/Core (5.11.1)
+  - SDWebImageWebPCoder (0.8.5):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
 
@@ -1835,6 +1857,7 @@ DEPENDENCIES:
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
+  - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -1845,8 +1868,11 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - libwebp
     - MMKV
     - MMKVCore
+    - SDWebImage
+    - SDWebImageWebPCoder
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1997,6 +2023,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-masked-view/masked-view"
+  RNFastImage:
+    :path: "../node_modules/react-native-fast-image"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -2020,6 +2048,7 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: 69ef571f3de08433d766d614c73a9838a06bf7eb
   hermes-engine: ea92f60f37dba025e293cbe4b4a548fd26b610a0
+  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   MMKV: 3eacda84cd1c4fc95cf848d3ecb69d85ed56006c
   MMKVCore: 508b4d3a8ce031f1b5c8bd235f0517fb3f4c73a9
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
@@ -2088,12 +2117,15 @@ SPEC CHECKSUMS:
   RNBootSplash: 5f5dee76fb3acef49d621338bff92bf1fb539103
   RNCClipboard: 47593431a9e763a71950798683b28f691f16b98d
   RNCMaskedView: 90a18f1e65b81985232eb6f5ea594300a4b6a09f
+  RNFastImage: 462a183c4b0b6b26fdfd639e1ed6ba37536c3b87
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: 5b24d10761754ad271b714e536c457fd89b17c54
   RNPermissions: 791cd8c48ebf5fdb9686a4d1ad2a01936a2b2756
   RNReanimated: 26a5a401a5de1c0cf1a3226873825b00ffa85377
   RNScreens: e21c8d32fe97737ecc30f1f21e7b6f69f341a1f5
   RNSVG: 3421710ac15f4f2dc47e5c122f2c2e4282116830
+  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 055f92ad73f8c8600a93f0e25ac0b2344c3b07e6
 

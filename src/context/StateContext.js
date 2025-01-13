@@ -15,6 +15,7 @@ export const StateProvider = ({ children }) => {
     talkScreenData: [],
     pricingList: storage.getString('pricingList') === undefined ? [] : JSON.parse(storage.getString('pricingList')),
     myAccount: storage.getString('myAccount') === undefined ? [] : JSON.parse(storage.getString('myAccount')),
+    htmlContent: '',
   });
 
   useEffect(() => {
