@@ -48,6 +48,7 @@ import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 
 import { Menu, Divider } from 'react-native-paper';
+import {TypewriterEffectSyntax} from "../components/TypeWriterEffectSnytax";
 
 
 const TalkScreen = ({navigation, toggleModal}) => {
@@ -148,53 +149,31 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     style={styles.talkBoxContainerBoxAiChat}
                 >
                     <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
-                        { // yazma efekti
+                        { // yazma efekti varken
                             item.isTyping ? (
-                                <TypeWriter
-                                    key={item.id}
-                                    typing={1}
-                                    onTypingEnd={() => {
-                                        setTypeWriterActive(false)
-                                        setTalkScreenData( {
-                                            ...dataRef.current,
-                                            messages: dataRef.current.messages.map((msg) =>
-                                                msg.id === item.id ? { ...msg, isTyping: false } : msg
-                                            ),
-                                        });
-                                    }}
-                                    speed={1000}
-                                    minDelay={10}
-                                    maxDelay={10}
-                                    style={{width:'100%'}}
-                                    wrapLines={true}
-                                    wrapLongLines={true}
-                                >
-                                    {
-                                        parts.map((part, partIndex) => {
-                                            const isCode = partIndex % 2 === 1;
+                                parts.map((part, partIndex) => {
+                                    const isCode = partIndex % 2 === 1;
 
-                                            if (isCode) {
-                                                const kelimeler = part.split('\n');
-                                                const codeLanguage = kelimeler.shift();
-                                                const newCode = kelimeler.join("\n");
+                                    if (isCode) {
+                                        const kelimeler = part.split('\n');
+                                        const codeLanguage = kelimeler.shift();
+                                        const newCode = kelimeler.join("\n");
 
-                                                const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                                console.log("i : ",newCode);
-                                                return (
-                                                    <View style={{width: "100%", backgroundColor: isDarkTheme ? '#282c34':  '#fff'}}>
-                                                        <Text style={{color: isDarkTheme ? 'rgb(117,121,131)' : 'black'}} key={uniqueIndex}>{newCode}</Text>
-                                                    </View>
-                                                );
-                                            } else {
-                                                return (
-                                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                        {TextCustomization(part)}
-                                                    </Text>
-                                                );
-                                            }
-                                        })
+                                        const uniqueIndex = `${flatListIndex}-${partIndex}`;
+                                        console.log("i : ",newCode);
+                                        return (
+                                            <View style={[styles.codeContainer,{borderWidth: 0, backgroundColor: isDarkTheme ? '#282c34' : '#fff'}]}>
+                                                <TypewriterEffectSyntax text={newCode} theme={isDarkTheme ? atomOneDark : atomOneLight} language={codeLanguage} windowWidth={windowWidth}/>
+                                            </View>
+                                        );
+                                    } else {
+                                        return (
+                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                {TextCustomization(part)}
+                                            </Text>
+                                        );
                                     }
-                                </TypeWriter>
+                                })
                             ) : ( // yazma efekti olmadan
                                 parts.map((part, partIndex) => {
                                     const isCode = partIndex % 2 === 1;
@@ -312,7 +291,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                         backgroundColor: 'rgba(82,78,90,0.7)',
-                                }}
+                                    }}
                                 >
                                     <Image style={{width: 30, height: 30}} source={require('../assets/images/download.png')} />
                                 </TouchableOpacity>
@@ -327,14 +306,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
             }
             else if(item.role === 'user') {
                 return (
-                  <View
-                    key={item.id}
-                    style={styles.talkBoxContainerBoxUserChat}
-                  >
-                      <View style={[styles.talkBoxContainerBoxUserChatBox, isDarkTheme ? styles.talkBoxContainerBoxUserChatBoxDarkTheme : styles.talkBoxContainerBoxUserChatBoxLightTheme]}>
-                          <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>{item.content}</Text>
-                      </View>
-                  </View>
+                    <View
+                        key={item.id}
+                        style={styles.talkBoxContainerBoxUserChat}
+                    >
+                        <View style={[styles.talkBoxContainerBoxUserChatBox, isDarkTheme ? styles.talkBoxContainerBoxUserChatBoxDarkTheme : styles.talkBoxContainerBoxUserChatBoxLightTheme]}>
+                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>{item.content}</Text>
+                        </View>
+                    </View>
                 );
             }
             else if(item.role === 'aigencyMobile') {
@@ -649,11 +628,11 @@ const TalkScreen = ({navigation, toggleModal}) => {
                         <TouchableOpacity
                             onPress={() => {
                                 Keyboard.dismiss();
-                            if(storage.getBoolean('isLogined')) {
-                                //setChatSettingBoxVisible(!chatSettingBoxVisible);
-                                //showMenu();
-                            }
-                        }}>
+                                if(storage.getBoolean('isLogined')) {
+                                    //setChatSettingBoxVisible(!chatSettingBoxVisible);
+                                    //showMenu();
+                                }
+                            }}>
                             <Menu
                                 visible={menuRef.current ? true : false}
                                 onDismiss={() => setChatSettingBoxVisible(false)}

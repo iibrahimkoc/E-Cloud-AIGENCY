@@ -35,3 +35,52 @@ export const TypewriterEffectSyntax = ({ text, language, theme, onComplete, wind
         </View>
     );
 };
+
+
+/*
+                                <TypeWriter
+                                    key={item.id}
+                                    typing={1}
+                                    onTypingEnd={() => {
+                                        setTypeWriterActive(false)
+                                        setTalkScreenData( {
+                                            ...dataRef.current,
+                                            messages: dataRef.current.messages.map((msg) =>
+                                                msg.id === item.id ? { ...msg, isTyping: false } : msg
+                                            ),
+                                        });
+                                    }}
+                                    speed={1000}
+                                    minDelay={10}
+                                    maxDelay={10}
+                                    style={{width:'100%'}}
+                                    wrapLines={true}
+                                    wrapLongLines={true}
+                                >
+                                    {
+                                        parts.map((part, partIndex) => {
+                                            const isCode = partIndex % 2 === 1;
+
+                                            if (isCode) {
+                                                const kelimeler = part.split('\n');
+                                                const codeLanguage = kelimeler.shift();
+                                                const newCode = kelimeler.join("\n");
+
+                                                const uniqueIndex = `${flatListIndex}-${partIndex}`;
+                                                console.log("i : ",newCode);
+                                                return (
+                                                    <View style={{width: "100%", backgroundColor: isDarkTheme ? '#282c34':  '#fff'}}>
+                                                        <Text style={{color: isDarkTheme ? 'rgb(117,121,131)' : 'black'}} key={uniqueIndex}>{newCode}</Text>
+                                                    </View>
+                                                );
+                                            } else {
+                                                return (
+                                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                        {TextCustomization(part)}
+                                                    </Text>
+                                                );
+                                            }
+                                        })
+                                    }
+                                </TypeWriter>
+*/
