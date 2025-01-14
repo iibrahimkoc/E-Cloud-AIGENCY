@@ -29,6 +29,8 @@ import {StateContext} from '../context/StateContext';
 import {storage} from '../components/Storage';
 import {TextCustomization} from "../components/TextCustomization";
 import {TypewriterEffect} from "../components/TypeWriterEffect";
+import {TypewriterEffectSyntax} from "../components/TypeWriterEffectSnytax";
+import {TypeWriterEffectTable} from "../components/TypeWriterEffectTable";
 
 import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
@@ -41,15 +43,10 @@ import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
 import { postPublicNewChat } from '../genel_api_fetch/PostPublicNewChat';
 import { postPublicSendMessage } from '../genel_api_fetch/PostPublicSendMessage';
 
-
-
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
-
 import { Menu, Divider } from 'react-native-paper';
-import {TypewriterEffectSyntax} from "../components/TypeWriterEffectSnytax";
-
 
 const TalkScreen = ({navigation, toggleModal}) => {
     const { state, toggleState } = useContext(StateContext);
@@ -169,7 +166,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     } else {
                                         return (
                                             <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {TextCustomization(part)}
+                                                {part}
                                             </Text>
                                         );
                                     }
@@ -240,7 +237,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     } else {
                                         return (
                                             <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {TextCustomization(part)}
+                                                {part}
                                             </Text>
                                         );
                                     }
@@ -251,7 +248,6 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 </LinearGradient>
             );
         }
-
         else{
             if(item.role === 'assistant'){
                 return (
@@ -271,7 +267,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                 onComplete={() => complatedText(item)}
                                             />
                                         ) : (
-                                            TextCustomization(item.content)
+                                            item.content
                                         )}
                                     </Text>
                                 </View>
@@ -428,6 +424,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
         else{
             if( await isNewChat() ) {
                 storage.getNumber('publicViewChatCount') === undefined ? storage.set('publicViewChatCount', 1) : storage.set('publicViewChatCount', storage.getNumber('publicViewChatCount') + 1);
+                storage.getNumber('publicViewChatMessageCount') === undefined ? storage.set('publicViewChatMessageCount', 1) : storage.set('publicViewChatMessageCount', storage.getNumber('publicViewChatMessageCount') + 1);
                 console.log(storage.getNumber('publicViewChatCount'));
                 if(storage.getNumber('publicViewChatCount') < 6) {
                     setMessage('');
@@ -450,13 +447,20 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 }
             }
             else {
-                await myMessageAdd(myMessage.trim());
-                setMessage('');
-                setSelectedFiles([]);
-                setTypeWriterActive(true)
-                const assistantAnswer = selectedFiles.length > 0 ?  await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) : await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, []);
-                setSelectedFilesSend([]);
-                await assistantAnswerAdd(assistantAnswer.message);
+                storage.set('publicViewChatMessageCount', storage.getNumber('publicViewChatMessageCount') + 1);
+                if(storage.getNumber('publicViewChatMessageCount') < 6) {
+                    await myMessageAdd(myMessage.trim());
+                    setMessage('');
+                    setSelectedFiles([]);
+                    setTypeWriterActive(true)
+                    const assistantAnswer = selectedFiles.length > 0 ?  await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) : await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, []);
+                    setSelectedFilesSend([]);
+                    await assistantAnswerAdd(assistantAnswer.message);
+                }
+                else{
+                    toggleModal('popupLoginModalOpen');
+                    console.log(storage.getNumber('publicViewChatMessageCount'));
+                }
             }
         }
     };
@@ -465,6 +469,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
         setTypeWriterActive(false)
         setTalkScreenData({});
         toggleState("talkScreenData", {});
+        storage.getBoolean('isLogined') ? '' : storage.set('publicViewChatMessageCount', 0);
     };
 
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -475,6 +480,9 @@ const TalkScreen = ({navigation, toggleModal}) => {
             const response = await DocumentPicker.pick({
                 type: [DocumentPicker.types.allFiles],
                 allowMultiSelection: true,
+            });
+            response.forEach((item) => {
+                item.selectedFileType = "file";
             });
             setSelectedFiles((selectedFiles) => [...selectedFiles, ...response]);
             setSelectedFilesSend((selectedFiles) => [...selectedFiles, ...response]);
@@ -504,6 +512,10 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     console.log('Hata: ', response.errorMessage);
                 }
                 else {
+                    response.assets.forEach((item) => {
+                        item.selectedFileType = "photo";
+                    })
+                    console.log(response.assets);
                     setSelectedFiles((selectedFiles) => [...selectedFiles, ...response.assets]);
                     setSelectedFilesSend((selectedFiles) => [...selectedFiles, ...response.assets]);
                 }
@@ -755,7 +767,11 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                                 style={{position: 'absolute',zIndex: 1,right: 3, top: 3, backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: 30,padding: 3}}>
                                                                 <Image style={{width: 15, height: 15}} source={require('../assets/images/close.png')}/>
                                                             </TouchableOpacity>
-                                                            <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
+                                                            {
+                                                                Platform.OS === 'android'
+                                                                    ? <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
+                                                                    : item.selectedFileType === 'file' ? <Image style={{width: 60, height: 70, borderRadius: 5}} source={isDarkTheme ? require("../assets/images/pdfLight.png") : require("../assets/images/pdf.png")} /> : <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
+                                                            }
                                                         </View>
                                                     ))
                                                 }
@@ -820,7 +836,6 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                             />
 
                                                         </Menu>
-                                                        {/*<Image source={require('../assets/images/add.png')} style={styles.inputBoxAddIcon} />*/}
                                                     </TouchableOpacity>
                                                     <TextInput
                                                         editable={!typeWriterActive}
@@ -838,7 +853,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                         autoComplete="off"
                                                     />
                                                     <TouchableOpacity
-                                                        disabled={typeWriterActive}
+                                                        //disabled={typeWriterActive}
                                                         onPress={() => {
                                                             isListening ? stopListening() : startListening();
                                                         }}
@@ -848,6 +863,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                             style={styles.inputBoxMicrofonIcon}/>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
+                                                        disabled={typeWriterActive}
                                                         style={styles.inputBoxSendIconBox}
                                                         onPress={() => {
                                                             sendMessage(message)

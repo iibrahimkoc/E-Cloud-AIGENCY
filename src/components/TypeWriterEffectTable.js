@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
 
-export const TypewriterEffect = ({ text, onComplete = () => {} }) => {
+export const TypeWriterEffectTable = ({ text, onComplete = () => {} }) => {
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
