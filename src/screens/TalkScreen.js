@@ -10,7 +10,7 @@ import {
     FlatList,
     Platform,
     PermissionsAndroid,
-    KeyboardAvoidingView, ScrollView,
+    KeyboardAvoidingView, ScrollView, Share,
 } from 'react-native';
 
 import { Dimensions } from 'react-native';
@@ -35,18 +35,20 @@ import {TypeWriterEffectTable} from "../components/TypeWriterEffectTable";
 import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
-import TypeWriter from 'react-native-typewriter';
 import FastImage from 'react-native-fast-image';
 
 import { postNewChat } from '../mobil_api_fetch/PostNewChat';
 import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
 import { postPublicNewChat } from '../genel_api_fetch/PostPublicNewChat';
 import { postPublicSendMessage } from '../genel_api_fetch/PostPublicSendMessage';
+import { deleteChatApi } from '../mobil_api_fetch/DeleteChatApi';
 
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 import { Menu, Divider } from 'react-native-paper';
+import {getViewChat} from "../mobil_api_fetch/GetViewChat";
+import {postRenameChat} from "../mobil_api_fetch/PostRenameChat";
 
 const TalkScreen = ({navigation, toggleModal}) => {
     const { state, toggleState } = useContext(StateContext);
@@ -148,29 +150,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
                         { // yazma efekti varken
                             item.isTyping ? (
-                                parts.map((part, partIndex) => {
-                                    const isCode = partIndex % 2 === 1;
-
-                                    if (isCode) {
-                                        const kelimeler = part.split('\n');
-                                        const codeLanguage = kelimeler.shift();
-                                        const newCode = kelimeler.join("\n");
-
-                                        const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                        console.log("i : ",newCode);
-                                        return (
-                                            <View style={[styles.codeContainer,{borderWidth: 0, backgroundColor: isDarkTheme ? '#282c34' : '#fff'}]}>
-                                                <TypewriterEffectSyntax text={newCode} theme={isDarkTheme ? atomOneDark : atomOneLight} language={codeLanguage} windowWidth={windowWidth}/>
-                                            </View>
-                                        );
-                                    } else {
-                                        return (
-                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {part}
-                                            </Text>
-                                        );
-                                    }
-                                })
+                                <TypewriterEffectSyntax  parts={parts} theme={isDarkTheme} style={isDarkTheme ? atomOneDark : atomOneLight} onComplete={()=>complatedText(item)} windowWidth={windowWidth}/>
                             ) : ( // yazma efekti olmadan
                                 parts.map((part, partIndex) => {
                                     const isCode = partIndex % 2 === 1;
@@ -237,7 +217,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     } else {
                                         return (
                                             <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {part}
+                                                <TextCustomization text={part}/>
                                             </Text>
                                         );
                                     }
@@ -251,7 +231,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
         else{
             if(item.role === 'assistant'){
                 return (
-                    !(item.type === 'image_url' && item.content.includes('.png'))
+                    !(item.content.includes('.png'))
                         ? (
                             <LinearGradient
                                 key={item.id}
@@ -267,7 +247,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                 onComplete={() => complatedText(item)}
                                             />
                                         ) : (
-                                            item.content
+                                            <TextCustomization text={item.content} />
                                         )}
                                     </Text>
                                 </View>
@@ -388,7 +368,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 setMessage('');
                 setSelectedFiles([]);
                 setTypeWriterActive(true)
-                setTalkScreenData({ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'},{content: 'mesajGif',role: 'aigencyMobile'}]});
+                setTalkScreenData({ai_desc: state.selectedAi.description, assistantId: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'},{content: 'mesajGif',role: 'aigencyMobile'}]});
 
                 const newChatData =  await postNewChat(state.selectedAi.id, myMessage);
                 if(newChatData.message.message === "Yetersiz kredi. Lütfen daha fazla kredi yükleyin."){
@@ -430,7 +410,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     setMessage('');
                     setSelectedFiles([]);
                     setTypeWriterActive(true)
-                    setTalkScreenData({ai_desc: state.selectedAi.description, ai_id: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]});
+                    setTalkScreenData({ai_desc: state.selectedAi.description, assistantId: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]});
 
                     const newChatData = await postPublicNewChat(myMessage.trim());
                     console.log("bu yeni",newChatData);
@@ -619,10 +599,55 @@ const TalkScreen = ({navigation, toggleModal}) => {
         setTextWidth(width);
     };
 
-    const menuRef = useRef(false);
+    const [assistantMenu, setAssistantMenu] = useState(false);
 
 
-    const [chatSettingBoxVisible, setChatSettingBoxVisible] = useState(false);
+    const lastMessageTypeWritterDeactive = async () => {
+        setTypeWriterActive(false)
+         await setTalkScreenData({
+            ...dataRef.current,
+            messages: dataRef.current.messages.map((msg, index) =>
+                index === dataRef.current.messages.length - 1
+                    ? { ...msg, isTyping: false }
+                    : msg
+            ),
+        });
+        toggleState('talkScreenData',dataRef.current);
+    }
+    const renameChat = async () => {
+        setAssistantMenu(false);
+        await lastMessageTypeWritterDeactive();
+        setTimeout(()=>{
+            toggleModal('renameChatModalOpen');
+        },100)
+    }
+    const shareChat = async () => {
+        setAssistantMenu(false);
+        try {
+            await Share.share({
+                message: 'Sohbetimi incele',
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    const deleteChat = async () => {
+        let assistantId = dataRef.current.assistantId;
+
+        console.log("1",dataRef.current);
+        console.log("2",dataRef.current.assistantId);
+        setTimeout(()=>{
+            resetTalkChatContent()
+        },100)
+
+        setAssistantMenu(false);
+
+        await deleteChatApi(dataRef.current.chat_id)
+        toggleState('viewChat', await getViewChat(assistantId));
+    }
+
+
     return (
         <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={-20} style={{flex:1}}>
             <SafeAreaView style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]} edges={['top']}>
@@ -641,13 +666,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
                             onPress={() => {
                                 Keyboard.dismiss();
                                 if(storage.getBoolean('isLogined')) {
-                                    //setChatSettingBoxVisible(!chatSettingBoxVisible);
-                                    //showMenu();
+                                    if((Object.keys(dataRef.current).length !== 0) && dataRef.current.chat_id.length !== 0) {
+                                        setAssistantMenu(true);
+                                    }
                                 }
                             }}>
                             <Menu
-                                visible={menuRef.current ? true : false}
-                                onDismiss={() => setChatSettingBoxVisible(false)}
+                                visible={assistantMenu}
+                                onDismiss={() => setAssistantMenu(false)}
                                 contentStyle={{
                                     width: 230,
                                     borderRadius: 10,
@@ -670,11 +696,11 @@ const TalkScreen = ({navigation, toggleModal}) => {
                             >
                                 <Menu.Item
                                     onPress={() => {
-                                        closeMenu();
+                                        renameChat();
                                     }}
-                                    title="Ayrıntıları Görüntüle"
+                                    title="Yeniden Adlandır"
                                     leadingIcon={({ size }) => (
-                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                        <Image source={isDarkTheme ? require('../assets/images/rename.png') : require('../assets/images/rename.png')} style={{width: 20, height: 20}} />
                                     )}
                                     titleStyle={{
                                         color: isDarkTheme ? "#7376aa" : "#7376aa",
@@ -688,13 +714,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                         marginVertical: 5,
                                     }}
                                 />
+
                                 <Menu.Item
                                     onPress={() => {
-                                        closeMenu();
+                                        shareChat();
                                     }}
-                                    title="Paylaşma"
+                                    title="Paylaş"
                                     leadingIcon={({ size }) => (
-                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                        <Image source={isDarkTheme ? require('../assets/images/share.png') : require('../assets/images/share.png')} style={{width: 20, height: 20}} />
                                     )}
                                     titleStyle={{
                                         color: isDarkTheme ? "#7376aa" : "#7376aa",
@@ -709,11 +736,11 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                 />
                                 <Menu.Item
                                     onPress={() => {
-                                        closeMenu();
+                                        deleteChat();
                                     }}
                                     title="Sil"
                                     leadingIcon={({ size }) => (
-                                        <Image source={isDarkTheme ? require('../assets/images/image_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.png') : require('../assets/images/photo.png')} style={{width: 20, height: 20}} />
+                                        <Image source={require('../assets/images/deleteChat.png')} style={{width: 20, height: 20}} />
                                     )}
                                     titleStyle={{
                                         color: isDarkTheme ? "#7376aa" : "#7376aa",
@@ -785,7 +812,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                             ? (
                                                 <>
                                                     <TouchableOpacity
-                                                        disabled={typeWriterActive}
+                                                        //disabled={typeWriterActive}
                                                         onPress={() => openMenu()}
                                                         style={styles.inputBoxAddIconBox}
                                                     >
@@ -838,7 +865,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                         </Menu>
                                                     </TouchableOpacity>
                                                     <TextInput
-                                                        editable={!typeWriterActive}
+                                                        //editable={!typeWriterActive}
                                                         placeholder="Mesajınızı buraya giriniz..."
                                                         placeholderTextColor={'rgba(116, 118, 170, 0.7)'}
                                                         style={[styles.textInput, isDarkTheme ? styles.textInputDarkTheme : styles.textInputLightTheme,  {minHeight: selectedFiles.length > 0 ? 46 : 46}]}

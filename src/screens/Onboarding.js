@@ -10,25 +10,24 @@ export default function Onboarding({ navigation }) {
 
   const slides = [
     {
-      image: require("../assets/images/onboard_image1.jpg"),
-      title: "Welcome to Amigo, Great Friend to Chat",
+      image: require("../assets/images/onBoardingImage1.png"),
+      title: "Yazılım Projelerinizi Oluşturun",
       subtitle:
-        "Proin molestie pulvinar vitae enim erat morbi eu. Malesuada eros nisi augue.",
-      buttonText: "Next",
+          "Karmaşık kodlarınızı optimize edin yada yeni projeler oluşturun.",
+      buttonText: "İleri",
     },
     {
-      image: require("../assets/images/onboard_image2.jpg"),
-      title: "Accelerate Your Learning with Amigo",
-      subtitle:
-        "Pulvinar in et eu volutpat mauris viverra ut orci. Lacus placerat volutpat pharetra a.",
-      buttonText: "Next",
+      image: require("../assets/images/onBoardingImage2.png"),
+      title: "Gerçeğe Yakın Görüntüler Oluşturun",
+      subtitle: "Bir kaç prompt ile harikalar yaratmak sizin elinizde.",
+      buttonText: "İleri",
     },
     {
-      image: require("../assets/images/onboard_image3.jpg"),
-      title: "The Intelligent Way to Get Started",
+      image: require("../assets/images/onBoardingImage3.png"),
+      title: "Üstelik Çevre Dostu🌱",
       subtitle:
-        "Quisque blandit risus duis odio. In pretium nibh velit a aenean vitae porta euismod.",
-      buttonText: "Get Started",
+          "AIGENCY daha düşük parametreler ile daha doğru sonuçlar elde eder. Daha düşük parametre daha az enerji tüketimi sağlar.",
+      buttonText: "Şimdi Başlayın",
     },
   ];
 
@@ -53,74 +52,69 @@ export default function Onboarding({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#070710" }}>
-      <Swiper
-        ref={swiperRef}
-        controlsEnabled={false}
-        loop={false}
-        onIndexChanged={(index) => setActiveIndex(index)}
-      >
-        {slides.map((slide, index) => (
-          <View key={index} style={styles.slide}>
-            {/* الصورة */}
-            <Image
-              source={slide.image}
-              style={styles.image}
-              resizeMode="cover"
-            />
-            {/* العنوان */}
-            <Text style={styles.title}>{slide.title}</Text>
-            {/* الوصف النصي */}
-            <Text style={styles.subtitle}>{slide.subtitle}</Text>
-          </View>
-        ))}
-      </Swiper>
-
-      {/* النقاط */}
-      <View style={styles.pagination}>
-        {slides.map((_, dotIndex) => (
-          <TouchableOpacity
-            key={dotIndex}
-            onPress={() => handleDotPress(dotIndex)}
-            style={[styles.dot, activeIndex === dotIndex && styles.activeDot]}
-          />
-        ))}
-      </View>
-
-      {/* أزرار Skip أو Back و Next/Get Started */}
-      <View style={styles.footerButtons}>
-        {activeIndex === slides.length - 1 ? (
-          <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-            <Text style={styles.backText}>Geri</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={() => {
-              navigation.navigate("MainApp");
-              storage.set('!firstOpen', true);
-            }}
-          >
-            <Text style={styles.skipText}>Geç</Text>
-          </TouchableOpacity>
-        )}
-
-        <TouchableOpacity
-          style={
-            activeIndex === slides.length - 1
-              ? styles.getStartedButton
-              : styles.iconButton
-          }
-          onPress={handleNext}
+      <View style={{ flex: 1, backgroundColor: "#070710" }}>
+        <Swiper
+            ref={swiperRef}
+            controlsEnabled={false}
+            loop={false}
+            onIndexChanged={(index ) => setActiveIndex(index)}
         >
+          {slides.map((slide, index) => (
+              <View key={index} style={styles.slide}>
+                <Image
+                    source={slide.image}
+                    style={styles.image}
+                    resizeMode="cover"
+                />
+                <Text style={styles.title}>{slide.title}</Text>
+                <Text style={styles.subtitle}>{slide.subtitle}</Text>
+              </View>
+          ))}
+        </Swiper>
+
+        <View style={styles.pagination}>
+          {slides.map((_, dotIndex) => (
+              <TouchableOpacity
+                  key={dotIndex}
+                  onPress={() => handleDotPress(dotIndex)}
+                  style={[styles.dot, activeIndex === dotIndex && styles.activeDot]}
+              />
+          ))}
+        </View>
+
+        <View style={styles.footerButtons}>
           {activeIndex === slides.length - 1 ? (
-            <Text style={styles.buttonText}>Hadi başlayalım</Text>
+              <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+                <Text style={styles.backText}>Geri</Text>
+              </TouchableOpacity>
           ) : (
-            <Image style={{width: 40,height: 40}} source={require('../assets/images/arrowRight.png')}/>
+              <TouchableOpacity
+                  style={styles.skipButton}
+                  onPress={() => {
+                    navigation.navigate("MainApp");
+                    storage.set('!firstOpen', true);
+                  }}
+              >
+                <Text style={styles.skipText}>Geç</Text>
+              </TouchableOpacity>
           )}
-        </TouchableOpacity>
+
+          <TouchableOpacity
+              style={
+                activeIndex === slides.length - 1
+                    ? styles.getStartedButton
+                    : styles.iconButton
+              }
+              onPress={handleNext}
+          >
+            {activeIndex === slides.length - 1 ? (
+                <Text style={styles.buttonText}>Şimdi Başlayın</Text>
+            ) : (
+                <Image style={{width: 40,height: 40}} source={require('../assets/images/arrowRight.png')}/>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
   );
 }
 

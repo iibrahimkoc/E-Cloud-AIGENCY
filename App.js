@@ -25,6 +25,7 @@ import CreditModal from './src/modals/CreditModal';
 import LoginModal from './src/modals/LoginModal';
 import PopupLoginModal from './src/modals/PopupLoginModal';
 import HtmlLiveModal from "./src/modals/HtmlLiveModal";
+import RenameChatModal from "./src/modals/RenameChatModal";
 
 import {storage} from './src/components/Storage';
 
@@ -71,6 +72,7 @@ const App = () => {
   const [loginModalVisible, setLoginModalVisible] = useState(false);
   const [popupLoginModalVisible, setPopupLoginModalVisible] = useState(false);
   const [htmlLiveModalVisible, setHtmlLiveModalVisible] = useState(false);
+  const [renameChatModalVisible, setRenameChatModalVisible] = useState(false);
   const [settingModalOpacity, setSettingModalOpacity] = useState(1);
 
 
@@ -116,6 +118,14 @@ const App = () => {
         setHtmlLiveModalVisible(false);
         break;
       }
+      case 'renameChatModalOpen': {
+        setRenameChatModalVisible(true);
+        break;
+      }
+      case 'renameChatModalClose': {
+        setRenameChatModalVisible(false);
+        break;
+      }
     }
   };
   const toggleModalOpacity = (value) => {
@@ -130,6 +140,8 @@ const App = () => {
       }
     }
   };
+
+
 
   const RightDrawerScreen = () => {
     return (
@@ -211,6 +223,11 @@ const App = () => {
               <HtmlLiveModal
                   toggleModal={toggleModal}
                   htmlLiveModalVisible={htmlLiveModalVisible}
+              />
+
+              <RenameChatModal
+                  toggleModal={toggleModal}
+                  renameChatModalVisible={renameChatModalVisible}
               />
             </ThemeProvider>
           </StateProvider>

@@ -2,12 +2,10 @@ import {Text} from "react-native";
 import React from "react";
 import MathView from 'react-native-math-view';
 
-
-
-export const TextCustomization = ( value ) => {
-    console.log( value );
+export const TextCustomization = ( {text} ) => {
+    console.log( text );
     const regex = /(\*\*.*?\*\*|\\\[.*?\\\]|---.*?---|\\\(.*?\\\)|`.*?`)/g;
-    const parts = value.split(regex);
+    const parts = text.split(regex);
     console.log(parts);
     return parts.map((part, index) => {
         if (/\*\*.*?\*\*/.test(part)) {

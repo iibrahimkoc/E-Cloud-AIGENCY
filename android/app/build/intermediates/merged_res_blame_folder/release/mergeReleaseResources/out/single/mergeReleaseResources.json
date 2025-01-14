@@ -52,10 +52,6 @@
         "source": "com.aigency.app-main-46:/mipmap-mdpi/ic_launcher_round.png"
     },
     {
-        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboard_image2.jpg.flat",
-        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboard_image2.jpg"
-    },
-    {
         "merged": "com.aigency.app-release-45:/drawable-xxhdpi_node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png.flat",
         "source": "com.aigency.app-res-40:/drawable-xxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png"
     },
@@ -76,6 +72,10 @@
         "source": "com.aigency.app-res-40:/drawable-xhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_clearicon.png"
     },
     {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboardingimage3.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboardingimage3.png"
+    },
+    {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_bootsplash_logo.png.flat",
         "source": "com.aigency.app-main-46:/drawable-mdpi/bootsplash_logo.png"
     },
@@ -92,8 +92,16 @@
         "source": "com.aigency.app-res-40:/drawable-xxxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_closeicon.png"
     },
     {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_rename.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_rename.png"
+    },
+    {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_user.png.flat",
         "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_user.png"
+    },
+    {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_pdf.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_pdf.png"
     },
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_loaderone.gif.flat",
@@ -102,6 +110,10 @@
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_arrowright.png.flat",
         "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_arrowright.png"
+    },
+    {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboardingimage1.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboardingimage1.png"
     },
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_closelight.png.flat",
@@ -136,10 +148,6 @@
         "source": "com.aigency.app-res-40:/drawable-xxxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png"
     },
     {
-        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboard_image3.jpg.flat",
-        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboard_image3.jpg"
-    },
-    {
         "merged": "com.aigency.app-release-45:/drawable-xxhdpi_node_modules_reactnavigation_elements_lib_commonjs_assets_searchicon.png.flat",
         "source": "com.aigency.app-res-40:/drawable-xxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_searchicon.png"
     },
@@ -158,6 +166,10 @@
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_minuscircle.png.flat",
         "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_minuscircle.png"
+    },
+    {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_share.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_share.png"
     },
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_lock.png.flat",
@@ -216,6 +228,10 @@
         "source": "com.aigency.app-main-46:/mipmap-mdpi/ic_launcher.png"
     },
     {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_deletechat.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_deletechat.png"
+    },
+    {
         "merged": "com.aigency.app-release-45:/drawable-xxxhdpi_node_modules_reactnavigation_elements_lib_commonjs_assets_searchicon.png.flat",
         "source": "com.aigency.app-res-40:/drawable-xxxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_searchicon.png"
     },
@@ -248,10 +264,6 @@
         "source": "com.aigency.app-res-40:/drawable-mdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_backicon.png"
     },
     {
-        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboard_image1.jpg.flat",
-        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboard_image1.jpg"
-    },
-    {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_send.png.flat",
         "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_send.png"
     },
@@ -260,8 +272,16 @@
         "source": "com.aigency.app-main-46:/drawable/rn_edit_text_material.xml"
     },
     {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_onboardingimage2.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_onboardingimage2.png"
+    },
+    {
         "merged": "com.aigency.app-release-45:/drawable-xxhdpi_node_modules_reactnavigation_elements_lib_commonjs_assets_clearicon.png.flat",
         "source": "com.aigency.app-res-40:/drawable-xxhdpi/node_modules_reactnavigation_elements_lib_commonjs_assets_clearicon.png"
+    },
+    {
+        "merged": "com.aigency.app-release-45:/drawable-mdpi_src_assets_images_pdflight.png.flat",
+        "source": "com.aigency.app-res-40:/drawable-mdpi/src_assets_images_pdflight.png"
     },
     {
         "merged": "com.aigency.app-release-45:/drawable-mdpi_node_modules_reactnavigation_elements_lib_commonjs_assets_backiconmask.png.flat",
