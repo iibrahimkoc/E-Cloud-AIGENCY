@@ -21,7 +21,6 @@ export const StateProvider = ({ children }) => {
   useEffect(() => {
     const asyncLoginedFunc = async () => {
       // Giriş Yapıldığında Çağrılacaklar
-      //console.log("state de çağrıldı", await getViewChat());
       const viewChat = await getViewChat(storage.getString('selectedAi') === undefined ? 16 : JSON.parse(storage.getString('selectedAi').id));
       toggleState('viewChat',viewChat);
       storage.set('viewChat',JSON.stringify(viewChat));

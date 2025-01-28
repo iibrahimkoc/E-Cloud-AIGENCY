@@ -6,6 +6,7 @@ import {
   SectionList,
   TextInput,
   Image,
+  RefreshControl,
   TouchableOpacity,
   TouchableWithoutFeedback,
   KeyboardAvoidingView, Keyboard, Platform,
@@ -17,8 +18,10 @@ import { StateContext } from '../context/StateContext';
 import { storage } from './Storage';
 
 import LinearGradient from 'react-native-linear-gradient';
+import Latex from 'react-native-latex';
 
 import { postResumeChat } from '../mobil_api_fetch/PostResumeChat';
+import {getViewChat} from "../mobil_api_fetch/GetViewChat";
 
 const CustomRightDrawer = ({navigation}) => {
 
@@ -47,6 +50,19 @@ const CustomRightDrawer = ({navigation}) => {
     );
   };
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout( async () => {
+      console.log("bak hee",state.selectedAi)
+      toggleState('viewChat',await getViewChat(state.selectedAi.id));
+      setRefreshing(false);
+    }, 2000);
+  }, [storage.getString("access_token")]);
+
+
+
   const handleChangeSearchText = useCallback((item) => {
     setSearchText(item);
   },[])
@@ -55,15 +71,15 @@ const CustomRightDrawer = ({navigation}) => {
   const data = [
     {
       title: 'Bugün',
-      data: state.viewChat?.today?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
+      data: state.viewChat?.today?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())) || [],
     },
     {
       title: 'Dün',
-      data: state.viewChat?.yesterday?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
+      data: state.viewChat?.yesterday?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())) || [],
     },
     {
       title: 'Son 7 Gün',
-      data: state.viewChat?.last7day?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())),
+      data: state.viewChat?.last7day?.filter(item => item.chat_name.toLowerCase().includes(searchText.toLowerCase())) || [],
     },
   ];
   return (
@@ -73,6 +89,12 @@ const CustomRightDrawer = ({navigation}) => {
             edges={['top']}
             style={[styles.container, isDarkTheme ? styles.containerDarkTheme : styles.containerLightTheme]}>
           <View style={styles.containerBox}>
+            <Latex style={{
+              width: '100%',
+              height: 100
+            }}>
+              {"\\frac{1}{2\\pi}\\int_{-\\infty}^{\\infty}e^{-\\frac{x^2}{2}}dx"}
+            </Latex>
             <LinearGradient
                 colors={["#dd00ac", "#7130c3", "#410093"]}
                 start={{ x: 0, y: 0 }}
@@ -106,6 +128,14 @@ const CustomRightDrawer = ({navigation}) => {
                       sections={data.filter(section => section.data.length !== 0)}  // Boş verileri filtrele
                       keyExtractor={(item, index) => index.toString()}
                       stickySectionHeadersEnabled={false}
+                      refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                            tintColor={isDarkTheme ? 'white' : 'black'}
+                            colors={isDarkTheme ? ["white"] : ["black"]}
+                        />
+                      }
                       renderItem={renderMessageItem}
                       renderSectionHeader={({ section: { title } }) => (
                           <TouchableWithoutFeedback>

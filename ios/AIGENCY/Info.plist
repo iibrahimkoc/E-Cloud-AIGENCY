@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Bu uygulama fotoğraflarınıza erişmek istiyor.</string>
-	<key>NSDocumentDirectoryUsageDescription</key>
-	<string>Bu uygulama belgelerinize erişim istiyor.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +20,15 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>aigency</string>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -35,8 +40,16 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSDocumentDirectoryUsageDescription</key>
+	<string>Bu uygulama belgelerinize erişim istiyor.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Mikrofonu kullanmak için izin verin</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bu uygulama fotoğraflarınıza erişmek istiyor.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Sesinizi metne dönüştürmek için izin verin</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -49,12 +62,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Mikrofonu kullanmak için izin verin</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Sesinizi metne dönüştürmek için izin verin</string>
-
-
 </dict>
 </plist>

@@ -1,61 +1,59 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import SyntaxHighlighter from "react-native-syntax-highlighter";
+import {TextCustomization} from "./TextCustomization";
 
-const SyntaxToHtml = (codeContent) => {
+const SyntaxToHtml = (codeContent, theme) => {
     const parts = codeContent
-        .split(/(<\/?p[^>]*>|<\/?h1[^>]*>|<\/?header[^>]*>|<\/?head[^>]*>|<\/?body[^>]*>|<\/?html[^>]*>|<\/?!DOCTYPE'[^>]*>|<\/?br[^>]*>|<\/?form[^>]*>|<\/?label[^>]*>|<\/?textarea[^>]*>|<\/?input[^>]*>|<\/?title[^>]*>|<\/?meta[^>]*>|<\/?nav[^>]*>|<\/?ul[^>]*>|<\/?li[^>]*>|<\/?h2[^>]*>|<\/?h3[^>]*>|<\/?h4[^>]*>|<\/?h5[^>]*>|<\/?h6[^>]*>|<\/?footer[^>]*>| <style[^>]*style> |<\/?section[^>]*>|<\/?a[^>]*>)/g)
+        .split(/(<\/?p[^>]*>|<\/?h1[^>]*>|<\/?header[^>]*>|<\/?head[^>]*>|<\/?body[^>]*>|<\/?html[^>]*>|<\/?!DOCTYPE'[^>]*>|<\/?br[^>]*>|<\/?form[^>]*>|<\/?label[^>]*>|<\/?textarea[^>]*>|<\/?input[^>]*>|<\/?title[^>]*>|<\/?meta[^>]*>|<\/?nav[^>]*>|<\/?ul[^>]*>|<\/?li[^>]*>|<\/?h2[^>]*>|<\/?h3[^>]*>|<\/?h4[^>]*>|<\/?h5[^>]*>|<\/?h6[^>]*>|<\/?footer[^>]*>| <style[^>]*style> |<\/?section[^>]*>|<\/?a[^>]*>|<\/?span[^>]*>|<\/?div[^>]*>|<\/?main[^>]*>)/g)
         .filter(Boolean);
 
     return parts.map((part, index) => {
         if (part.startsWith("<!DOCTYPE")) {
             return (
-                <Text key={index} style={{color: '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>
+                <Text key={index} style={{color: theme ? '#61AEEE' : '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>
                     {part}
                 </Text>
             );
         }
         else if (/^\s*<style[^>]*>/.test(part) || /<\/style>\s*$/.test(part)) {
             const stylePart = part.replace(/^\s*<style[^>]*>/, '').replace(/<\/style>\s*$/, '');
-            console.log("stil: ",stylePart)
             const cssParts = stylePart.split(/(\{|\})/).filter(Boolean).map(part => part.trim());
-            console.log("hani bnana1: ",cssParts);
             return (
-                <Text>
-                    <Text style={{color: '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>{`\n    <style>`}</Text>
+                <Text key={index}>
+                    <Text style={{color: theme ? '#61AEEE' : '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>{`\n    <style>`}</Text>
                         <Text>
                             {
                                 cssParts.map((part, index) => {
                                     if(index % 4 === 0) {
                                         return (
-                                            <Text style={{color: '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{`\n           ${part}`}</Text>
+                                            <Text style={{color: theme ? '#E06C75' : '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{`\n           ${part}`}</Text>
                                         )
                                     }
                                     if(index % 4 === 1) {
                                         return (
-                                            <Text>{`  ${part}\n`}</Text>
+                                            <Text style={{color: theme ? '#ABB2BF' : '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>{`  ${part}\n`}</Text>
                                         )
                                     }
                                     if(index % 4 === 2) {
                                         const cssParca = part.split(/(;)/).filter(Boolean).map(part => part.trim());
-                                        console.log("hani bnana12: ",cssParca);
                                         return cssParca.map((partlar, index) => {
                                             if(index % 2 === 0) {
                                                 const colon = partlar.split(/(:)/).filter(Boolean).map(partlar => partlar.trim());
                                                 return colon.map((part, index) => {
                                                     if(index % 3 === 0) {
                                                         return (
-                                                            <Text style={{color: '#50A14F',fontFamily: 'Courier New ', fontSize: 13}}>                    {part}</Text>
+                                                            <Text style={{color: theme ? '#98C379' : '#50A14F',fontFamily: 'Courier New ', fontSize: 13}}>                    {part}</Text>
                                                         )
                                                     }
                                                     else if(index % 3 === 1) {
                                                         return (
-                                                            <Text style={{color: '#383A42',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
+                                                            <Text style={{color: theme ? '#ABB2BF' : '#383A42',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
                                                         )
                                                     }
                                                     else{
                                                         return (
-                                                            <Text style={{color: '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
+                                                            <Text style={{color: theme ? '#D19A66' : '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
                                                         )
                                                     }
                                                 });
@@ -63,7 +61,7 @@ const SyntaxToHtml = (codeContent) => {
                                             }
                                             else {
                                                 return (
-                                                    <Text style={{color: '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>{cssParca.length-1 === index ? `${partlar}` : `${partlar}\n`}</Text>
+                                                    <Text style={{color: theme ? '#ABB2BF' : '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>{cssParca.length-1 === index ? `${partlar}` : `${partlar}\n`}</Text>
                                                 )
                                             }
                                         })
@@ -71,13 +69,13 @@ const SyntaxToHtml = (codeContent) => {
                                     }
                                     if(index % 4 === 3) {
                                         return (
-                                            <Text>{`\n           ${part}`}</Text>
+                                            <Text style={{color: theme ? '#ABB2BF' : '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>{`\n           ${part}`}</Text>
                                         )
                                     }
                                 })
                             }
                         </Text>
-                    <Text style={{color: '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>{`<style>\n`}</Text>
+                    <Text style={{color: theme ? '#61AEEE' : '#4078F2',fontFamily: 'Courier New ', fontSize: 13}}>{`<style>\n`}</Text>
                 </Text>
             )
         }
@@ -89,7 +87,10 @@ const SyntaxToHtml = (codeContent) => {
             part.startsWith("<h4") || part.endsWith("/h4>") ||
             part.startsWith("<h5") || part.endsWith("/h5>") ||
             part.startsWith("<h6") || part.endsWith("/h6>") ||
+            part.startsWith("<span") || part.endsWith("/span>") ||
+            part.startsWith("<main") || part.endsWith("/main>") ||
             part.startsWith("<head") || part.endsWith("/head>") ||
+            part.startsWith("<div") || part.endsWith("/div>") ||
             part.startsWith("<header") || part.endsWith("/header>") ||
             part.startsWith("<a") || part.endsWith("/a>") ||
             part.startsWith("<body") || part.endsWith("/body>") ||
@@ -106,12 +107,11 @@ const SyntaxToHtml = (codeContent) => {
             part.startsWith("<input") || part.startsWith("<meta") ||
             part.startsWith("<form") || part.endsWith("/form>"))
         {
-            //console.log("bak: ",part)
             const result = part.split(/(<|>)/).filter(Boolean);
             return result.map((part, index) => {
                 if (part === '<' || part === '>') {
                     return (
-                        <Text key={index} style={{color: '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>
+                        <Text key={index} style={{color: theme ? '#ABB2BF' : '#383A42',fontFamily: 'Courier New ', fontSize: 13}}>
                             {part}
                         </Text>
                     );
@@ -122,12 +122,12 @@ const SyntaxToHtml = (codeContent) => {
                         if(index === 0){
                             if(part.length % 2 === 0){
                                 return(
-                                    <Text key={index} style={{color: '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{part}</Text>
+                                    <Text key={index} style={{color: theme ? '#E06C75' : '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{part}</Text>
                                 )
                             }
                             else{
                                 return(
-                                    <Text key={index} style={{color: '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{part} </Text>
+                                    <Text key={index} style={{color: theme ? '#E06C75' : '#E45649',fontFamily: 'Courier New ', fontSize: 13}}>{part} </Text>
                                 )
                             }
                         }
@@ -136,27 +136,24 @@ const SyntaxToHtml = (codeContent) => {
                                 const partsEquils = part.split('="');
                                 return (
                                     <Text key={index}>
-                                        <Text style={{color: '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {partsEquils[0]}</Text>
-                                        <Text style={{color: '#50A14F',fontFamily: 'Courier New ', fontSize: 13}}>={partsEquils[1]}</Text>
+                                        <Text style={{color: theme ? '#D19A66' : '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {partsEquils[0]}</Text>
+                                        <Text style={{color: theme ? '#98C379' : '#50A14F',fontFamily: 'Courier New ', fontSize: 13}}>={partsEquils[1]}</Text>
                                     </Text>
                                 )
                             }
                             else{
                                 return(
-                                    <Text key={index} style={{color: '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
+                                    <Text key={index} style={{color: theme ? '#D19A66' : '#986801',fontFamily: 'Courier New ', fontSize: 13}}> {part}</Text>
                                 )
                             }
                         }
                     });
-
-
                 }
             })
-
         }
         else {
             return (
-                <Text key={index} style={{fontFamily: 'Courier New ', fontSize: 13}}>
+                <Text key={index} style={{color: theme ? '#ABB2BF' : '#383A42', fontFamily: 'Courier New ', fontSize: 13}}>
                     {part}
                 </Text>
             );
@@ -208,12 +205,11 @@ export const TypewriterEffectSyntax = ({ parts, theme, style, onComplete, window
 
                     if (language.toLowerCase() === "html") {
                         return (
-                            <View style={{ width: (windowWidth * 0.9) - 24, backgroundColor: theme ?  '#282c34' :  '#fff'}}>
+                            <View key={index} style={{ width: (windowWidth * 0.9) - 24, backgroundColor: theme ?  '#282C34' :  '#fff'}}>
                                 <Text
-                                    key={index}
-                                    style={{ width: (windowWidth * 0.9) - 24 }}
+                                    style={{ padding: 2, width: (windowWidth * 0.9) - 24 }}
                                 >
-                                    {SyntaxToHtml(codeContent)}
+                                    {SyntaxToHtml(codeContent,theme)}
                                 </Text>
                             </View>
                         );
@@ -239,7 +235,7 @@ export const TypewriterEffectSyntax = ({ parts, theme, style, onComplete, window
                                 : styles.talkBoxContainerBoxAiChatMessageLightTheme,
                         ]}
                     >
-                        {text}
+                        <TextCustomization text={text}/>
                     </Text>
                 );
             })}
@@ -255,125 +251,3 @@ const styles = StyleSheet.create({
         color: "black",
     },
 })
-
-
-/*
-const SyntaxToHtml = (codeContent) => {
-    // <p>, <div>, <h1> etiketlerini koruyarak içeriği parçalara ayırıyoruz
-    const parts = codeContent.split(/(<\/?(p|div|h1|h2|header|body)[^>]*>)/g).filter(Boolean); // etiketleri koruyarak ayırıyoruz
-
-    return parts.map((part, index) => {
-        // <p>, <div>, <h1> etiketine sahip metin kırmızı yapılır
-        if (part.startsWith("<p") || part.startsWith("<div") || part.startsWith("<h1") || part.startsWith("<h2") || part.startsWith("<header") || part.startsWith("<body")) {
-            return (
-                <Text key={index} style={{color: 'red'}}>
-                    {part}
-                </Text>
-            );
-        }
-        else if (part.startsWith("<p") || part.startsWith("<p")) {
-
-        }
-        else {
-            return (
-                <Text key={index} style={styles.paragraphText}>
-                    {part}
-                </Text>
-            );
-        }
-    });
-};
-*/
-
-
-
-/*
-useEffect(() => {
-        let index = 0;
-        const interval = setInterval(() => {
-            setDisplayedText((prev) => prev + text[index]);
-            index++;
-            if (index === parts.length) {
-                clearInterval(interval);
-                if (onComplete) onComplete();
-            }
-        }, 10);
-
-        return () => clearInterval(interval);
-    }, [parts]);
-
-                                parts.map((part, partIndex) => {
-                                    const isCode = partIndex % 2 === 1;
-
-                                    if (isCode) {
-                                        const kelimeler = part.split('\n');
-                                        const codeLanguage = kelimeler.shift();
-                                        const newCode = kelimeler.join("\n");
-
-                                        const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                        console.log("i : ",newCode);
-                                        return (
-                                            <View style={[styles.codeContainer,{borderWidth: 0, backgroundColor: isDarkTheme ? '#282c34' : '#fff'}]}>
-                                                <TypewriterEffectSyntax text={newCode} theme={isDarkTheme ? atomOneDark : atomOneLight} language={codeLanguage} windowWidth={windowWidth}/>
-                                            </View>
-                                        );
-                                    } else {
-                                        return (
-                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                {part}
-                                            </Text>
-                                        );
-                                    }
-                                })
-*/
-
-
-
-
-/*
-                                <TypeWriter
-                                    key={item.id}
-                                    typing={1}
-                                    onTypingEnd={() => {
-                                        setTypeWriterActive(false)
-                                        setTalkScreenData( {
-                                            ...dataRef.current,
-                                            messages: dataRef.current.messages.map((msg) =>
-                                                msg.id === item.id ? { ...msg, isTyping: false } : msg
-                                            ),
-                                        });
-                                    }}
-                                    speed={1000}
-                                    minDelay={10}
-                                    maxDelay={10}
-                                    style={{width:'100%'}}
-                                    wrapLines={true}
-                                    wrapLongLines={true}
-                                >
-                                    {
-                                        parts.map((part, partIndex) => {
-                                            const isCode = partIndex % 2 === 1;
-
-                                            if (isCode) {
-                                                const kelimeler = part.split('\n');
-                                                const codeLanguage = kelimeler.shift();
-                                                const newCode = kelimeler.join("\n");
-
-                                                const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                                console.log("i : ",newCode);
-                                                return (
-                                                    <View style={{width: "100%", backgroundColor: isDarkTheme ? '#282c34':  '#fff'}}>
-                                                        <Text style={{color: isDarkTheme ? 'rgb(117,121,131)' : 'black'}} key={uniqueIndex}>{newCode}</Text>
-                                                    </View>
-                                                );
-                                            } else {
-                                                return (
-                                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                        {TextCustomization(part)}
-                                                    </Text>
-                                                );
-                                            }
-                                        })
-                                    }
-                                </TypeWriter>
-*/

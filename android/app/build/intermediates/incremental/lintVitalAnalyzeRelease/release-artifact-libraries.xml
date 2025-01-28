@@ -15,10 +15,10 @@
       proguardRules="proguard.txt"/>
   <library
       name=":@@:react-native-screens::release"
-      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/48afb7e1c573b9ccb92713855f998f16/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/48afb7e1c573b9ccb92713855f998f16/transformed/out/jars/libs/R.jar"
+      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/44f29bf41e545378292a13faa357a7b7/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/44f29bf41e545378292a13faa357a7b7/transformed/out/jars/libs/R.jar"
       resolved="AIGENCY:react-native-screens:unspecified"
       partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-screens/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/48afb7e1c573b9ccb92713855f998f16/transformed/out"
+      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/44f29bf41e545378292a13faa357a7b7/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -534,6 +534,20 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name=":@@:react-native-menu_menu::release"
+      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/b1daabeea5e1960513a73b4eac8fbeef/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/b1daabeea5e1960513a73b4eac8fbeef/transformed/out/jars/libs/R.jar"
+      resolved="AIGENCY:react-native-menu_menu:unspecified"
+      partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-menu/menu/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
+      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/b1daabeea5e1960513a73b4eac8fbeef/transformed/out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name=":@@:react-native-voice_voice::release"
       jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/57a278b48ed78f4d4b865152f0ead57d/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/57a278b48ed78f4d4b865152f0ead57d/transformed/out/jars/libs/R.jar"
       resolved="AIGENCY:react-native-voice_voice:unspecified"
@@ -661,10 +675,10 @@
       proguardRules="proguard.txt"/>
   <library
       name=":@@:react-native-mmkv::release"
-      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/3447341d88b87a732ae3ad82bd18fb57/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/3447341d88b87a732ae3ad82bd18fb57/transformed/out/jars/libs/R.jar"
+      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/e3b23866b3cd4768ae3b58163306f7d2/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/e3b23866b3cd4768ae3b58163306f7d2/transformed/out/jars/libs/R.jar"
       resolved="AIGENCY:react-native-mmkv:unspecified"
       partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-mmkv/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/3447341d88b87a732ae3ad82bd18fb57/transformed/out"
+      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/e3b23866b3cd4768ae3b58163306f7d2/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -675,10 +689,10 @@
       proguardRules="proguard.txt"/>
   <library
       name=":@@:react-native-reanimated::release"
-      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/56d59eb0fb2956694213f02c092bfc37/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/56d59eb0fb2956694213f02c092bfc37/transformed/out/jars/libs/R.jar"
+      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/abd7639d25d834a759b90df6ce4b9c02/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/abd7639d25d834a759b90df6ce4b9c02/transformed/out/jars/libs/R.jar"
       resolved="AIGENCY:react-native-reanimated:unspecified"
       partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-reanimated/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
-      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/56d59eb0fb2956694213f02c092bfc37/transformed/out"
+      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/abd7639d25d834a759b90df6ce4b9c02/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"
@@ -693,6 +707,20 @@
       resolved="AIGENCY:react-native-safe-area-context:unspecified"
       partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-safe-area-context/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
       folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/f3ec1edf53c03989cea9416e311f93dd/transformed/out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
+      name=":@@:react-native-share::release"
+      jars="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/0b6b438e4dbdbaf2a6d9cf6709b996d7/transformed/out/jars/classes.jar:/Users/ibrahimkoc/.gradle/caches/8.8/transforms/0b6b438e4dbdbaf2a6d9cf6709b996d7/transformed/out/jars/libs/R.jar"
+      resolved="AIGENCY:react-native-share:unspecified"
+      partialResultsDir="/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/lint_vital_partial_results/release/lintVitalAnalyzeRelease/out"
+      folder="/Users/ibrahimkoc/.gradle/caches/8.8/transforms/0b6b438e4dbdbaf2a6d9cf6709b996d7/transformed/out"
       manifest="AndroidManifest.xml"
       resFolder="res"
       assetsFolder="assets"

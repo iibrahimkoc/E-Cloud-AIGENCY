@@ -42,168 +42,202 @@
 24-->[androidx.core:core:1.9.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/19a3848eea211a03727cbbbdeefda2de/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
 25
 26    <application
-26-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:12:3-34:17
+26-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:10:3-38:17
 27        android:name="com.aigency.MainApplication"
-27-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:13:5-36
+27-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:11:11-42
 28        android:allowBackup="false"
-28-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:17:5-32
+28-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:15:11-38
 29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 29-->[androidx.core:core:1.9.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/19a3848eea211a03727cbbbdeefda2de/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 30        android:extractNativeLibs="false"
 31        android:icon="@mipmap/ic_launcher"
-31-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:15:5-39
+31-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:13:11-45
 32        android:label="@string/app_name"
-32-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:14:5-37
+32-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:12:11-43
 33        android:roundIcon="@mipmap/ic_launcher_round"
-33-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:16:5-50
+33-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:14:11-56
 34        android:supportsRtl="true"
-34-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:19:5-31
+34-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:17:11-37
 35        android:theme="@style/AppTheme" >
-35-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:18:5-36
+35-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:16:11-42
 36        <activity
-36-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:20:5-33:16
+36-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:18:5-37:16
 37            android:name="com.aigency.MainActivity"
-37-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:21:7-35
+37-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:19:13-41
 38            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-38-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:23:7-116
+38-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:21:13-122
 39            android:exported="true"
-39-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:26:7-30
+39-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:24:13-36
 40            android:label="@string/app_name"
-40-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:22:7-39
+40-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:20:13-45
 41            android:launchMode="singleTask"
-41-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:24:7-38
+41-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:22:13-44
 42            android:screenOrientation="portrait"
-42-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:28:7-43
+42-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:26:13-49
 43            android:theme="@style/BootTheme"
-43-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:27:7-39
+43-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:25:13-45
 44            android:windowSoftInputMode="adjustResize" >
-44-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:25:7-49
+44-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:23:13-55
 45            <intent-filter>
-45-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:29:7-32:23
+45-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:27:7-30:23
 46                <action android:name="android.intent.action.MAIN" />
-46-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:30:9-61
-46-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:30:17-58
+46-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:28:9-61
+46-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:28:17-58
 47
 48                <category android:name="android.intent.category.LAUNCHER" />
-48-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:31:9-69
-48-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:31:19-66
+48-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:29:9-69
+48-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:29:19-66
 49            </intent-filter>
-50        </activity>
-51
-52        <provider
-52-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-16:20
-53            android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
-53-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-83
-54            android:authorities="com.aigency.fileprovider"
-54-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-64
-55            android:exported="false"
-55-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-37
-56            android:grantUriPermissions="true" >
-56-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-47
-57            <meta-data
-57-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-15:63
-58                android:name="android.support.FILE_PROVIDER_PATHS"
-58-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:17-67
-59                android:resource="@xml/file_provider_paths" />
-59-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-60
-60        </provider>
-61        <provider
-61-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-16:20
-62            android:name="com.imagepicker.ImagePickerProvider"
-62-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-63
-63            android:authorities="com.aigency.imagepickerprovider"
-63-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-71
-64            android:exported="false"
-64-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-37
-65            android:grantUriPermissions="true" >
-65-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-47
-66            <meta-data
-66-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-15:63
-67                android:name="android.support.FILE_PROVIDER_PATHS"
-67-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:17-67
-68                android:resource="@xml/imagepicker_provider_paths" />
-68-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-60
-69        </provider>
-70
-71        <meta-data
-71-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:11:9-13:43
-72            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-72-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:12:13-84
-73            android:value="GlideModule" />
-73-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:13:13-40
-74
-75        <provider
-75-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-76            android:name="androidx.startup.InitializationProvider"
-76-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-77            android:authorities="com.aigency.androidx-startup"
-77-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-78            android:exported="false" >
-78-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-79            <meta-data
-79-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-80                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-80-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-81                android:value="androidx.startup" />
-81-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
-82            <meta-data
-82-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
-83                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-83-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
-84                android:value="androidx.startup" />
-84-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
-85            <meta-data
-85-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
-86                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-86-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
-87                android:value="androidx.startup" />
-87-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
-88        </provider>
-89
-90        <receiver
-90-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
-91            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-91-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
-92            android:directBootAware="false"
-92-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
-93            android:enabled="true"
-93-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
-94            android:exported="true"
-94-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
-95            android:permission="android.permission.DUMP" >
-95-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
-96            <intent-filter>
-96-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
-97                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-97-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
-97-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
-98            </intent-filter>
-99            <intent-filter>
-99-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
-100                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-100-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
-100-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
-101            </intent-filter>
-102            <intent-filter>
-102-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
-103                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-103-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
-103-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
-104            </intent-filter>
-105            <intent-filter>
-105-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
-106                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-106-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
-106-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
-107            </intent-filter>
-108        </receiver>
-109
-110        <meta-data
-110-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:12:9-14:37
-111            android:name="com.facebook.soloader.enabled"
-111-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:13:13-57
-112            android:value="false" />
-112-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:14:13-34
-113    </application>
-114
-115</manifest>
+50            <intent-filter>
+50-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:31:7-36:23
+51                <action android:name="android.intent.action.VIEW" />
+51-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:32:9-61
+51-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:32:17-58
+52
+53                <category android:name="android.intent.category.DEFAULT" />
+53-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:33:9-68
+53-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:33:19-65
+54                <category android:name="android.intent.category.BROWSABLE" />
+54-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:34:9-70
+54-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:34:19-67
+55
+56                <data android:scheme="myapp" />
+56-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:35:9-40
+56-->/Users/ibrahimkoc/E-Cloud-AIGENCY/android/app/src/main/AndroidManifest.xml:35:15-37
+57            </intent-filter>
+58        </activity>
+59
+60        <provider
+60-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-16:20
+61            android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
+61-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-83
+62            android:authorities="com.aigency.fileprovider"
+62-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-64
+63            android:exported="false"
+63-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-37
+64            android:grantUriPermissions="true" >
+64-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-47
+65            <meta-data
+65-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-15:63
+66                android:name="android.support.FILE_PROVIDER_PATHS"
+66-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:17-67
+67                android:resource="@xml/file_provider_paths" />
+67-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-60
+68        </provider>
+69        <provider
+69-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-16:20
+70            android:name="com.imagepicker.ImagePickerProvider"
+70-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-63
+71            android:authorities="com.aigency.imagepickerprovider"
+71-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-71
+72            android:exported="false"
+72-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-37
+73            android:grantUriPermissions="true" >
+73-->[:react-native-image-picker] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-47
+74            <meta-data
+74-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-15:63
+75                android:name="android.support.FILE_PROVIDER_PATHS"
+75-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:17-67
+76                android:resource="@xml/imagepicker_provider_paths" />
+76-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-60
+77        </provider>
+78        <provider
+78-->[:react-native-share] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:8:9-16:20
+79            android:name="cl.json.RNShareFileProvider"
+79-->[:react-native-share] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:9:13-55
+80            android:authorities="com.aigency.rnshare.fileprovider"
+80-->[:react-native-share] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:10:13-72
+81            android:exported="false"
+81-->[:react-native-share] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:11:13-37
+82            android:grantUriPermissions="true" >
+82-->[:react-native-share] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:12:13-47
+83            <meta-data
+83-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:13:13-15:63
+84                android:name="android.support.FILE_PROVIDER_PATHS"
+84-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:14:17-67
+85                android:resource="@xml/share_download_paths" />
+85-->[:react-native-webview] /Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-webview/android/build/intermediates/merged_manifest/release/processReleaseManifest/AndroidManifest.xml:15:17-60
+86        </provider>
+87
+88        <meta-data
+88-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:11:9-13:43
+89            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+89-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:12:13-84
+90            android:value="GlideModule" />
+90-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/a0d08c7bea3999530c954f267ec99491/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:13:13-40
+91
+92        <provider
+92-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+93            android:name="androidx.startup.InitializationProvider"
+93-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+94            android:authorities="com.aigency.androidx-startup"
+94-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+95            android:exported="false" >
+95-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+96            <meta-data
+96-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+97                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+97-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+98                android:value="androidx.startup" />
+98-->[androidx.emoji2:emoji2:1.2.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/2687911a1f582a3848ef7c63c2bb9dab/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+99            <meta-data
+99-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
+100                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+100-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
+101                android:value="androidx.startup" />
+101-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/599c27f9406d02093eefbc490a4cc15d/transformed/jetified-lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+102            <meta-data
+102-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+103                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+103-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+104                android:value="androidx.startup" />
+104-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+105        </provider>
+106
+107        <receiver
+107-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+108            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+108-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+109            android:directBootAware="false"
+109-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+110            android:enabled="true"
+110-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+111            android:exported="true"
+111-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+112            android:permission="android.permission.DUMP" >
+112-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+113            <intent-filter>
+113-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+114                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+114-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+114-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+115            </intent-filter>
+116            <intent-filter>
+116-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+117                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+117-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+118            </intent-filter>
+119            <intent-filter>
+119-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+120                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+120-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+120-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+121            </intent-filter>
+122            <intent-filter>
+122-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+123                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+123-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+123-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/286dc6dc058eaa502cf9bbd785976533/transformed/jetified-profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+124            </intent-filter>
+125        </receiver>
+126
+127        <meta-data
+127-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:12:9-14:37
+128            android:name="com.facebook.soloader.enabled"
+128-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:13:13-57
+129            android:value="false" />
+129-->[com.facebook.soloader:soloader:0.11.0] /Users/ibrahimkoc/.gradle/caches/8.8/transforms/ee18808d9da50e7f498e5a6bb913df21/transformed/jetified-soloader-0.11.0/AndroidManifest.xml:14:13-34
+130    </application>
+131
+132</manifest>

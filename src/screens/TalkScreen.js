@@ -10,7 +10,7 @@ import {
     FlatList,
     Platform,
     PermissionsAndroid,
-    KeyboardAvoidingView, ScrollView, Share,
+    KeyboardAvoidingView, ScrollView,
 } from 'react-native';
 
 import { Dimensions } from 'react-native';
@@ -36,25 +36,30 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import FastImage from 'react-native-fast-image';
+import { MenuView } from '@react-native-menu/menu';
+import Share from 'react-native-share';
 
-import { postNewChat } from '../mobil_api_fetch/PostNewChat';
-import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
 import { postPublicNewChat } from '../genel_api_fetch/PostPublicNewChat';
 import { postPublicSendMessage } from '../genel_api_fetch/PostPublicSendMessage';
+import { postNewChat } from '../mobil_api_fetch/PostNewChat';
+import { postSendMessage } from '../mobil_api_fetch/PostSendMessage';
 import { deleteChatApi } from '../mobil_api_fetch/DeleteChatApi';
+import { getShareChat } from "../mobil_api_fetch/GetShareChat";
+import { getViewChat } from "../mobil_api_fetch/GetViewChat";
 
 import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 import { Menu, Divider } from 'react-native-paper';
-import {getViewChat} from "../mobil_api_fetch/GetViewChat";
-import {postRenameChat} from "../mobil_api_fetch/PostRenameChat";
+
+
 
 const TalkScreen = ({navigation, toggleModal}) => {
     const { state, toggleState } = useContext(StateContext);
     const { isDarkTheme } = useContext(ThemeContext);
     const [message, setMessage] = useState('');
     const flatListRef = useRef(null);
+    const menuRef = useRef(null);
     const inset = useSafeAreaInsets();
     const [menuVisible, setMenuVisible] = useState(false);
     const [typeWriterActive, setTypeWriterActive] = useState(false);
@@ -136,96 +141,164 @@ const TalkScreen = ({navigation, toggleModal}) => {
         }
     };
 
+    const shareMessage = async (message) => {
+        const shareOptions = {
+            message: message,
+        };
+        try {
+            await Share.open(shareOptions);
+        } catch (error) {
+            console.log('Paylaşma hatası:', error);
+        }
+    }
+
+    const handleShareImage = async (value) => {
+        const shareOptions = {
+            url: `https://aigency.dev/api/image?fileName=${value}`,
+            type: 'image/jpeg',
+        };
+        try {
+            await Share.open(shareOptions);
+        } catch (error) {
+            console.log('Paylaşma hatası:', error);
+        }
+    };
 
     const renderTalkData = useCallback(({item, index: flatListIndex}) => {
         if(item.content.includes('```')){
             const parts = item.content.split(/```/);
+            console.log("daa:Ç",item); // item verisinin doğru geldiğinden emin olun
+
             return (
-                <LinearGradient
+                <MenuView
+                    onLongPress={() => {
+                        console.log(1);
+                    }}
                     key={item.id}
-                    colors={isDarkTheme ? ['#272350','#0F1021'] : ['rgb(215,214,244)','rgb(246,248,250)']}
-                    start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
-                    style={styles.talkBoxContainerBoxAiChat}
-                >
-                    <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
-                        { // yazma efekti varken
-                            item.isTyping ? (
-                                <TypewriterEffectSyntax  parts={parts} theme={isDarkTheme} style={isDarkTheme ? atomOneDark : atomOneLight} onComplete={()=>complatedText(item)} windowWidth={windowWidth}/>
-                            ) : ( // yazma efekti olmadan
-                                parts.map((part, partIndex) => {
-                                    const isCode = partIndex % 2 === 1;
-                                    if (isCode) {
-                                        const kelimeler = part.split('\n');
-                                        const codeLanguage = kelimeler.shift();
-                                        const newCode = kelimeler.join("\n");
-
-                                        const uniqueIndex = `${flatListIndex}-${partIndex}`;
-                                        return (
-                                            <View style={[styles.codeContainer, isDarkTheme ? {backgroundColor: '#282c34',borderColor: 'darkgray'}: {backgroundColor: '#fff',borderColor: 'lightgray'}]}>
-                                                <View style={{position: "absolute", top: 5, right: 5,zIndex: 1000, flexDirection: "row-reverse"}}>
-                                                    <TouchableOpacity
-                                                        onPress={() => copyToClipboard(newCode, uniqueIndex)}
-                                                        style={{
-                                                            padding: 5,
-                                                            paddingHorizontal: 10,
-                                                            borderRadius: 100,
-                                                            backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center'
-                                                        }}
-                                                    >
-                                                        <Text style={{color: isDarkTheme ? 'black' : 'white'}}>
-                                                            {copiedIndex === uniqueIndex ? 'Kopyalandı' : 'Kopyala'}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                    {
-                                                        String(codeLanguage).includes('html') && (
-                                                            <TouchableOpacity
-                                                                onPress={() => {
-                                                                    toggleState("talkScreenData", dataRef.current);
-                                                                    toggleState('htmlContent', newCode)
-                                                                    toggleModal('htmlLiveModalOpen');
-                                                                }}
-                                                                style={{
-                                                                    width: 30,
-                                                                    height: 30,
-                                                                    justifyContent: 'center',
-                                                                    alignItems: 'center',
-                                                                    backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
-                                                                    borderRadius: 100,
-                                                                    marginRight: 5,
-                                                                }}
-                                                            >
-                                                                <Image style={{width: 20, height: 20}} source={isDarkTheme ? require('../assets/images/playHtmlDark.png') : require('../assets/images/playHtmlLight.png')}/>
-                                                            </TouchableOpacity>
-                                                        )
-
-                                                    }
-                                                </View>
-                                                <SyntaxHighlighter
-                                                    //wrapLines={true}
-                                                    //wrapLongLines={true}
-                                                    language={String(codeLanguage).toLowerCase()}
-                                                    style={isDarkTheme ? atomOneDark : atomOneLight}
-                                                    customStyle={{minWidth: 0, width: (windowWidth * 0.9)-24}}
-                                                    highlighter="hljs"
-                                                >
-                                                    {newCode}
-                                                </SyntaxHighlighter>
-                                            </View>
-                                        );
-                                    } else {
-                                        return (
-                                            <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                                <TextCustomization text={part}/>
-                                            </Text>
-                                        );
-                                    }
-                                })
-                            )
+                    style={{marginBottom: 20, borderRadius: 6}}
+                    ref={menuRef}
+                    onPressAction={(event) => {
+                        const actionId = event.nativeEvent.event;
+                        switch (actionId) {
+                            case 'copy':
+                                Clipboard.setString(event._dispatchInstances.memoizedProps.actions[0].item)
+                                break;
+                            case 'share':
+                                //console.log("Paylaşılacak metin:", event._dispatchInstances.memoizedProps.actions[0].item);
+                                shareMessage(event._dispatchInstances.memoizedProps.actions[0].item)
+                                break;
                         }
-                    </View>
-                </LinearGradient>
+                    }}
+
+                    actions={[
+                        {
+                            id: 'copy',
+                            title: 'Metni Kopyala',
+                            titleColor: '#131916',
+                            image: Platform.select({
+                                ios: 'document.on.document',
+                                android: '',
+                            }),
+                            imageColor: '#000',
+                            item: item.content,
+                        },
+                        {
+                            id: 'share',
+                            title: 'Metni Paylaş',
+                            image: Platform.select({
+                                ios: 'square.and.arrow.up',
+                                android: '',
+                            }),
+                            imageColor: '#000000',
+                            item: item.content,
+                        },
+                    ]}
+                    shouldOpenOnLongPress={true}
+                >
+                    <LinearGradient
+                        colors={isDarkTheme ? ['#272350','#0F1021'] : ['rgb(215,214,244)','rgb(246,248,250)']}
+                        start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
+                        style={styles.talkBoxContainerBoxAiChat}
+                    >
+                        <View style={styles.talkBoxContainerBoxAiChatMessageBox}>
+                            { // yazma efekti varken
+                                item.isTyping ? (
+                                    <TypewriterEffectSyntax  parts={parts} theme={isDarkTheme} style={isDarkTheme ? atomOneDark : atomOneLight} onComplete={()=>complatedText(item)} windowWidth={windowWidth}/>
+                                ) : ( // yazma efekti olmadan
+                                    parts.map((part, partIndex) => {
+                                        const isCode = partIndex % 2 === 1;
+                                        if (isCode) {
+                                            const kelimeler = part.split('\n');
+                                            const codeLanguage = kelimeler.shift();
+                                            const newCode = kelimeler.join("\n");
+
+                                            const uniqueIndex = `${flatListIndex}-${partIndex}`;
+                                            return (
+                                                <View style={[styles.codeContainer, isDarkTheme ? {backgroundColor: '#282c34',borderColor: 'darkgray'}: {backgroundColor: '#fff',borderColor: 'lightgray'}]}>
+                                                    <View style={{position: "absolute", top: 5, right: 5,zIndex: 1000, flexDirection: "row-reverse"}}>
+                                                        <TouchableOpacity
+                                                            onPress={() => copyToClipboard(newCode, uniqueIndex)}
+                                                            style={{
+                                                                padding: 5,
+                                                                paddingHorizontal: 10,
+                                                                borderRadius: 100,
+                                                                backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center'
+                                                            }}
+                                                        >
+                                                            <Text style={{color: isDarkTheme ? 'black' : 'white'}}>
+                                                                {copiedIndex === uniqueIndex ? 'Kopyalandı' : 'Kopyala'}
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                        {
+                                                            String(codeLanguage).includes('html') && (
+                                                                <TouchableOpacity
+                                                                    onPress={() => {
+                                                                        toggleState("talkScreenData", dataRef.current);
+                                                                        toggleState('htmlContent', newCode)
+                                                                        toggleModal('htmlLiveModalOpen');
+                                                                    }}
+                                                                    style={{
+                                                                        width: 30,
+                                                                        height: 30,
+                                                                        justifyContent: 'center',
+                                                                        alignItems: 'center',
+                                                                        backgroundColor: isDarkTheme ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
+                                                                        borderRadius: 100,
+                                                                        marginRight: 5,
+                                                                    }}
+                                                                >
+                                                                    <Image style={{width: 20, height: 20}} source={isDarkTheme ? require('../assets/images/playHtmlDark.png') : require('../assets/images/playHtmlLight.png')}/>
+                                                                </TouchableOpacity>
+                                                            )
+                                                        }
+                                                    </View>
+                                                    <SyntaxHighlighter
+                                                        //wrapLines={true}
+                                                        //wrapLongLines={true}
+                                                        language={String(codeLanguage).toLowerCase()}
+                                                        style={isDarkTheme ? atomOneDark : atomOneLight}
+                                                        customStyle={{minWidth: 0, width: (windowWidth * 0.9)-24}}
+                                                        highlighter="hljs"
+                                                    >
+                                                        {newCode}
+                                                    </SyntaxHighlighter>
+                                                </View>
+                                            );
+                                        } else {
+                                            return (
+                                                <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                    <TextCustomization text={part}/>
+                                                </Text>
+                                            );
+                                        }
+                                    })
+                                )
+                            }
+                        </View>
+                    </LinearGradient>
+                </MenuView>
             );
         }
         else{
@@ -233,29 +306,70 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 return (
                     !(item.content.includes('.png'))
                         ? (
-                            <LinearGradient
+                            <MenuView
                                 key={item.id}
-                                colors={isDarkTheme ? ['#272350','#272350'] : ['rgb(215,214,244)','rgb(246,248,250)']}
-                                start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
-                                style={[styles.talkBoxContainerBoxAiChat]}
+                                style={{marginBottom: 20,borderRadius:6}}
+                                ref={menuRef}
+                                onPressAction={(event) => {
+                                    const actionId = event.nativeEvent.event;
+                                    switch (actionId) {
+                                        case 'copy':
+                                            Clipboard.setString(event._dispatchInstances.memoizedProps.actions[0].item)
+                                            break;
+                                        case 'share':
+                                            //console.log("Paylaşılacak metin:", event._dispatchInstances.memoizedProps.actions[0].item);
+                                            shareMessage(event._dispatchInstances.memoizedProps.actions[0].item)
+                                            break;
+                                    }
+                                }}
+                                actions={[
+                                    {
+                                        id: 'copy',
+                                        title: 'Metni Kopyala',
+                                        titleColor: '#131916',
+                                        image: Platform.select({
+                                            ios: 'document.on.document',
+                                            android: '',
+                                        }),
+                                        imageColor: '#000',
+                                        item: item.content,
+                                    },
+                                    {
+                                        id: 'share',
+                                        title: 'Metni Paylaş',
+                                        image: Platform.select({
+                                            ios: 'square.and.arrow.up',
+                                            android: '',
+                                        }),
+                                        imageColor: '#000000',
+                                        item: item.content,
+                                    },
+                                ]}
+                                shouldOpenOnLongPress={true}
                             >
-                                <View style={[styles.talkBoxContainerBoxAiChatMessageBox, {paddingTop: 0}]}>
-                                    <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                        {item.isTyping ? (
-                                            <TypewriterEffect
-                                                text={item.content}
-                                                onComplete={() => complatedText(item)}
-                                            />
-                                        ) : (
-                                            <TextCustomization text={item.content} />
-                                        )}
-                                    </Text>
-                                </View>
-                            </LinearGradient>
+                                <LinearGradient
+                                    colors={isDarkTheme ? ['#272350','#272350'] : ['rgb(215,214,244)','rgb(246,248,250)']}
+                                    start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
+                                    style={[styles.talkBoxContainerBoxAiChat]}
+                                >
+                                    <View style={[styles.talkBoxContainerBoxAiChatMessageBox, {paddingTop: 0}]}>
+                                        <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                            {item.isTyping ? (
+                                                <TypewriterEffect
+                                                    text={item.content}
+                                                    onComplete={() => complatedText(item)}
+                                                />
+                                            ) : (
+                                                <TextCustomization text={item.content} />
+                                            )}
+                                        </Text>
+                                    </View>
+                                </LinearGradient>
+                            </MenuView>
                         )
                         :
                         (
-                            <View style={{width: '100%', marginBottom: 20, position: 'relative'}}>
+                            <View key={item.id} style={{width: '100%',position: 'relative',marginBottom: 20}}>
                                 <TouchableOpacity
                                     onPress={() => saveImageFromUrl(item.content)}
                                     style={{
@@ -271,13 +385,52 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                 >
                                     <Image style={{width: 30, height: 30}} source={require('../assets/images/download.png')} />
                                 </TouchableOpacity>
-                                <Image
+                                <MenuView
                                     style={{width: '85%', aspectRatio:1, borderRadius: 6, resizeMode: 'cover', backgroundColor :'transparent',}}
-                                    source={{ uri: `https://aigency.dev/api/image?fileName=${item.content}`}}
-                                />
+                                    ref={menuRef}
+                                    onPressAction={(event) => {
+                                        const actionId = event.nativeEvent.event;
+                                        switch (actionId) {
+                                            case 'download':
+                                                saveImageFromUrl(event._dispatchInstances.memoizedProps.actions[0].item)
+                                                break;
+                                            case 'share':
+                                                handleShareImage(event._dispatchInstances.memoizedProps.actions[0].item)
+                                                break;
+                                        }
+                                    }}
+                                    actions={[
+                                        {
+                                            id: 'download',
+                                            title: 'Görseli indir',
+                                            titleColor: '#131916',
+                                            image: Platform.select({
+                                                ios: 'arrow.down',
+                                                android: '',
+                                            }),
+                                            imageColor: '#000',
+                                            item: item.content,
+                                        },
+                                        {
+                                            id: 'share',
+                                            title: 'Görseli Paylaş',
+                                            image: Platform.select({
+                                                ios: 'arrow.down.app',
+                                                android: '',
+                                            }),
+                                            imageColor: '#000000',
+                                            item: item.content,
+                                        },
+                                    ]}
+                                    shouldOpenOnLongPress={true}
+                                >
+                                        <Image
+                                            style={{width: '100%', aspectRatio:1, borderRadius: 6, resizeMode: 'cover', backgroundColor :'transparent',}}
+                                            source={{ uri: `https://aigency.dev/api/image?fileName=${item.content}`}}
+                                        />
+                                </MenuView>
                             </View>
                         )
-
                 );
             }
             else if(item.role === 'user') {
@@ -286,9 +439,48 @@ const TalkScreen = ({navigation, toggleModal}) => {
                         key={item.id}
                         style={styles.talkBoxContainerBoxUserChat}
                     >
-                        <View style={[styles.talkBoxContainerBoxUserChatBox, isDarkTheme ? styles.talkBoxContainerBoxUserChatBoxDarkTheme : styles.talkBoxContainerBoxUserChatBoxLightTheme]}>
+                        <MenuView
+                            style={[styles.talkBoxContainerBoxUserChatBox, isDarkTheme ? styles.talkBoxContainerBoxUserChatBoxDarkTheme : styles.talkBoxContainerBoxUserChatBoxLightTheme]}
+                            ref={menuRef}
+                            onPressAction={(event) => {
+                                const actionId = event.nativeEvent.event;
+                                switch (actionId) {
+                                    case 'copy':
+                                        Clipboard.setString(event._dispatchInstances.memoizedProps.actions[0].item)
+                                        break;
+                                    case 'share':
+                                        //console.log("Paylaşılacak metin:", event._dispatchInstances.memoizedProps.actions[0].item);
+                                        shareMessage(event._dispatchInstances.memoizedProps.actions[0].item)
+                                        break;
+                                }
+                            }}
+                            actions={[
+                                {
+                                    id: 'copy',
+                                    title: 'Metni Kopyala',
+                                    titleColor: '#131916',
+                                    image: Platform.select({
+                                        ios: 'document.on.document',
+                                        android: '',
+                                    }),
+                                    imageColor: '#000',
+                                    item: item.content,
+                                },
+                                {
+                                    id: 'share',
+                                    title: 'Metni Paylaş',
+                                    image: Platform.select({
+                                        ios: 'square.and.arrow.up',
+                                        android: '',
+                                    }),
+                                    imageColor: '#000000',
+                                    item: item.content,
+                                },
+                            ]}
+                            shouldOpenOnLongPress={true}
+                        >
                             <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>{item.content}</Text>
-                        </View>
+                        </MenuView>
                     </View>
                 );
             }
@@ -379,6 +571,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 }
                 else{
                     await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                    toggleState('viewChat', await getViewChat(state.selectedAi.id));
                     setSelectedFilesSend([])
                     setTimeout(() => {
                         flatListRef.current?.scrollToEnd({ animated: true });
@@ -621,15 +814,16 @@ const TalkScreen = ({navigation, toggleModal}) => {
             toggleModal('renameChatModalOpen');
         },100)
     }
-    const shareChat = async () => {
+
+    const shareChat = async (message) => {
         setAssistantMenu(false);
+        const shareOptions = {
+            message: message,
+        };
         try {
-            await Share.share({
-                message: 'Sohbetimi incele',
-            });
-        }
-        catch (error) {
-            console.error(error);
+            await Share.open(shareOptions);
+        } catch (error) {
+            console.log('Paylaşma hatası:', error);
         }
     }
     const deleteChat = async () => {
@@ -668,6 +862,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                 if(storage.getBoolean('isLogined')) {
                                     if((Object.keys(dataRef.current).length !== 0) && dataRef.current.chat_id.length !== 0) {
                                         setAssistantMenu(true);
+                                        getShareChat(talkScreenData.chat_id);
                                     }
                                 }
                             }}>
@@ -717,7 +912,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
 
                                 <Menu.Item
                                     onPress={() => {
-                                        shareChat();
+                                        shareChat(storage.getString('shareChatLink'));
                                     }}
                                     title="Paylaş"
                                     leadingIcon={({ size }) => (
@@ -992,7 +1187,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     talkBoxContainerBoxAiChat:{
-        marginBottom: 20,
+
         width: '100%',
         borderRadius: 6,
         padding: 10,

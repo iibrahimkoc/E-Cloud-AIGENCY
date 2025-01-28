@@ -16,6 +16,8 @@ import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.reactnativecommunity.clipboard.ClipboardPackage;
 // @react-native-masked-view/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-menu/menu
+import com.reactnativemenu.MenuPackage;
 // @react-native-voice/voice
 import com.wenkesj.voice.VoicePackage;
 // react-native-bootsplash
@@ -44,6 +46,8 @@ import com.swmansion.reanimated.ReanimatedPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-share
+import cl.json.RNSharePackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 // react-native-webview
@@ -96,6 +100,7 @@ public class PackageList {
       new CameraRollPackage(),
       new ClipboardPackage(),
       new RNCMaskedViewPackage(),
+      new MenuPackage(),
       new VoicePackage(),
       new RNBootSplashPackage(),
       new RNDocumentPickerPackage(),
@@ -110,6 +115,7 @@ public class PackageList {
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new RNSharePackage(),
       new SvgPackage(),
       new RNCWebViewPackage()
     ));

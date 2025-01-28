@@ -77,6 +77,33 @@
         }
       }
     },
+    "@react-native-menu/menu": {
+      "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-menu/menu",
+      "name": "@react-native-menu/menu",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-menu/menu/react-native-menu.podspec",
+          "version": "1.2.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-menu/menu/android",
+          "packageImportPath": "import com.reactnativemenu.MenuPackage;",
+          "packageInstance": "new MenuPackage()",
+          "buildTypes": [],
+          "libraryName": "RNMenuViewSpec",
+          "componentDescriptors": [
+            "MenuViewComponentDescriptor"
+          ],
+          "cmakeListsPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-menu/menu/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "@react-native-voice/voice": {
       "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-voice/voice",
       "name": "@react-native-voice/voice",
@@ -441,6 +468,31 @@
             "RNSModalScreenComponentDescriptor"
           ],
           "cmakeListsPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-share": {
+      "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share",
+      "name": "react-native-share",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/RNShare.podspec",
+          "version": "12.0.3",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android",
+          "packageImportPath": "import cl.json.RNSharePackage;",
+          "packageInstance": "new RNSharePackage()",
+          "buildTypes": [],
+          "libraryName": "RNShareSpec",
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/react-native-share/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,

@@ -1,0 +1,6 @@
+module Pods_AIGENCY {
+  umbrella header "Pods-AIGENCY-umbrella.h"
+
+  export *
+  module * { export * }
+}

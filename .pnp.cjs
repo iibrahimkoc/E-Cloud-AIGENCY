@@ -32,8 +32,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.25.8"],\
             ["@babel/runtime", "npm:7.25.7"],\
             ["@gorhom/bottom-sheet", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:5.0.6"],\
+            ["@react-native-camera-roll/camera-roll", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.9.0"],\
             ["@react-native-clipboard/clipboard", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.14.2"],\
             ["@react-native-masked-view/masked-view", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.2.8"],\
+            ["@react-native-menu/menu", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.2.0"],\
             ["@react-native-voice/voice", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:3.1.5"],\
             ["@react-native/babel-preset", "virtual:b7ccd1ac0cf86fc44430c3d88cdb91105af7477df27368c614aba480e0d912aa9e6f4a63c12857d84eb29025911e46aafe3a04ac216d7192415840695c6acf8b#npm:0.75.3"],\
             ["@react-native/eslint-config", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.3"],\
@@ -56,6 +58,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"],\
             ["react-native-bootsplash", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:6.1.5"],\
             ["react-native-document-picker", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:9.3.1"],\
+            ["react-native-fast-image", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:8.6.3"],\
+            ["react-native-fs", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.20.0"],\
             ["react-native-gesture-handler", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.21.2"],\
             ["react-native-image-picker", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.1.2"],\
             ["react-native-interactable-reanimated", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.0.15"],\
@@ -71,6 +75,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native-skeleton-placeholder", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:5.2.4"],\
             ["react-native-svg", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:15.10.1"],\
             ["react-native-syntax-highlighter", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.1.0"],\
+            ["react-native-typewriter", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.7.0"],\
             ["react-native-web-swiper", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.2.4"],\
             ["react-native-webview", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:13.12.3"],\
             ["react-test-renderer", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:18.3.1"],\
@@ -3920,6 +3925,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@react-native-camera-roll/camera-roll", [\
+        ["npm:7.9.0", {\
+          "packageLocation": "./.yarn/unplugged/@react-native-camera-roll-camera-roll-virtual-02584d0262/node_modules/@react-native-camera-roll/camera-roll/",\
+          "packageDependencies": [\
+            ["@react-native-camera-roll/camera-roll", "npm:7.9.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.9.0", {\
+          "packageLocation": "./.yarn/unplugged/@react-native-camera-roll-camera-roll-virtual-02584d0262/node_modules/@react-native-camera-roll/camera-roll/",\
+          "packageDependencies": [\
+            ["@react-native-camera-roll/camera-roll", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.9.0"],\
+            ["@types/react-native", null],\
+            ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-native",\
+            "react-native"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@react-native-clipboard/clipboard", [\
         ["npm:1.14.2", {\
           "packageLocation": "./.yarn/unplugged/@react-native-clipboard-clipboard-virtual-f25cfef1e2/node_modules/@react-native-clipboard/clipboard/",\
@@ -4141,6 +4168,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/unplugged/@react-native-masked-view-masked-view-virtual-f04b96440b/node_modules/@react-native-masked-view/masked-view/",\
           "packageDependencies": [\
             ["@react-native-masked-view/masked-view", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.2.8"],\
+            ["@types/react", "npm:18.3.11"],\
+            ["@types/react-native", null],\
+            ["react", "npm:18.3.1"],\
+            ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-native",\
+            "@types/react",\
+            "react-native",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@react-native-menu/menu", [\
+        ["npm:1.2.0", {\
+          "packageLocation": "./.yarn/unplugged/@react-native-menu-menu-virtual-a3e8916476/node_modules/@react-native-menu/menu/",\
+          "packageDependencies": [\
+            ["@react-native-menu/menu", "npm:1.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.2.0", {\
+          "packageLocation": "./.yarn/unplugged/@react-native-menu-menu-virtual-a3e8916476/node_modules/@react-native-menu/menu/",\
+          "packageDependencies": [\
+            ["@react-native-menu/menu", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.2.0"],\
             ["@types/react", "npm:18.3.11"],\
             ["@types/react-native", null],\
             ["react", "npm:18.3.1"],\
@@ -5445,8 +5498,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.25.8"],\
             ["@babel/runtime", "npm:7.25.7"],\
             ["@gorhom/bottom-sheet", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:5.0.6"],\
+            ["@react-native-camera-roll/camera-roll", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.9.0"],\
             ["@react-native-clipboard/clipboard", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.14.2"],\
             ["@react-native-masked-view/masked-view", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.2.8"],\
+            ["@react-native-menu/menu", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:1.2.0"],\
             ["@react-native-voice/voice", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:3.1.5"],\
             ["@react-native/babel-preset", "virtual:b7ccd1ac0cf86fc44430c3d88cdb91105af7477df27368c614aba480e0d912aa9e6f4a63c12857d84eb29025911e46aafe3a04ac216d7192415840695c6acf8b#npm:0.75.3"],\
             ["@react-native/eslint-config", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.3"],\
@@ -5469,6 +5524,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"],\
             ["react-native-bootsplash", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:6.1.5"],\
             ["react-native-document-picker", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:9.3.1"],\
+            ["react-native-fast-image", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:8.6.3"],\
+            ["react-native-fs", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.20.0"],\
             ["react-native-gesture-handler", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.21.2"],\
             ["react-native-image-picker", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:7.1.2"],\
             ["react-native-interactable-reanimated", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.0.15"],\
@@ -5484,6 +5541,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-native-skeleton-placeholder", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:5.2.4"],\
             ["react-native-svg", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:15.10.1"],\
             ["react-native-syntax-highlighter", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.1.0"],\
+            ["react-native-typewriter", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.7.0"],\
             ["react-native-web-swiper", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.2.4"],\
             ["react-native-webview", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:13.12.3"],\
             ["react-test-renderer", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:18.3.1"],\
@@ -6175,6 +6233,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["bare-stream", "npm:2.3.0"],\
             ["b4a", "npm:1.6.7"],\
             ["streamx", "npm:2.20.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["base-64", [\
+        ["npm:0.1.0", {\
+          "packageLocation": "./.yarn/cache/base-64-npm-0.1.0-41e6da6777-5a42938f82.zip/node_modules/base-64/",\
+          "packageDependencies": [\
+            ["base-64", "npm:0.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12472,6 +12539,60 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-native-fast-image", [\
+        ["npm:8.6.3", {\
+          "packageLocation": "./.yarn/unplugged/react-native-fast-image-virtual-4a22f73902/node_modules/react-native-fast-image/",\
+          "packageDependencies": [\
+            ["react-native-fast-image", "npm:8.6.3"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:8.6.3", {\
+          "packageLocation": "./.yarn/unplugged/react-native-fast-image-virtual-4a22f73902/node_modules/react-native-fast-image/",\
+          "packageDependencies": [\
+            ["react-native-fast-image", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:8.6.3"],\
+            ["@types/react", "npm:18.3.11"],\
+            ["@types/react-native", null],\
+            ["react", "npm:18.3.1"],\
+            ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-native",\
+            "@types/react",\
+            "react-native",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-native-fs", [\
+        ["npm:2.20.0", {\
+          "packageLocation": "./.yarn/unplugged/react-native-fs-virtual-274954b0b3/node_modules/react-native-fs/",\
+          "packageDependencies": [\
+            ["react-native-fs", "npm:2.20.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.20.0", {\
+          "packageLocation": "./.yarn/unplugged/react-native-fs-virtual-274954b0b3/node_modules/react-native-fs/",\
+          "packageDependencies": [\
+            ["react-native-fs", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:2.20.0"],\
+            ["@types/react-native", null],\
+            ["@types/react-native-windows", null],\
+            ["base-64", "npm:0.1.0"],\
+            ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"],\
+            ["react-native-windows", null],\
+            ["utf8", "npm:3.0.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-native-windows",\
+            "@types/react-native",\
+            "react-native-windows",\
+            "react-native"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-native-gesture-handler", [\
         ["npm:2.21.2", {\
           "packageLocation": "./.yarn/unplugged/react-native-gesture-handler-virtual-9b1c11f2ca/node_modules/react-native-gesture-handler/",\
@@ -12974,6 +13095,33 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "packagePeers": [\
             "@types/react-syntax-highlighter"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-native-typewriter", [\
+        ["npm:0.7.0", {\
+          "packageLocation": "./.yarn/cache/react-native-typewriter-npm-0.7.0-c669046806-398640d636.zip/node_modules/react-native-typewriter/",\
+          "packageDependencies": [\
+            ["react-native-typewriter", "npm:0.7.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.7.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-native-typewriter-virtual-9ca5210204/0/cache/react-native-typewriter-npm-0.7.0-c669046806-398640d636.zip/node_modules/react-native-typewriter/",\
+          "packageDependencies": [\
+            ["react-native-typewriter", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.7.0"],\
+            ["@types/react", "npm:18.3.11"],\
+            ["@types/react-native", null],\
+            ["prop-types", "npm:15.8.1"],\
+            ["react", "npm:18.3.1"],\
+            ["react-native", "virtual:61f1c249d9aae87ce4ea45b329c30ef3648a81c627f619b55205a282c6e188a1fb71ed47c94c5eb48a06eabc123ae71f467057f7991ba4d9d9ade6c53dd42661#npm:0.75.4"]\
+          ],\
+          "packagePeers": [\
+            "@types/react-native",\
+            "@types/react",\
+            "react-native",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14879,6 +15027,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@types/react",\
             "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["utf8", [\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/utf8-npm-3.0.0-7c39b5994a-cb89a69ad9.zip/node_modules/utf8/",\
+          "packageDependencies": [\
+            ["utf8", "npm:3.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\

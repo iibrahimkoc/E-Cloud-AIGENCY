@@ -479,6 +479,9 @@
       name=":@@:react-native-masked-view_masked-view::release"
       project=":react-native-masked-view_masked-view"/>
   <library
+      name=":@@:react-native-menu_menu::release"
+      project=":react-native-menu_menu"/>
+  <library
       name=":@@:react-native-voice_voice::release"
       project=":react-native-voice_voice"/>
   <library
@@ -514,6 +517,9 @@
   <library
       name=":@@:react-native-safe-area-context::release"
       project=":react-native-safe-area-context"/>
+  <library
+      name=":@@:react-native-share::release"
+      project=":react-native-share"/>
   <library
       name=":@@:react-native-svg::release"
       project=":react-native-svg"/>

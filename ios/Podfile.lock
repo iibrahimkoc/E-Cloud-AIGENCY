@@ -1317,6 +1317,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-menu (1.2.0):
+    - React
   - react-native-mmkv (2.12.2):
     - DoubleConversion
     - glog
@@ -1770,6 +1772,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNShare (12.0.3):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNSVG (15.10.1):
     - React-Core
   - SDWebImage (5.11.1):
@@ -1823,6 +1846,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-camera-roll/camera-roll`)"
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-menu (from `../node_modules/@react-native-menu/menu`)"
   - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1863,6 +1887,7 @@ DEPENDENCIES:
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1955,6 +1980,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-menu:
+    :path: "../node_modules/@react-native-menu/menu"
   react-native-mmkv:
     :path: "../node_modules/react-native-mmkv"
   react-native-render-html:
@@ -2035,6 +2062,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -2083,6 +2112,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 5f180ef5e9b52b6c3c3a2645fa33a921d1e37a6c
   react-native-document-picker: 530879d9e89b490f0954bcc4ab697c5b5e35d659
   react-native-image-picker: bbb75c48aa8514be4659cafd6df65932556bee13
+  react-native-menu: 74230a5879e0ca697e98ee7c3087297dc774bf06
   react-native-mmkv: f84bf6f48c906911695f9cd16d39d4fb78fcd5a4
   react-native-render-html: 5afc4751f1a98621b3009432ef84c47019dcb2bd
   react-native-safe-area-context: b13be9714d9771fbde0120bc519c963484de3a71
@@ -2123,6 +2153,7 @@ SPEC CHECKSUMS:
   RNPermissions: 791cd8c48ebf5fdb9686a4d1ad2a01936a2b2756
   RNReanimated: 26a5a401a5de1c0cf1a3226873825b00ffa85377
   RNScreens: e21c8d32fe97737ecc30f1f21e7b6f69f341a1f5
+  RNShare: d40e9e8d071f845fff5072173ffb7a3bf3918c6d
   RNSVG: 3421710ac15f4f2dc47e5c122f2c2e4282116830
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d

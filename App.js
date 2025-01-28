@@ -43,6 +43,8 @@ const App = () => {
 
   const [screen, setScreen] = useState(Dimensions.get('window'));
 
+
+
   useEffect(() => {
     const fetchApi = async () => {
       try {

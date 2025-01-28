@@ -40,6 +40,7 @@ const CustomDrawer = ({navigation, toggleModal,toggleModalOpacity}) => {
             storage.set('selectedAi', JSON.stringify(item));
           }
           toggleState('selectedAi', item);
+          toggleState('viewChat', []);
           navigation.getParent('LeftDrawer').closeDrawer();
           try {
             toggleState('viewChat',await getViewChat(item.id));
