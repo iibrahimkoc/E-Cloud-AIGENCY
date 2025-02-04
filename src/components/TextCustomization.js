@@ -1,12 +1,12 @@
-import {Text} from "react-native";
+import {Text, View} from "react-native";
 import React from "react";
 import MathView from 'react-native-math-view';
 
 export const TextCustomization = ( {text} ) => {
-    console.log( text );
+    console.log( "Text Customization: ",text );
     const regex = /(\*\*.*?\*\*|\\\[.*?\\\]|---.*?---|\\\(.*?\\\)|`.*?`)/g;
     const parts = text.split(regex);
-    console.log(parts);
+    console.log( "Text Customization: ", parts);
     return parts.map((part, index) => {
         if (/\*\*.*?\*\*/.test(part)) {
             const boldText = part.replace(/\*\*/g, '');
@@ -27,7 +27,7 @@ export const TextCustomization = ( {text} ) => {
         else if (/\\\[.*?\\\]|\\\(.*?\\\)/.test(part)) {
             const mathContent = part.replace(/\\[\[\]()]/g, '');
             return (
-                <MathView key={index} math={mathContent} />
+               <MathView key={index} math={mathContent} style={{color: 'rgb(116,118,166)',}}  />
             );
         }
         else if (/---.*/.test(part)) {

@@ -171,70 +171,70 @@ const App = () => {
   };
 
   return (
-      <PaperProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <StateProvider>
-            <ThemeProvider>
-              <NavigationContainer
-                  onReady={() => {
-                    BootSplash.hide();
-                  }}
-              >
-                <LeftDrawer.Navigator
-                    id="LeftDrawer"
-                    initialRouteName={storage.getBoolean('!firstOpen') ? 'MainApp' : 'Onboarding'}
-                    drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
-                    screenOptions={({route}) => ({
-                      drawerType: 'slide',
-                      drawerPosition: 'left',
-                      headerShown: false,
-                      swipeEdgeWidth: screen.width*0.05,
-                      drawerStyle: {
-                        width: screen.width > 500 ? 300 : '70%',
-                      },
-                      swipeEnabled: route.name !== 'Onboarding' && route.name !== 'AccountUpgradeScreen',
-                    })}>
-                  <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
-                  <RightDrawer.Screen name="Onboarding" component={Onboarding} />
-                  <RightDrawer.Screen name="AccountUpgradeScreen" component={AccountUpgradeScreen} />
-                </LeftDrawer.Navigator>
-              </NavigationContainer>
+    <PaperProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StateProvider>
+          <ThemeProvider>
+            <NavigationContainer
+              onReady={() => {
+                BootSplash.hide();
+              }}
+            >
+              <LeftDrawer.Navigator
+                id="LeftDrawer"
+                initialRouteName={storage.getBoolean('!firstOpen') ? 'MainApp' : 'Onboarding'}
+                drawerContent={(props) => <CustomDrawer {...props} toggleModal= {toggleModal} toggleModalOpacity={toggleModalOpacity}/>}
+                screenOptions={({route}) => ({
+                  drawerType: 'slide',
+                  drawerPosition: 'left',
+                  headerShown: false,
+                  swipeEdgeWidth: screen.width*0.05,
+                  drawerStyle: {
+                    width: screen.width > 500 ? 300 : '70%',
+                  },
+                  swipeEnabled: route.name !== 'Onboarding' && route.name !== 'AccountUpgradeScreen',
+                })}>
+                <LeftDrawer.Screen name="MainApp" component={RightDrawerScreen} />
+                <RightDrawer.Screen name="Onboarding" component={Onboarding} />
+                <RightDrawer.Screen name="AccountUpgradeScreen" component={AccountUpgradeScreen} />
+              </LeftDrawer.Navigator>
+            </NavigationContainer>
 
-              <CreditModal
-                  toggleModal={toggleModal}
-                  isCreditModalVisible={isCreditModalVisible}
-              />
+            <CreditModal
+              toggleModal={toggleModal}
+              isCreditModalVisible={isCreditModalVisible}
+            />
 
-              <SettingModal
-                  toggleModal={toggleModal}
-                  toggleModalOpacity={toggleModalOpacity}
-                  settingModalOpacity={settingModalOpacity}
-                  settingModalVisible={settingModalVisible}
-              />
+            <SettingModal
+              toggleModal={toggleModal}
+              toggleModalOpacity={toggleModalOpacity}
+              settingModalOpacity={settingModalOpacity}
+              settingModalVisible={settingModalVisible}
+            />
 
-              <LoginModal
-                  toggleModal={toggleModal}
-                  loginModalVisible={loginModalVisible}
-              />
+            <LoginModal
+              toggleModal={toggleModal}
+              loginModalVisible={loginModalVisible}
+            />
 
-              <PopupLoginModal
-                  toggleModal={toggleModal}
-                  popupLoginModalVisible={popupLoginModalVisible}
-              />
+            <PopupLoginModal
+              toggleModal={toggleModal}
+              popupLoginModalVisible={popupLoginModalVisible}
+            />
 
-              <HtmlLiveModal
-                  toggleModal={toggleModal}
-                  htmlLiveModalVisible={htmlLiveModalVisible}
-              />
+            <HtmlLiveModal
+              toggleModal={toggleModal}
+              htmlLiveModalVisible={htmlLiveModalVisible}
+            />
 
-              <RenameChatModal
-                  toggleModal={toggleModal}
-                  renameChatModalVisible={renameChatModalVisible}
-              />
-            </ThemeProvider>
-          </StateProvider>
-        </GestureHandlerRootView>
-      </PaperProvider>
+            <RenameChatModal
+              toggleModal={toggleModal}
+              renameChatModalVisible={renameChatModalVisible}
+            />
+          </ThemeProvider>
+        </StateProvider>
+      </GestureHandlerRootView>
+    </PaperProvider>
   );
 };
 

@@ -44,5 +44,6 @@ export const postSendMessage = async (message, chat_id, selectedFiles) => {
     return postSendMessageResponseData;
   } catch (error) {
     console.log("send_message:", error);
+    return {chat_id: chat_id, errorType: true, message: 'hata',firstMessage: false};
   }
 };

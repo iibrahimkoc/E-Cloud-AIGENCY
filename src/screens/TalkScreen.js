@@ -30,7 +30,7 @@ import {storage} from '../components/Storage';
 import {TextCustomization} from "../components/TextCustomization";
 import {TypewriterEffect} from "../components/TypeWriterEffect";
 import {TypewriterEffectSyntax} from "../components/TypeWriterEffectSnytax";
-import {TypeWriterEffectTable} from "../components/TypeWriterEffectTable";
+
 
 import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
@@ -51,6 +51,8 @@ import SyntaxHighlighter from 'react-native-syntax-highlighter';
 import {atomOneDark, atomOneLight } from 'react-syntax-highlighter/styles/hljs';
 
 import { Menu, Divider } from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 
 
@@ -94,6 +96,8 @@ const TalkScreen = ({navigation, toggleModal}) => {
 
     useEffect(() => {
         setTalkScreenData(state.talkScreenData);
+        setFirstMessageError(false);
+        setLastMessageError(false);
     },[state.talkScreenData])
 
 
@@ -165,6 +169,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
     };
 
     const renderTalkData = useCallback(({item, index: flatListIndex}) => {
+        console.log("bub verri: ",item);
         if(item.content.includes('```')){
             const parts = item.content.split(/```/);
             console.log("daa:Ç",item); // item verisinin doğru geldiğinden emin olun
@@ -189,7 +194,6 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                 break;
                         }
                     }}
-
                     actions={[
                         {
                             id: 'copy',
@@ -277,6 +281,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                     <SyntaxHighlighter
                                                         //wrapLines={true}
                                                         //wrapLongLines={true}
+
                                                         language={String(codeLanguage).toLowerCase()}
                                                         style={isDarkTheme ? atomOneDark : atomOneLight}
                                                         customStyle={{minWidth: 0, width: (windowWidth * 0.9)-24}}
@@ -288,9 +293,9 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                             );
                                         } else {
                                             return (
-                                                <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
+                                                <View style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
                                                     <TextCustomization text={part}/>
-                                                </Text>
+                                                </View>
                                             );
                                         }
                                     })
@@ -353,16 +358,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     style={[styles.talkBoxContainerBoxAiChat]}
                                 >
                                     <View style={[styles.talkBoxContainerBoxAiChatMessageBox, {paddingTop: 0}]}>
-                                        <Text style={[isDarkTheme ? styles.talkBoxContainerBoxAiChatMessageDarkTheme : styles.talkBoxContainerBoxAiChatMessageLightTheme]}>
-                                            {item.isTyping ? (
-                                                <TypewriterEffect
-                                                    text={item.content}
-                                                    onComplete={() => complatedText(item)}
-                                                />
-                                            ) : (
-                                                <TextCustomization text={item.content} />
-                                            )}
-                                        </Text>
+                                        {item.isTyping ? (
+                                            <TypewriterEffect
+                                                text={item.content}
+                                                onComplete={() => complatedText(item)}
+                                            />
+                                        ) : (
+                                            <TextCustomization text={item.content} />
+                                        )}
                                     </View>
                                 </LinearGradient>
                             </MenuView>
@@ -425,7 +428,8 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     shouldOpenOnLongPress={true}
                                 >
                                         <Image
-                                            style={{width: '100%', aspectRatio:1, borderRadius: 6, resizeMode: 'cover', backgroundColor :'transparent',}}
+                                            resizeMode={'contain'}
+                                            style={{width: '100%', aspectRatio:1, height: undefined, borderRadius: 6, backgroundColor :'transparent',}}
                                             source={{ uri: `https://aigency.dev/api/image?fileName=${item.content}`}}
                                         />
                                 </MenuView>
@@ -498,6 +502,36 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     </View>
                 )
             }
+            else if(item.role === 'internetError') {
+                return (
+                    <LinearGradient
+                        key={item.id}
+                        colors={isDarkTheme ? ['#272350','#272350'] : ['rgb(164,161,239)','rgb(164,161,239)']}
+                        start={{x: 0,y: 0}} end={{x: 1,y: 0.5}}
+                        style={[styles.talkBoxContainerBoxAiChat,{flexDirection: 'column',padding: 2,borderRadius: 10}]}
+                    >
+                        <View style={{backgroundColor: 'white',borderRadius: 8, padding: 10,gap: 10}}>
+                            <Text style={{color: 'rgb(149,145,241)',fontWeight: 500}}>Bağlantı hatası oluştu</Text>
+                            <TouchableOpacity
+                                onPress={()=> {
+                                    if (item.firstMessage) {
+                                        reSendFirstMessage(item.reSendMyMessage)
+                                    }
+                                    else {
+                                        let talkScreenMessages = dataRef.current.messages;
+                                        talkScreenMessages.pop();
+                                        setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
+                                        reSendMessage(item.reSendMyMessage)
+
+                                    }
+                                }}
+                                style={{width: '100%', backgroundColor: 'rgb(164,161,239)',padding: 10,borderRadius: 6, justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{color: 'rgba(255,255,255,0.9)', fontWeight: 'bold'}}>Yeniden gönder</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </LinearGradient>
+                )
+            }
         }
     }, [copiedIndex, isDarkTheme]);
 
@@ -505,9 +539,17 @@ const TalkScreen = ({navigation, toggleModal}) => {
         return Object.keys(dataRef.current).length === 0;
     };
 
+    const messageWaitAdd = () => {
+        let talkScreenMessages = dataRef.current?.messages === undefined ? '' : dataRef.current.messages;
+        talkScreenMessages.push({content : "mesajGif", role: 'aigencyMobile'});
+        setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
+        setTimeout(() => {
+            flatListRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+    }
 
     const myMessageAdd = async (myMessage) => {
-        let talkScreenMessages = dataRef.current?.messages === undefined ? console.log("gğlüm: ",dataRef.current) : dataRef.current.messages;
+        let talkScreenMessages = dataRef.current?.messages === undefined ? '' : dataRef.current.messages;
         let myMessageData =  {content : myMessage, role: 'user'};
         talkScreenMessages.push(myMessageData);
         talkScreenMessages.push({content : "mesajGif", role: 'aigencyMobile'});
@@ -517,6 +559,12 @@ const TalkScreen = ({navigation, toggleModal}) => {
         }, 100);
     };
 
+    const assistantErrorAnswerAdd = async (answer, myMessage) => {
+        let talkScreenMessages = dataRef.current.messages;
+        talkScreenMessages.pop()
+        talkScreenMessages.push({content : "mesajGif", role: 'internetError', reSendMyMessage: myMessage, firstMessage: false});
+        setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
+    };
 
     const assistantAnswerAdd = async (answer) => {
         let talkScreenMessages = dataRef.current.messages;
@@ -532,6 +580,19 @@ const TalkScreen = ({navigation, toggleModal}) => {
         talkScreenMessages.pop()
         talkScreenMessages.push(assistantMessage);
         setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
+    };
+
+    const assistantErrorFirstAnswerAdd = async (myMessage, assistantFirstAnswer, chatId) => {
+        let talkScreenMessages = [{content: myMessage, role: 'user'}];
+        let newMessage = {
+            reSendMyMessage: myMessage,
+            content: assistantFirstAnswer,
+            role: 'internetError',
+            firstMessage: true
+        };
+        setTypeWriterActive(false)
+        talkScreenMessages.push(newMessage);
+        setTalkScreenData({ ...dataRef.current, chat_id: chatId, messages: talkScreenMessages })
     };
 
     const assistantFirstAnswerAdd = async (myMessage, assistantFirstAnswer, chatId) => {
@@ -551,11 +612,116 @@ const TalkScreen = ({navigation, toggleModal}) => {
 
 
 
+    const reSendFirstMessage = async (myMessage) => {
+        setFirstMessageError(false);
+        setTypeWriterActive(false)
+        if(storage.getBoolean('isLogined') === true){ // Kullanıcı girişi var
+            setMessage('');
+            setSelectedFiles([]);
+            setTypeWriterActive(true)
+            setTalkScreenData({ai_desc: state.selectedAi.description, assistantId: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'},{content: 'mesajGif',role: 'aigencyMobile'}]});
+
+            const newChatData =  await postNewChat(state.selectedAi.id, myMessage);
+            if(newChatData.message.message === "Yetersiz kredi. Lütfen daha fazla kredi yükleyin."){
+                setUserNeedCredit(true);
+                await assistantAnswerAdd(newChatData.message.message)
+                setTypeWriterActive(false)
+                setSelectedFilesSend([])
+            }
+            else{
+                if(newChatData.errorType){
+                    await assistantErrorFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                    setTypeWriterActive(false)
+                    setFirstMessageError(true)
+                }
+                else {
+                    await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                    toggleState('viewChat', await getViewChat(state.selectedAi.id));
+                    setSelectedFilesSend([])
+                    setTimeout(() => {
+                        flatListRef.current?.scrollToEnd({ animated: true });
+                    }, 100);
+                }
+            }
+        }
+        else {  // Kullanıcı girişi yok
+            storage.getNumber('publicViewChatCount') === undefined ? storage.set('publicViewChatCount', 1) : storage.set('publicViewChatCount', storage.getNumber('publicViewChatCount') + 1);
+            storage.getNumber('publicViewChatMessageCount') === undefined ? storage.set('publicViewChatMessageCount', 1) : storage.set('publicViewChatMessageCount', storage.getNumber('publicViewChatMessageCount') + 1);
+            if(storage.getNumber('publicViewChatCount') < 6) {
+                setTypeWriterActive(true)
+                setTalkScreenData({ai_desc: state.selectedAi.description, assistantId: state.selectedAi.id, ai_name: state.selectedAi.name, chat_id: '', messages: [{content: myMessage, role: 'user'}]});
+
+                const newChatData = await postPublicNewChat(myMessage.trim());
+                console.log("bu yeni",newChatData);
+
+                await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                setSelectedFilesSend([])
+                setTimeout(() => {
+                    flatListRef.current?.scrollToEnd({ animated: true });
+                }, 100);
+            }
+            else{
+                toggleModal('popupLoginModalOpen');
+                console.log(storage.getNumber('publicViewChatCount'));
+            }
+        }
+    }
+    const reSendMessage = async (myMessage) => {
+        if(storage.getBoolean('isLogined') === true){ // Kullanıcı girişi var
+            messageWaitAdd()
+            setTypeWriterActive(true)
+            const assistantAnswer = selectedFiles.length > 0 ? await postSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) :  await postSendMessage(myMessage.trim(),  dataRef.current.chat_id,[]);
+            console.log("internet hatası :   ",assistantAnswer);
+            if(userNeedCredit){
+                setSelectedFilesSend([]);
+                await assistantAnswerAdd("Yetersiz kredi. Lütfen daha fazla kredi yükleyin.");
+            }
+            else {
+                if(assistantAnswer.errorType){
+                    await assistantErrorAnswerAdd(assistantAnswer.message, myMessage);
+                    setTypeWriterActive(false)
+                    setLastMessageError(true)
+
+                }
+                else{
+                    setSelectedFilesSend([]);
+                    await assistantAnswerAdd(assistantAnswer.message);
+                }
+            }
+        }
+        else{  // Kullanıcı girişi yok
+            storage.set('publicViewChatMessageCount', storage.getNumber('publicViewChatMessageCount') + 1);
+            if(storage.getNumber('publicViewChatMessageCount') < 6) {
+                await myMessageAdd(myMessage.trim());
+                setMessage('');
+                setSelectedFiles([]);
+                setTypeWriterActive(true)
+                const assistantAnswer = selectedFiles.length > 0 ?  await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) : await postPublicSendMessage(myMessage.trim(), dataRef.current.chat_id, []);
+                setSelectedFilesSend([]);
+                await assistantAnswerAdd(assistantAnswer.message);
+            }
+            else{
+                toggleModal('popupLoginModalOpen');
+                console.log(storage.getNumber('publicViewChatMessageCount'));
+            }
+        }
+    }
+
+    const [firstMessageError, setFirstMessageError] = useState(false);
+    const [lastMessageError, setLastMessageError] = useState(false);
+
     const sendMessage = async (myMessage) => {
+        console.log(22, lastMessageError);
+        if(lastMessageError){
+            let talkScreenMessages = dataRef.current.messages;
+            talkScreenMessages.pop();
+            setTalkScreenData({...dataRef.current, messages: talkScreenMessages});
+            setLastMessageError(false);
+        }
         if(!myMessage || myMessage.trim() === ''){
             return;
         }
-        if(storage.getBoolean('isLogined') === true){
+        if(storage.getBoolean('isLogined') === true){ // Kullanıcı girişi var
             if( await isNewChat() ) {
                 setMessage('');
                 setSelectedFiles([]);
@@ -570,12 +736,19 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     setSelectedFilesSend([])
                 }
                 else{
-                    await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
-                    toggleState('viewChat', await getViewChat(state.selectedAi.id));
-                    setSelectedFilesSend([])
-                    setTimeout(() => {
-                        flatListRef.current?.scrollToEnd({ animated: true });
-                    }, 100);
+                    if(newChatData.errorType){
+                        await assistantErrorFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                        setTypeWriterActive(false)
+                        setFirstMessageError(true)
+                    }
+                    else {
+                        await assistantFirstAnswerAdd(myMessage, newChatData.message, newChatData.chat_id);
+                        toggleState('viewChat', await getViewChat(state.selectedAi.id));
+                        setSelectedFilesSend([])
+                        setTimeout(() => {
+                            flatListRef.current?.scrollToEnd({ animated: true });
+                        }, 100);
+                    }
                 }
             }
             else {
@@ -584,17 +757,25 @@ const TalkScreen = ({navigation, toggleModal}) => {
                 setSelectedFiles([]);
                 setTypeWriterActive(true)
                 const assistantAnswer = selectedFiles.length > 0 ? await postSendMessage(myMessage.trim(), dataRef.current.chat_id, selectedFilesSend) :  await postSendMessage(myMessage.trim(),  dataRef.current.chat_id,[]);
+                console.log("internet hatası :   ",assistantAnswer);
                 if(userNeedCredit){
                     setSelectedFilesSend([]);
                     await assistantAnswerAdd("Yetersiz kredi. Lütfen daha fazla kredi yükleyin.");
                 }
                 else {
-                    setSelectedFilesSend([]);
-                    await assistantAnswerAdd(assistantAnswer.message);
+                    if(assistantAnswer.errorType){
+                        await assistantErrorAnswerAdd(assistantAnswer.message, myMessage);
+                        setTypeWriterActive(false)
+                        setLastMessageError(true)
+                    }
+                    else{
+                        setSelectedFilesSend([]);
+                        await assistantAnswerAdd(assistantAnswer.message);
+                    }
                 }
             }
         }
-        else{
+        else{  // Kullanıcı girişi yok
             if( await isNewChat() ) {
                 storage.getNumber('publicViewChatCount') === undefined ? storage.set('publicViewChatCount', 1) : storage.set('publicViewChatCount', storage.getNumber('publicViewChatCount') + 1);
                 storage.getNumber('publicViewChatMessageCount') === undefined ? storage.set('publicViewChatMessageCount', 1) : storage.set('publicViewChatMessageCount', storage.getNumber('publicViewChatMessageCount') + 1);
@@ -640,6 +821,8 @@ const TalkScreen = ({navigation, toggleModal}) => {
 
     const resetTalkChatContent = () => {
         setTypeWriterActive(false)
+        setFirstMessageError(false);
+        setLastMessageError(false);
         setTalkScreenData({});
         toggleState("talkScreenData", {});
         storage.getBoolean('isLogined') ? '' : storage.set('publicViewChatMessageCount', 0);
@@ -895,7 +1078,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     }}
                                     title="Yeniden Adlandır"
                                     leadingIcon={({ size }) => (
-                                        <Image source={isDarkTheme ? require('../assets/images/rename.png') : require('../assets/images/rename.png')} style={{width: 20, height: 20}} />
+                                        <Octicons name={'pencil'} size={20} color={'#7376aa'} />
                                     )}
                                     titleStyle={{
                                         color: isDarkTheme ? "#7376aa" : "#7376aa",
@@ -935,7 +1118,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                     }}
                                     title="Sil"
                                     leadingIcon={({ size }) => (
-                                        <Image source={require('../assets/images/deleteChat.png')} style={{width: 20, height: 20}} />
+                                        <MaterialIcons name={'delete'} size={20} color={'#BD0B0B'} />
                                     )}
                                     titleStyle={{
                                         color: isDarkTheme ? "#7376aa" : "#7376aa",
@@ -957,7 +1140,7 @@ const TalkScreen = ({navigation, toggleModal}) => {
                     <View style={[styles.talkBoxContainerBox]}>
                         <FlatList
                             contentContainerStyle={{width:'100%',paddingHorizontal:'5%'}}
-                            data={talkScreenData?.messages?.filter((item) => item.role === 'user' || item.role === 'assistant' || item.role === 'aigencyMobile')}
+                            data={talkScreenData?.messages?.filter((item) => item.role === 'user' || item.role === 'assistant' || item.role === 'aigencyMobile' || item.role === 'internetError')}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={renderTalkData}
                             ref={flatListRef}
@@ -990,9 +1173,9 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                                 <Image style={{width: 15, height: 15}} source={require('../assets/images/close.png')}/>
                                                             </TouchableOpacity>
                                                             {
-                                                                Platform.OS === 'android'
+                                                                Platform.OS !== 'android'
                                                                     ? <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
-                                                                    : item.selectedFileType === 'file' ? <Image style={{width: 60, height: 70, borderRadius: 5}} source={isDarkTheme ? require("../assets/images/pdfLight.png") : require("../assets/images/pdf.png")} /> : <Image style={{width: 70, height: 70, borderRadius: 5}} source={{ uri: item.uri}} />
+                                                                    : item.selectedFileType === 'file' ? <Image style={{width: 60, height: 60,marginTop: 10, borderRadius: 5}} source={isDarkTheme ? require("../assets/images/pdfLight.png") : require("../assets/images/pdf.png")} /> : <Image style={{width: 60, height: 60,marginTop: 10, borderRadius: 5}} source={{ uri: item.uri}} />
                                                             }
                                                         </View>
                                                     ))
@@ -1007,7 +1190,6 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                             ? (
                                                 <>
                                                     <TouchableOpacity
-                                                        //disabled={typeWriterActive}
                                                         onPress={() => openMenu()}
                                                         style={styles.inputBoxAddIconBox}
                                                     >
@@ -1075,7 +1257,6 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                         autoComplete="off"
                                                     />
                                                     <TouchableOpacity
-                                                        //disabled={typeWriterActive}
                                                         onPress={() => {
                                                             isListening ? stopListening() : startListening();
                                                         }}
@@ -1088,7 +1269,14 @@ const TalkScreen = ({navigation, toggleModal}) => {
                                                         disabled={typeWriterActive}
                                                         style={styles.inputBoxSendIconBox}
                                                         onPress={() => {
-                                                            sendMessage(message)
+                                                            if (firstMessageError) {
+                                                                console.log(111)
+                                                                reSendFirstMessage(message)
+                                                            }
+                                                            else {
+                                                                console.log(222)
+                                                                sendMessage(message)
+                                                            }
                                                         }}
                                                     >
                                                         <Image source={require('../assets/images/send.png')} style={styles.inputBoxSendIcon}/>
@@ -1194,12 +1382,6 @@ const styles = StyleSheet.create({
         gap: 10,
         flexDirection:'row',
     } ,
-    talkBoxContainerBoxAiChatLogo:{
-        width: '90%',
-        aspectRatio:1,
-        height: undefined,
-        resizeMode: 'cover',
-    },
     talkBoxContainerBoxAiChatMessageBox: {
         flex:1,
     },

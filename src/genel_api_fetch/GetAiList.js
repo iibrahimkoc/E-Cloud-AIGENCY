@@ -10,7 +10,7 @@ export const getAiList = async () => {
       },
     });
     const aiListResponseData = await aiListResponse.json();
-    //console.log('aiListReponseData: ',aiListResponseData);
+    console.log('aiListReponseData: ',aiListResponseData);
     return aiListResponseData;
   }
   catch(error) {

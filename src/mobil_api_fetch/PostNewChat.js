@@ -1,6 +1,6 @@
 import {storage} from '../components/Storage';
 
-export const postNewChat = async (ai_id,myMessage) => {
+export const postNewChat = async (ai_id, myMessage) => {
   try {
     const getNewChatResponse = await fetch(`https://aigency.dev/api/mobile/newChat/${ai_id}/${storage.getString('access_token')}`,{
       method: 'POST',
@@ -17,5 +17,6 @@ export const postNewChat = async (ai_id,myMessage) => {
   }
   catch (error) {
     console.log("new_chat",error);
+    return {errorType: true, message: 'hata',firstMessage: true};
   }
 }

@@ -104,6 +104,31 @@
         }
       }
     },
+    "@react-native-vector-icons/common": {
+      "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-vector-icons/common",
+      "name": "@react-native-vector-icons/common",
+      "platforms": {
+        "ios": {
+          "podspecPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-vector-icons/common/react-native-vector-icons.podspec",
+          "version": "11.0.0",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-vector-icons/common/android",
+          "packageImportPath": "import com.reactnativevectoricons.common.VectorIconsPackage;",
+          "packageInstance": "new VectorIconsPackage()",
+          "buildTypes": [],
+          "libraryName": "RNVectorIconsSpec",
+          "componentDescriptors": [],
+          "cmakeListsPath": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-vector-icons/common/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "@react-native-voice/voice": {
       "root": "/Users/ibrahimkoc/E-Cloud-AIGENCY/node_modules/@react-native-voice/voice",
       "name": "@react-native-voice/voice",

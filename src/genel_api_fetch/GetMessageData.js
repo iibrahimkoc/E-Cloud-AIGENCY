@@ -13,7 +13,7 @@ export const getMessageData = async () => {
       },
     });
     const lastMessageResponseData = await lastMessageResponse.json();
-    //console.log('aiListReponseData: ',lastMessageResponseData);
+    console.log('aiListReponseData: ',lastMessageResponseData);
     storage.set('lastMessageResponse', JSON.stringify(lastMessageResponseData));
     //return lastMessageResponseData;
   }
